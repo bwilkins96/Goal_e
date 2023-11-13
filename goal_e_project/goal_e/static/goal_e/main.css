@@ -1,0 +1,106 @@
+@font-face {
+  font-family: 'Pangolin';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/pangolin/v11/cY9GfjGcW0FPpi-tWPfK.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Me5Q.ttf) format('truetype');
+}
+.hide {
+  display: none;
+}
+body {
+  font-family: 'Roboto', sans-serif;
+}
+main {
+  margin: auto;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Pangolin', cursive;
+}
+button {
+  background-color: #ffdfba;
+  border: 1px solid black;
+  padding: 15px;
+}
+button:active {
+  border-color: white;
+}
+.darkTheme {
+  background-color: #232323;
+  color: white;
+}
+.red {
+  background-color: #ffb3ba;
+}
+.orange {
+  background-color: #ffdfba;
+}
+.yellow {
+  background-color: #ffffba;
+}
+.green {
+  background-color: #baffc9;
+}
+.blue {
+  background-color: #c4e1ff;
+}
+label {
+  font-weight: 600;
+  margin-right: 10px;
+}
+input[type='text'] {
+  padding: 5px;
+  border-radius: 5px;
+}
+input[type='checkbox'],
+input[type='radio'] {
+  height: 17.5px;
+  width: 17.5px;
+}
+.formEle {
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+}
+.formTextEle {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 0;
+  max-width: 500px;
+}
+.formTextEle > label {
+  padding-bottom: 2px;
+}
+.message {
+  font-weight: 600;
+  color: black;
+  padding: 10px;
+  border-radius: 8px;
+}
+header,
+footer {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: black;
+}
+#themeSwitcher {
+  width: 25px;
+}
+#themeSwitcher:hover {
+  color: white;
+}

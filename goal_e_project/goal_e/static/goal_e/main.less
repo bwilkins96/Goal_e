@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Pangolin&family=Roboto&display=swap');
+
+// Variables
+@red: rgb(255, 179, 186);
+@orange: rgb(255, 223, 186);
+@yellow: rgb(255, 255, 186);
+@green: rgb(186, 255, 201);
+@blue: rgb(196, 225, 255);
+
+@textBlack: #212529;
+@headerFooterHeight: 8vh;
+@goldenWidth: 61.8vw;
+
+// Mixins
+.fit-content() {
+    width: -moz-fit-content;
+    width: fit-content;
+}
+
+.hide {
+    display: none;
+}
+
+// General 
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+main {
+    margin: auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Pangolin', cursive;
+}
+
+button {
+    background-color: @orange;
+    border: 1px solid black;
+    padding: 15px;
+}
+
+button:active {
+    border-color: white;
+}
+
+.darkTheme {
+    background-color: rgb(35, 35, 35);
+    color: white;
+}
+
+// Colors 
+.red {
+    background-color: @red;
+}
+
+.orange {
+    background-color: @orange;
+}
+
+.yellow {
+    background-color: @yellow;
+}
+
+.green {
+    background-color: @green;
+}
+
+.blue {
+    background-color: @blue;
+}
+
+// Form elements
+label {
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+input[type='text'] {
+    padding: 5px;
+    border-radius: 5px;
+}
+
+input[type='checkbox'], input[type='radio'] {
+    height: 17.5px;
+    width: 17.5px;
+}
+
+.formEle {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.formTextEle {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 0;
+    max-width: 500px;
+}
+
+.formTextEle > label {
+    padding-bottom: 2px;
+}
+
+// Messages 
+.message {
+    font-weight: 600;
+    color: black;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+// Header and footer 
+header, footer {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around; 
+    color: black;
+}
+
+#themeSwitcher {
+    width: 25px;
+}
+
+#themeSwitcher:hover {
+    color: white;
+}
