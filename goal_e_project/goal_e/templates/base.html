@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 
 {% load static %}
+{% load django_bootstrap5 %}
+
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -10,7 +12,10 @@
         <title>Goal-e</title>
         {% endblock %}
 
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
         <link href="{% static 'goal_e/main.css' %}" rel="stylesheet">
+        
         {% block css %}
         {% endblock %}
     </head>
