@@ -12,17 +12,24 @@
         <title>Goal-e</title>
         {% endblock %}
 
+        <!-- Load Bootstrap -->
         {% bootstrap_css %}
         {% bootstrap_javascript %}
+
+        <!-- Load Font Awesome -->
+        <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet">
+        <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet">
+        <link href="{% static 'fontawesomefree/css/regular.css' %}" rel="stylesheet">
+
+        <!-- Additional CSS -->
         <link href="{% static 'goal_e/main.css' %}" rel="stylesheet">
-        
         {% block css %}
         {% endblock %}
     </head>
 
     <body>
         <header>
-
+            <i class="fa-solid fa-bars fa-2xl"></i>
         </header>
 
         <main>
