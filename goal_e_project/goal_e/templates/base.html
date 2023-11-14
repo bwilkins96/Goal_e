@@ -23,13 +23,21 @@
 
         <!-- Additional CSS -->
         <link href="{% static 'goal_e/main.css' %}" rel="stylesheet">
-        {% block css %}
+        {% block css/js %}
         {% endblock %}
     </head>
 
     <body>
         <header>
-            <i class="fa-solid fa-bars fa-2xl"></i>
+            <div id="menuBtn">
+                <i class="fa-solid fa-bars fa-2xl"></i>
+            </div>
+
+            <p id="pointsDisplay">15,000 points</p>
+
+            <div id="logo">
+                G
+            </div>
         </header>
 
         <main>
@@ -37,7 +45,8 @@
             {% endblock %}
         </main>
 
-        {% block js %}
-        {% endblock %}
+        <div id="addGoalBtn">
+            <i class="fa-solid fa-plus fa-2xl"></i>
+        </div>
     </body>
 </html>

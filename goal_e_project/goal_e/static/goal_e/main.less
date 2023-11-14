@@ -8,7 +8,6 @@
 @blue: rgb(196, 225, 255);
 
 @textBlack: #212529;
-@headerHeight: 55px;
 @goldenWidth: 61.8vw;
 
 // Mixins
@@ -19,6 +18,16 @@
 
 .hide {
     display: none;
+}
+
+.testBorder {
+    border: 1px solid black;
+}
+
+.centerItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 // General 
@@ -111,16 +120,59 @@ input[type='checkbox'], input[type='radio'] {
     border-radius: 8px;
 }
 
-// Header and footer 
-header, footer {
+// Header
+@headerHeight: 55px;
+@headerSideMargin: 7.5px;
+
+header {
     width: 100%;
     height: @headerHeight;
     position: fixed;
     display: flex;
     align-items: center;
-    justify-content: space-around; 
+    justify-content: space-between; 
     color: @textBlack;
     background-color: @green;
+
+    #menuBtn {
+        margin-left: @headerSideMargin;
+        padding: 10px 5px;
+
+        &:hover {
+            background-color: darken(@green, 15%);
+        }
+    }
+
+    #pointsDisplay {
+        margin: 0;
+    }
+
+    #logo {
+        margin-right: @headerSideMargin;
+        height: @headerHeight - 10px;
+        width: @headerHeight - 10px;
+        
+        .testBorder();
+        .centerItem();
+    }
+}
+
+@addGoalDim: 45px;
+@distFromSides: 1.5vh;
+
+#addGoalBtn {
+    height: @addGoalDim;
+    width: @addGoalDim;
+    background-color: @orange;
+    position: fixed;
+    bottom: @distFromSides;
+    right: @distFromSides;
+
+    .centerItem();
+
+    &:hover {
+        background-color: darken(@orange, 10%);
+    }
 }
 
 #themeSwitcher {
