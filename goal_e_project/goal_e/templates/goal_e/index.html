@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+    <h1 class="pageTitle">Current Goals</h1>
+
+    {% if goal_list|length == 0 %}
+    
+        <div id="noElesMsg">
+            <p>There are no goals yet!</p>
+            <a href="#">Add one now</a>
+        </div>
+
+    {% else %}
+        
+        {% for goal in goal_list %}
+            
+            <div class="goalCard">
+                <h2>{{ goal.title }}</h2>
+                <a class="editLink" href="#">Edit</a>
+                
+                <div class="descript">{{ goal.description }}</div>
+                <div class="deadline">Deadline: <span>{{ goal.deadline }}</span></div>
+                <div class="priority">{{ goal.get_priority_display }} Priority</div>
+                
+                <div class="prog">{{ goal.progress }}</div>
+
+                <button class="completeBtn" type="button">Mark as complete!</button>
+            </div>
+        
+        {% endfor %}
+    
+    {% endif %}
+        
+
+{% endblock %}

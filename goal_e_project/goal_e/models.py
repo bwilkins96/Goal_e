@@ -4,9 +4,9 @@ class Goal(models.Model):
     """Goal model class"""
 
     PRIORITY_CHOICES = [
-        (1, 'low'),
-        (2, 'medium'),
-        (3, 'high')
+        (1, 'Low'),
+        (2, 'Medium'),
+        (3, 'High')
     ]
 
     title = models.CharField(max_length=65)

@@ -48,6 +48,14 @@ button:active {
 a {
   text-decoration: none;
 }
+p {
+  margin: 0;
+}
+.pageTitle {
+  margin: 2vh auto 0;
+  width: -moz-fit-content;
+  width: fit-content;
+}
 .darkTheme {
   background-color: #232323;
   color: white;
@@ -103,7 +111,7 @@ input[type='radio'] {
 header {
   width: 100%;
   height: 55px;
-  position: fixed;
+  position: sticky;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -134,6 +142,7 @@ header #logo {
   top: 55px;
   height: 80vh;
   background-color: #c4e1ff;
+  z-index: 1;
 }
 #navMenu #username {
   font-weight: bold;
@@ -198,4 +207,52 @@ header #logo {
 }
 #themeSwitcher:hover {
   color: white;
+}
+#noElesMsg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10vh;
+}
+#noElesMsg a {
+  text-decoration: underline;
+  margin-left: 4px;
+}
+.goalCard {
+  position: relative;
+  width: 90%;
+  margin: auto;
+  margin-top: 3vh;
+  height: 220px;
+  background-color: #c4e1ff;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid black;
+}
+.goalCard h2 {
+  font-size: medium;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 5px;
+}
+.goalCard .completeBtn {
+  background-color: #ffffba;
+  width: fit-content;
+  padding: 5px;
+  margin: 0 auto;
+}
+.goalCard .editLink {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.goalCard .descript {
+  width: 92.5%;
+  background-color: white;
+  margin: 0 auto;
+}
+.goalCard .deadline span {
+  font-style: italic;
 }
