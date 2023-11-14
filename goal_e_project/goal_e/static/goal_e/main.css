@@ -45,6 +45,9 @@ button {
 button:active {
   border-color: white;
 }
+a {
+  text-decoration: none;
+}
 .darkTheme {
   background-color: #232323;
   color: white;
@@ -125,6 +128,56 @@ header #logo {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+#navMenu {
+  position: fixed;
+  top: 55px;
+  height: 80vh;
+  background-color: #c4e1ff;
+}
+#navMenu #username {
+  font-weight: bold;
+  margin: 0 5px;
+}
+#navMenu #topLinks,
+#navMenu #lowerLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+}
+#navMenu #topLinks a,
+#navMenu #lowerLinks a {
+  padding: 10px;
+  border-bottom: 1px solid #212529;
+  color: #212529;
+  width: 100%;
+  text-align: center;
+}
+#navMenu #topLinks a:hover,
+#navMenu #lowerLinks a:hover {
+  background-color: #aad4ff;
+}
+#navMenu #topLinks #topLink,
+#navMenu #lowerLinks #topLink,
+#navMenu #topLinks #bottomLink,
+#navMenu #lowerLinks #bottomLink {
+  border-top: 1px solid #212529;
+}
+#navMenu #topLinks #bottomLink,
+#navMenu #lowerLinks #bottomLink {
+  border-bottom: none;
+}
+#navMenu #topLinks {
+  margin-top: 30px;
+}
+#navMenu #lowerLinks {
+  position: absolute;
+  bottom: 0;
+}
+#stretchHolder {
+  width: 100vw;
+  height: 0;
 }
 #addGoalBtn {
   height: 45px;

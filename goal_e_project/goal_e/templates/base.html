@@ -28,8 +28,10 @@
     </head>
 
     <body>
+
+        <!-- Header -->
         <header>
-            <div id="menuBtn">
+            <div id="menuBtn" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-expanded="false" aria-controls="navMenu">
                 <i class="fa-solid fa-bars fa-2xl"></i>
             </div>
 
@@ -39,14 +41,33 @@
                 G
             </div>
         </header>
+        
+        <!-- Collapsible Nav Menu -->
+        <nav id="navMenu" class="collapse collapse-horizontal">
+            <div id="stretchHolder"></div>
+            <div id="username">username</div>
 
+            <div id="topLinks">
+                <a href="#" id="topLink">Current Goals</a>
+                <a href="#">Past Goals</a>
+                <a href="#">Calendar</a>
+            </div>
+
+            <div id="lowerLinks">
+                <a href="#" id="bottomLink">Sign Out</a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
         <main>
             {% block main %}
             {% endblock %}
         </main>
 
+        <!-- Add Goal Button -->
         <div id="addGoalBtn">
             <i class="fa-solid fa-plus fa-2xl"></i>
         </div>
+
     </body>
 </html>

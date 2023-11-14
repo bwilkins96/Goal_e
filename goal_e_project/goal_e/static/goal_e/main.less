@@ -53,6 +53,10 @@ button:active {
     border-color: white;
 }
 
+a {
+    text-decoration: none;
+}
+
 .darkTheme {
     background-color: rgb(35, 35, 35);
     color: white;
@@ -155,6 +159,62 @@ header {
         .testBorder();
         .centerItem();
     }
+}
+
+// Hamburger Nav Menu
+@linkBorder: 1px solid @textBlack;
+
+#navMenu {
+    position: fixed;
+    top: @headerHeight;
+    height: 80vh;
+    background-color: @blue;
+
+    #username {
+        font-weight: bold;
+        margin: 0 5px;
+    }
+
+    #topLinks, #lowerLinks {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100vw;
+
+        a {
+            padding: 10px;
+            border-bottom: @linkBorder;
+            color: @textBlack;
+            width: 100%;
+            text-align: center;
+
+            &:hover {
+                background-color: darken(@blue, 5%);
+            }
+        }
+
+        #topLink, #bottomLink {
+            border-top: @linkBorder;
+        }
+
+        #bottomLink {
+            border-bottom: none;
+        }
+    }
+
+    #topLinks {
+        margin-top: 30px;
+    }
+
+    #lowerLinks {
+        position: absolute;
+        bottom: 0;
+    }
+}
+
+#stretchHolder {
+    width: 100vw;
+    height: 0;
 }
 
 @addGoalDim: 45px;
