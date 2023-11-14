@@ -8,7 +8,7 @@
 @blue: rgb(196, 225, 255);
 
 @textBlack: #212529;
-@headerFooterHeight: 8vh;
+@headerHeight: 55px;
 @goldenWidth: 61.8vw;
 
 // Mixins
@@ -114,11 +114,13 @@ input[type='checkbox'], input[type='radio'] {
 // Header and footer 
 header, footer {
     width: 100%;
-    height: 40px;
+    height: @headerHeight;
+    position: fixed;
     display: flex;
     align-items: center;
     justify-content: space-around; 
-    color: black;
+    color: @textBlack;
+    background-color: @green;
 }
 
 #themeSwitcher {
