@@ -108,9 +108,15 @@ form {
 
 #goalForm {
     min-height: 70vh;
+    margin-bottom: 20px;
 
     button {
         background-color: @yellow;
+    }
+
+    button[type='submit'] {
+        width: 45%;
+        margin-bottom: 10px;
     }
 }
 
@@ -157,8 +163,29 @@ textarea {
     }
 }
 
+#progHeader {
+    display: flex;
+    justify-content: space-between;
+    
+    input {
+        width: 35px;
+    }
+}
+
+#progressBar {
+    margin-top: 5px;
+}
+
 #cancelBtn {
-    margin: 2vh 0 0 5%;
+    margin: 0 0 0 5%;
+    font-size: 12px;
+    background-color: @red;
+    color: @textBlack;
+    padding: 5px;
+
+    &:hover {
+        background-color: darken(@red, 10%);
+    }
 }
 
 // Messages 

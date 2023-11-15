@@ -86,9 +86,14 @@ form {
 }
 #goalForm {
   min-height: 70vh;
+  margin-bottom: 20px;
 }
 #goalForm button {
   background-color: #ffffba;
+}
+#goalForm button[type='submit'] {
+  width: 45%;
+  margin-bottom: 10px;
 }
 label {
   font-weight: 600;
@@ -125,8 +130,25 @@ textarea {
 #priorityBtns .selected {
   border: 2px solid black;
 }
+#progHeader {
+  display: flex;
+  justify-content: space-between;
+}
+#progHeader input {
+  width: 35px;
+}
+#progressBar {
+  margin-top: 5px;
+}
 #cancelBtn {
-  margin: 2vh 0 0 5%;
+  margin: 0 0 0 5%;
+  font-size: 12px;
+  background-color: #ffb3ba;
+  color: #212529;
+  padding: 5px;
+}
+#cancelBtn:hover {
+  background-color: #ff808c;
 }
 .message {
   font-weight: 600;

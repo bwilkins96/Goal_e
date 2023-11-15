@@ -1,51 +1,23 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block css/js %}
-    
+    <script src="{% static 'goal_e/priority.js' %}"></script>
+
     <script>
-        function removePriorityStyles(prev, formEle) {
-            const current = document.querySelector('.selected');
-            current.classList.remove('selected');
-
-            if (prev == 1) {
-                formEle.classList.remove('Low');
-            } else if (prev == 2) {
-                formEle.classList.remove('Medium');
-            } else {
-                formEle.classList.remove('High');
-            }
+        function changeProgBar() {
+            const progBar = document.getElementById('progressBar');
+            const progInput = document.getElementById('progress');
+            progBar.value = progInput.value;
         }
 
-        function addPriorityStyles(val, formEle) {
-            if (val == 1) {
-                const lowBtn = document.getElementById('lowBtn');
-                lowBtn.classList.add('selected');
-
-                formEle.classList.add('Low');
-            } else if (val == 2) {
-                const medBtn = document.getElementById('medBtn');
-                medBtn.classList.add('selected');
-
-                formEle.classList.add('Medium');
-            } else {
-                const highBtn = document.getElementById('highBtn');
-                highBtn.classList.add('selected');
-
-                formEle.classList.add('High');
-            }
-        }
-
-        function setPriority(val) {
-            const priorityInput = document.getElementById('priority');
-            const prevVal = priorityInput.value;
-            const formEle = document.getElementById('goalForm');
-            
-            priorityInput.value = val;
-            removePriorityStyles(prevVal, formEle);
-            addPriorityStyles(val, formEle);
+        function changeProgInput() {
+            const progBar = document.getElementById('progressBar');
+            const progInput = document.getElementById('progress');
+            progInput.value = progBar.value;
         }
     </script>
-
 {% endblock %}
 
 {% block main %}
@@ -82,8 +54,16 @@
         </div>
 
         <div class="formEle">
-            <label for="progress">Progress</label>
-            <input type="range" min="0" max="100" id="progress" name="progress">
+            <div id="progHeader">
+                <label for="progress">Progress</label>
+
+                <span>
+                    <input type="number" id="progress" name="progress" value="50" min="0" max="100" onchange="changeProgBar()">
+                    %
+                </span>
+            </div>
+            
+            <input type="range" min="0" max="100" id="progressBar" oninput="changeProgInput()">
         </div>
 
         <button type="submit">Set Goal!</button>
