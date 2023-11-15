@@ -1,5 +1,19 @@
-// Functions for changing the priority on a goal form
+/* Functions for add/edit goal forms */
 
+// Functions for changing the progress bar/value
+function changeProgBar() {
+    const progBar = document.getElementById('progressBar');
+    const progInput = document.getElementById('progress');
+    progBar.value = progInput.value;
+}
+
+function changeProgInput() {
+    const progBar = document.getElementById('progressBar');
+    const progInput = document.getElementById('progress');
+    progInput.value = progBar.value;
+}
+
+// Functions for changing the priority
 function removePriorityStyles(prev, formEle) {
     const current = document.querySelector('.selected');
     current.classList.remove('selected');

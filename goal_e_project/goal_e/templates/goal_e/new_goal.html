@@ -3,21 +3,7 @@
 {% load static %}
 
 {% block css/js %}
-    <script src="{% static 'goal_e/priority.js' %}"></script>
-
-    <script>
-        function changeProgBar() {
-            const progBar = document.getElementById('progressBar');
-            const progInput = document.getElementById('progress');
-            progBar.value = progInput.value;
-        }
-
-        function changeProgInput() {
-            const progBar = document.getElementById('progressBar');
-            const progInput = document.getElementById('progress');
-            progInput.value = progBar.value;
-        }
-    </script>
+    <script src="{% static 'goal_e/goalForms.js' %}"></script>
 {% endblock %}
 
 {% block main %}
@@ -63,7 +49,7 @@
                 </span>
             </div>
             
-            <input type="range" min="0" max="100" id="progressBar" oninput="changeProgInput()">
+            <input type="range" value="50" min="0" max="100" id="progressBar" oninput="changeProgInput()">
         </div>
 
         <button type="submit">Set Goal!</button>
