@@ -4,5 +4,6 @@ from . import views
 app_name = 'goal_e'
 urlpatterns = [
     path('', views.index, name='index'),
-    path('pastGoals', views.pastGoals, name='past_goals')
+    path('pastGoals', views.past_goals, name='past_goals'),
+    path('newGoal', views.new_goal, name='new_goal'),
 ]

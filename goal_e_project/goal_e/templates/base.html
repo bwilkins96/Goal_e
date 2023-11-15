@@ -64,10 +64,12 @@
             {% endblock %}
         </main>
 
+        {% block bottom %}
         <!-- Add Goal Button -->
-        <div id="addGoalBtn">
+        <a href="{% url 'goal_e:new_goal' %}" id="addGoalBtn">
             <i class="fa-solid fa-plus fa-2xl"></i>
-        </div>
-
+        </a>
+        {% endblock %}
+        
     </body>
 </html>
