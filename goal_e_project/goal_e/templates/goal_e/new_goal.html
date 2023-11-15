@@ -3,9 +3,46 @@
 {% block css/js %}
     
     <script>
+        function removePriorityStyles(prev, formEle) {
+            const current = document.querySelector('.selected');
+            current.classList.remove('selected');
+
+            if (prev == 1) {
+                formEle.classList.remove('Low');
+            } else if (prev == 2) {
+                formEle.classList.remove('Medium');
+            } else {
+                formEle.classList.remove('High');
+            }
+        }
+
+        function addPriorityStyles(val, formEle) {
+            if (val == 1) {
+                const lowBtn = document.getElementById('lowBtn');
+                lowBtn.classList.add('selected');
+
+                formEle.classList.add('Low');
+            } else if (val == 2) {
+                const medBtn = document.getElementById('medBtn');
+                medBtn.classList.add('selected');
+
+                formEle.classList.add('Medium');
+            } else {
+                const highBtn = document.getElementById('highBtn');
+                highBtn.classList.add('selected');
+
+                formEle.classList.add('High');
+            }
+        }
+
         function setPriority(val) {
             const priorityInput = document.getElementById('priority');
+            const prevVal = priorityInput.value;
+            const formEle = document.getElementById('goalForm');
+            
             priorityInput.value = val;
+            removePriorityStyles(prevVal, formEle);
+            addPriorityStyles(val, formEle);
         }
     </script>
 
@@ -14,42 +51,45 @@
 {% block main %}
     <h1 class="pageTitle">New Goal</h1>
 
-    <form method="post" class="blue">
+    <!-- New Goal Form -->
+    <form method="post" class="Medium" id="goalForm">
         {% csrf_token %}
 
-        <div class="formTextEle">
+        <div class="formEle">
             <label for="title">Title</label>
-            <input type="text" id="title" name="title">
+            <input type="text" id="title" name="title" placeholder="Read 100 books, walk 1000 steps, etc.">
         </div>
 
-        <div class="formTextEle">
+        <div class="formEle">
             <label for="description">Description</label>
-            <input type="text" id="description" name="description">
+            <textarea id="description" name="description" rows="5" placeholder="I want to complete this goal because..."></textarea>
         </div>
 
-        <div class="formTextEle">
+        <div class="formEle">
             <label for="deadline">Deadline</label>
             <input type="date" id="deadline" name="deadline">
         </div>
 
-        <div class="formTextEle">
+        <div class="formEle">
             <label for="priority">Priority</label>
             <div id="priorityBtns">
-                <button type="button" onclick="setPriority(1)">Low</button>
-                <button type="button" onclick="setPriority(2)">Medium</button>
-                <button type="button" onclick="setPriority(3)">High</button>
+                <button type="button" onclick="setPriority(1)" id="lowBtn">Low</button>
+                <button type="button" onclick="setPriority(2)" id="medBtn" class="selected">Medium</button>
+                <button type="button" onclick="setPriority(3)" id="highBtn">High</button>
             </div>
 
             <input type="hidden" id="priority" name="priority" value="2">
         </div>
 
-        <div class="formTextEle">
+        <div class="formEle">
             <label for="progress">Progress</label>
             <input type="range" min="0" max="100" id="progress" name="progress">
         </div>
 
         <button type="submit">Set Goal!</button>
     </form>
+
+    <a id="cancelBtn" href="{% url 'goal_e:index' %}">Cancel</a>
 
 {% endblock %}
 

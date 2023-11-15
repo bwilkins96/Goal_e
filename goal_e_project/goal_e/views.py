@@ -43,7 +43,6 @@ def new_goal(request):
                         deadline=deadline, 
                         priority=priority, 
                         progress=progress)
-        print(new_goal)
         
         new_goal.save()
         return HttpResponseRedirect(reverse('goal_e:index'))

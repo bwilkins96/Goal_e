@@ -81,6 +81,14 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+}
+#goalForm {
+  min-height: 70vh;
+}
+#goalForm button {
+  background-color: #ffffba;
 }
 label {
   font-weight: 600;
@@ -95,19 +103,30 @@ input[type='radio'] {
   height: 17.5px;
   width: 17.5px;
 }
-.formEle {
-  display: flex;
-  align-items: center;
-  padding: 5px 0;
+textarea {
+  resize: none;
 }
-.formTextEle {
+.formEle {
   display: flex;
   flex-direction: column;
   padding: 5px 0;
-  max-width: 500px;
+  width: 92.5%;
 }
 .formTextEle > label {
   padding-bottom: 2px;
+}
+#priorityBtns {
+  display: flex;
+  justify-content: space-between;
+}
+#priorityBtns button {
+  width: 31.5%;
+}
+#priorityBtns .selected {
+  border: 2px solid black;
+}
+#cancelBtn {
+  margin: 2vh 0 0 5%;
 }
 .message {
   font-weight: 600;
