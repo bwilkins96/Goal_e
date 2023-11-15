@@ -28,7 +28,11 @@
                 
                 <div class="prog">
                     <p>Progress</p>
-                    <p>{{ goal.progress }}</p>
+
+                    <div class="progBar">
+                        <div class="bar" style="width:{{ goal.progress }}%"></div>
+                        <p>{{ goal.get_progress_str }}</p>
+                    </div>
                 </div>
 
                 <button class="completeBtn" type="button">Mark as complete!</button>

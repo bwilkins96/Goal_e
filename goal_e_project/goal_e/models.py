@@ -16,5 +16,11 @@ class Goal(models.Model):
     priority = models.IntegerField(choices=PRIORITY_CHOICES, default=2)
     completed = models.DateField(null=True, blank=True)
 
+    def get_progress_str(self):
+        if self.progress % 1 == 0:
+            return f'{int(self.progress)}%'
+        
+        return f'{self.progress:.2f}%'
+
     def __str__(self):
         return self.title
