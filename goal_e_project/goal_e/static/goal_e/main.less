@@ -269,16 +269,17 @@ header {
     }
 }
 
+@ligthenPerc: 5%;
 .Low {
-    background-color: lighten(@green, 5%);
+    background-color: lighten(@blue, @ligthenPerc);
 }
 
 .Medium {
-    background-color: lighten(@orange, 5%);
+    background-color: lighten(@orange, @ligthenPerc);
 }
 
 .High {
-    background-color: lighten(@red, 5%);
+    background-color: lighten(@red, @ligthenPerc);
 }
 
 .goalCard {
