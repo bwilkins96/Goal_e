@@ -267,21 +267,31 @@ header {
     }
 }
 
+.Low {
+    background-color: lighten(@green, 5%);
+}
+
+.Medium {
+    background-color: lighten(@orange, 5%);
+}
+
+.High {
+    background-color: lighten(@red, 5%);
+}
+
 .goalCard {
     position: relative;
     width: 90%;
     margin: auto;
     margin-top: 3vh;
+    margin-bottom: 1.5vh;
 
-    height: 220px;
-    background-color: @blue;
+    min-height: 220px;
     font-size: 14px;
 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
-    .testBorder();
 
     h2 {
         font-size: medium;
@@ -294,19 +304,30 @@ header {
         background-color: @yellow;
         width: fit-content;
         padding: 5px;
-        margin: 0 auto;
+        margin: 0 auto 5px;
     }
 
     .editLink {
         position: absolute;
         top: 0;
         right: 0;
+
+        width: 30px;
+        height: 25px;
+        background-color: @orange;
+        color: @textBlack;
+
+        .centerItem();
     }
 
     .descript {
         width: 92.5%;
         background-color: white;
         margin: 0 auto;
+    }
+
+    .deadline, .priority {
+        margin-left: 3.75%;
     }
 
     .deadline {
@@ -316,10 +337,12 @@ header {
     }
 
     .priority {
-
+        
     }
 
     .prog {
-
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 }

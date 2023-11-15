@@ -15,15 +15,21 @@
         
         {% for goal in goal_list %}
             
-            <div class="goalCard">
+            <div class="goalCard {{goal.get_priority_display}}">
                 <h2>{{ goal.title }}</h2>
-                <a class="editLink" href="#">Edit</a>
+                
+                <a class="editLink" href="#">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>
                 
                 <div class="descript">{{ goal.description }}</div>
                 <div class="deadline">Deadline: <span>{{ goal.deadline }}</span></div>
                 <div class="priority">{{ goal.get_priority_display }} Priority</div>
                 
-                <div class="prog">{{ goal.progress }}</div>
+                <div class="prog">
+                    <p>Progress</p>
+                    <p>{{ goal.progress }}</p>
+                </div>
 
                 <button class="completeBtn" type="button">Mark as complete!</button>
             </div>

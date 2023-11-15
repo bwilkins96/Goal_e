@@ -218,18 +218,26 @@ header #logo {
   text-decoration: underline;
   margin-left: 4px;
 }
+.Low {
+  background-color: #d4ffdd;
+}
+.Medium {
+  background-color: #ffebd4;
+}
+.High {
+  background-color: #ffcdd1;
+}
 .goalCard {
   position: relative;
   width: 90%;
   margin: auto;
   margin-top: 3vh;
-  height: 220px;
-  background-color: #c4e1ff;
+  margin-bottom: 1.5vh;
+  min-height: 220px;
   font-size: 14px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid black;
 }
 .goalCard h2 {
   font-size: medium;
@@ -241,18 +249,34 @@ header #logo {
   background-color: #ffffba;
   width: fit-content;
   padding: 5px;
-  margin: 0 auto;
+  margin: 0 auto 5px;
 }
 .goalCard .editLink {
   position: absolute;
   top: 0;
   right: 0;
+  width: 30px;
+  height: 25px;
+  background-color: #ffdfba;
+  color: #212529;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .goalCard .descript {
   width: 92.5%;
   background-color: white;
   margin: 0 auto;
 }
+.goalCard .deadline,
+.goalCard .priority {
+  margin-left: 3.75%;
+}
 .goalCard .deadline span {
   font-style: italic;
+}
+.goalCard .prog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
