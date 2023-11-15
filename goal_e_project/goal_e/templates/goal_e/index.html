@@ -2,14 +2,21 @@
 
 {% block main %}
 
-    <h1 class="pageTitle">Current Goals</h1>
+    <h1 class="pageTitle">{{ title }}</h1>
 
     {% if goal_list|length == 0 %}
-    
-        <div id="noElesMsg">
-            <p>There are no goals yet!</p>
-            <a href="#">Add one now</a>
-        </div>
+
+        {% if title == 'Current Goals' %}
+            <div id="noElesMsg">
+                <p>There are no goals yet!</p>
+                <a href="#">Add one now</a>
+            </div>
+        {% else %}
+            <div id="noElesMsg">
+                <p>None yet!</p>
+                <a href="{% url 'goal_e:index' %}">Check current goals</a>
+            </div>
+        {% endif %}
 
     {% else %}
         
