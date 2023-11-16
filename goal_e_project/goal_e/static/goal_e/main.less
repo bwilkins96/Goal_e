@@ -243,13 +243,18 @@ header {
     background-color: @green;
     z-index: 1;
 
-    #menuBtn {
+    .menuBtn {
         margin-left: @headerSideMargin;
         padding: 10px 5px;
+        background-color: darken(@green, 15%);
 
         &:hover {
             background-color: darken(@green, 15%);
         }
+    }
+
+    .collapsed {
+        background-color: @green;
     }
 
     #pointsDisplay {

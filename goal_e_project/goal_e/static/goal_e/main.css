@@ -193,12 +193,16 @@ header {
   background-color: #baffc9;
   z-index: 1;
 }
-header #menuBtn {
+header .menuBtn {
   margin-left: 7.5px;
   padding: 10px 5px;
-}
-header #menuBtn:hover {
   background-color: #6eff8d;
+}
+header .menuBtn:hover {
+  background-color: #6eff8d;
+}
+header .collapsed {
+  background-color: #baffc9;
 }
 header #pointsDisplay {
   margin: 0;
