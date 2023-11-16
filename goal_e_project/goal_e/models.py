@@ -1,3 +1,4 @@
+from datetime import date
 from django.db import models
 
 class Goal(models.Model):
@@ -21,6 +22,10 @@ class Goal(models.Model):
             return f'{int(self.progress)}%'
         
         return f'{self.progress:.2f}%'
+    
+    def complete_goal(self):
+        self.completed = date.today()
+        self.progress = 100.0
 
     def __str__(self):
         return self.title

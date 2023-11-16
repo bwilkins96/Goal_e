@@ -1,9 +1,8 @@
 from django.shortcuts import render
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 
 from .models import Goal
-
 from .utils import prepare_goal_params, get_yyyy_mm_dd
 
 def index(request):
@@ -64,10 +63,27 @@ def edit_goal(request, goal_id):
     return render(request, 'goal_e/edit_goal.html', context)
 
 def delete_goal(request):
-    goal_id = request.POST['id']
-    
-    goal = Goal.objects.get(id=goal_id)
-    if goal: goal.delete()
+    if request.method == 'POST':
+        goal_id = request.POST['id']
+        
+        goal = Goal.objects.get(id=goal_id)
+        if goal: goal.delete()
 
     return HttpResponseRedirect(reverse('goal_e:index'))
+
+def complete_goal(request, goal_id):
+    response = {'error': 'operation unsuccessful'}
+
+    if request.method == 'POST':
+        goal = Goal.objects.get(id=goal_id)
+
+        goal.complete_goal()
+        goal.save()
+
+        response = {
+            'pointsAdded': 15000,
+            'newPointsTotal': 30000
+        }
+
+    return JsonResponse(response)
 

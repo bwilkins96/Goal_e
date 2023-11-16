@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block css/js %}
+    <script src="{% static 'goal_e/utils.js' %}"></script>
+{% endblock %}
+
 {% block main %}
 
     <h1 class="pageTitle">{{ title }}</h1>
@@ -20,9 +26,10 @@
 
     {% else %}
         
+        {% csrf_token %}
         {% for goal in goal_list %}
             
-            <div class="goalCard {{goal.get_priority_display}}">
+            <div class="goalCard {{goal.get_priority_display}}" id="{{ goal.id }}">
                 <h2>{{ goal.title }}</h2>
                 
                 <a class="editLink" href="{% url 'goal_e:edit_goal' goal.id %}">
@@ -42,7 +49,7 @@
                     </div>
                 </div>
 
-                <button class="completeBtn" type="button">Mark as complete!</button>
+                <button class="completeBtn" id="completeBtn{{ goal.id }}" type="button" onclick="markGoalComplete({{ goal.id }})">Mark as complete!</button>
             </div>
         
         {% endfor %}

@@ -327,6 +327,9 @@ header #logo {
   padding: 5px;
   margin: 0 auto 5px;
 }
+.goalCard .completedMsg {
+  font-weight: bold;
+}
 .goalCard .editLink {
   position: absolute;
   top: 0;
