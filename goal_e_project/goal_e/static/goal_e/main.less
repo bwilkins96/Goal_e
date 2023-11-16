@@ -194,6 +194,7 @@ textarea {
     left: 50%;
     transform: translateY(-50%) translateX(-50%);
     width: @cardWidth;
+    z-index: 11;
 
     background-color: @blue;
     min-height: 30vh;
@@ -463,4 +464,14 @@ header {
             }
         }
     }
+}
+
+// Overlay
+#overlay {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.35);
+    z-index: 10;
 }

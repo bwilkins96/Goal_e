@@ -156,6 +156,7 @@ textarea {
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
   width: 90%;
+  z-index: 11;
   background-color: #c4e1ff;
   min-height: 30vh;
   justify-content: space-around;
@@ -372,4 +373,12 @@ header #logo {
   left: 50%;
   transform: translateX(-50%);
   bottom: 0;
+}
+#overlay {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.35);
+  z-index: 10;
 }
