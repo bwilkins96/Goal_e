@@ -62,3 +62,12 @@ def edit_goal(request, goal_id):
     }
 
     return render(request, 'goal_e/edit_goal.html', context)
+
+def delete_goal(request):
+    goal_id = request.POST['id']
+    
+    goal = Goal.objects.get(id=goal_id)
+    if goal: goal.delete()
+
+    return HttpResponseRedirect(reverse('goal_e:index'))
+

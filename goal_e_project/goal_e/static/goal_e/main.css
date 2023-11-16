@@ -150,6 +150,30 @@ textarea {
 #cancelBtn:hover {
   background-color: #ff808c;
 }
+#deleteBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  width: 90%;
+  background-color: #c4e1ff;
+  min-height: 30vh;
+  justify-content: space-around;
+}
+#deleteBox #deleteFormBtns {
+  display: flex;
+  justify-content: space-between;
+  width: 250px;
+}
+#deleteBox #cancelDelete {
+  background-color: #ffffba;
+}
+#deleteBox #deleteConfirm {
+  background-color: #ffb3ba;
+}
+#deleteBox #deleteConfirm:hover {
+  background-color: #ff808c;
+}
 .message {
   font-weight: 600;
   color: black;

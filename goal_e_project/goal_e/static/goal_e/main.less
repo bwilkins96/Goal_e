@@ -188,6 +188,36 @@ textarea {
     }
 }
 
+#deleteBox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    width: @cardWidth;
+
+    background-color: @blue;
+    min-height: 30vh;
+    justify-content: space-around;
+
+    #deleteFormBtns {
+        display: flex;
+        justify-content: space-between;
+        width: 250px;
+    }
+
+    #cancelDelete {
+        background-color: @yellow;
+    }
+
+    #deleteConfirm {
+        background-color: @red;
+
+        &:hover {
+            background-color: darken(@red, 10%);
+        }
+    }
+}
+
 // Messages 
 .message {
     font-weight: 600;

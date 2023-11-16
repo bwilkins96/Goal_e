@@ -4,6 +4,7 @@
 
 {% block css/js %}
     <script src="{% static 'goal_e/goalForms.js' %}"></script>
+    <script src="{% static 'goal_e/utils.js' %}"></script>
 {% endblock %}
 
 {% block main %}
@@ -55,7 +56,21 @@
         <button type="submit">Update Goal!</button>
     </form>
 
-    <a id="cancelBtn" href="{% url 'goal_e:index' %}">Delete</a>
+    <a id="cancelBtn" onclick="showElement('deleteBox')">Delete</a>
+
+    <!-- Delete Confirmation Box -->
+    <form action="{% url 'goal_e:delete_goal'%}" method="post" id="deleteBox" class="hide">
+        {% csrf_token %}
+        
+        <p>Are you sure you want to delete this goal?</p>
+
+        <div id="deleteFormBtns">
+            <button type="button" id="cancelDelete" onclick="hideElement('deleteBox')">No, Cancel</button>
+            <button type="submit" id="deleteConfirm">Yes, Confirm Delete</button>
+        </div>
+
+        <input type="hidden" value="{{ goal.id }}" name="id" id="goalID">
+    </form>
 
 {% endblock %}
 
