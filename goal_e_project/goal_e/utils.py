@@ -11,5 +11,8 @@ def prepare_goal_params(request):
         request.POST['progress'],
     ]
 
-def get_yyyy_mm_dd(date_inst: date):
+def get_yyyy_mm_dd(date_inst: date) -> str:
     return date_inst.strftime('%Y-%m-%d')
+
+def get_full_date(date_inst: date) -> str:
+    return date_inst.strftime('%B %d, %Y')

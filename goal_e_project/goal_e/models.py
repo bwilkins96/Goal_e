@@ -1,6 +1,8 @@
 from datetime import date
 from django.db import models
 
+from .utils import get_full_date
+
 class Goal(models.Model):
     """Goal model class"""
 
@@ -22,6 +24,13 @@ class Goal(models.Model):
             return f'{int(self.progress)}%'
         
         return f'{self.progress:.2f}%'
+    
+    def get_deadline_str(self):
+        return get_full_date(self.deadline)
+    
+    def get_completed_str(self):
+        if self.completed:
+            return get_full_date(self.completed)
     
     def complete_goal(self):
         self.completed = date.today()

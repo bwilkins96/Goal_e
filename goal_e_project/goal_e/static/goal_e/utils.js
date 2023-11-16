@@ -48,8 +48,10 @@ async function markGoalComplete(id) {
     const goalCard = document.getElementById(id);
     const completeBtn = goalCard.querySelector('.completeBtn');
     const progBar = goalCard.querySelector('.progBar .bar');
+    const progText = goalCard.querySelector('.progBar p');
 
     completeBtn.classList.add('completedMsg');
-    completeBtn.innerText = 'Completed on November 2, 2023!';
+    completeBtn.innerText = `Completed on ${responseData['dateStr']}!`;
     progBar.style.width = '100%';
+    progText.innerText = '100%';
 }

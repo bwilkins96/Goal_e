@@ -82,7 +82,8 @@ def complete_goal(request, goal_id):
 
         response = {
             'pointsAdded': 15000,
-            'newPointsTotal': 30000
+            'newPointsTotal': 30000,
+            'dateStr': goal.get_completed_str()
         }
 
     return JsonResponse(response)
