@@ -36,7 +36,10 @@
                     <i class="fa-solid fa-pen-to-square"></i>
                 </a>
                 
-                <div class="descript">{{ goal.description }}</div>
+                {% if goal.description %}
+                    <div class="descript">{{ goal.description }}</div>
+                {% endif %}
+
                 <div class="deadline">Deadline: <span>{{ goal.get_deadline_str }}</span></div>
                 <div class="priority">{{ goal.get_priority_display }} Priority</div>
                 

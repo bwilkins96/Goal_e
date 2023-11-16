@@ -376,6 +376,7 @@ header {
     background-color: lighten(@red, @ligthenPerc);
 }
 
+@marginBetween: 15px;
 .goalCard {
     position: relative;
     width: @cardWidth;
@@ -424,7 +425,11 @@ header {
     .descript {
         width: 92.5%;
         background-color: white;
-        margin: 0 auto;
+        margin: 0 auto @marginBetween;
+        
+        max-height: 150px;
+        overflow-y: scroll;
+        padding: 0 5px;
     }
 
     .deadline, .priority {
@@ -444,7 +449,7 @@ header {
     @progBarHeight: 25px;
     .prog {
         position: relative;
-        margin: 0 auto;
+        margin: 0 auto @marginBetween;
         display: flex;
         flex-direction: column;
         align-items: center;
