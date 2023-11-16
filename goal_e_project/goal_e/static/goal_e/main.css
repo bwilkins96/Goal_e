@@ -385,3 +385,12 @@ header #logo {
   background-color: rgba(0, 0, 0, 0.35);
   z-index: 10;
 }
+#notFoundLink {
+  text-decoration: underline;
+  position: absolute;
+  top: 25vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  text-align: center;
+}

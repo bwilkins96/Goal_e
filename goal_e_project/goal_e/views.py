@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.http import HttpResponseRedirect, JsonResponse
 
@@ -40,7 +40,10 @@ def new_goal(request):
     return render(request, 'goal_e/new_goal.html')
 
 def edit_goal(request, goal_id):
-    goal = Goal.objects.get(id=goal_id)
+    goal = get_object_or_404(Goal, id=goal_id)
+
+    if not goal:
+        print('hello')
 
     if request.method == 'POST':
         [title, description, deadline, priority, progress] = prepare_goal_params(request)
@@ -88,3 +91,15 @@ def complete_goal(request, goal_id):
 
     return JsonResponse(response)
 
+def resource_not_found(request, exception=None):
+    if 'goals' in request.path:
+        title = 'Goal Not Found'
+    else:
+        title = '404: Page Not Found'
+
+    response = render(request, 'goal_e/not_found.html', { 'title': title })
+    response.status_code = 404
+
+    print(request.path)
+
+    return response 

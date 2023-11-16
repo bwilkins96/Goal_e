@@ -21,3 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('goal_e.urls'))
 ]
+
+handler404 = 'goal_e.views.resource_not_found'
