@@ -60,6 +60,16 @@
             </div>
         
         {% endfor %}
+        
+        <!-- Mark Goal as Complete Pop-up -->
+        <div id="completedPopUp" class="hide">
+            <p id="upperPopUp">
+                Congratulations on completing the goal: <span class="popUpTitle"></span>!
+                You have earned <span class="popUpPoints"></span> points!</p>
+            </p>
+
+            <p id="lowerPopUp">Click anywhere to continue</p>
+        </div>
     
     {% endif %}
         

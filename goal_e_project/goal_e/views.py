@@ -42,9 +42,6 @@ def new_goal(request):
 def edit_goal(request, goal_id):
     goal = get_object_or_404(Goal, id=goal_id)
 
-    if not goal:
-        print('hello')
-
     if request.method == 'POST':
         [title, description, deadline, priority, progress] = prepare_goal_params(request)
 
@@ -69,8 +66,8 @@ def delete_goal(request):
     if request.method == 'POST':
         goal_id = request.POST['id']
         
-        goal = Goal.objects.get(id=goal_id)
-        if goal: goal.delete()
+        goal = get_object_or_404(Goal, id=goal_id)
+        goal.delete()
 
     return HttpResponseRedirect(reverse('goal_e:index'))
 
@@ -78,7 +75,7 @@ def complete_goal(request, goal_id):
     response = {'error': 'operation unsuccessful'}
 
     if request.method == 'POST':
-        goal = Goal.objects.get(id=goal_id)
+        goal = get_object_or_404(Goal, id=goal_id)
 
         goal.complete_goal()
         goal.save()
@@ -86,7 +83,8 @@ def complete_goal(request, goal_id):
         response = {
             'pointsAdded': 15000,
             'newPointsTotal': 30000,
-            'dateStr': goal.get_completed_str()
+            'dateStr': goal.get_completed_str(),
+            'title': goal.title
         }
 
     return JsonResponse(response)

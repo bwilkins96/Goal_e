@@ -150,7 +150,8 @@ textarea {
 #cancelBtn:hover {
   background-color: #ff808c;
 }
-#deleteBox {
+#deleteBox,
+#completedPopUp {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -161,19 +162,42 @@ textarea {
   min-height: 30vh;
   justify-content: space-around;
 }
-#deleteBox #deleteFormBtns {
+#deleteBox #deleteFormBtns,
+#completedPopUp #deleteFormBtns {
   display: flex;
   justify-content: space-between;
   width: 250px;
 }
-#deleteBox #cancelDelete {
+#deleteBox #cancelDelete,
+#completedPopUp #cancelDelete {
   background-color: #ffffba;
 }
-#deleteBox #deleteConfirm {
+#deleteBox #deleteConfirm,
+#completedPopUp #deleteConfirm {
   background-color: #ffb3ba;
 }
-#deleteBox #deleteConfirm:hover {
+#deleteBox #deleteConfirm:hover,
+#completedPopUp #deleteConfirm:hover {
   background-color: #ff808c;
+}
+#completedPopUp {
+  text-align: center;
+}
+#completedPopUp #upperPopUp {
+  font-size: 15px;
+  width: 95%;
+  margin: 20% auto 0;
+}
+#completedPopUp #lowerPopUp {
+  font-size: 12px;
+  margin-top: 40px;
+  margin: 40px auto 0;
+}
+#completedPopUp .popUpTitle {
+  font-weight: bold;
+}
+#completedPopUp .popUpPoints {
+  font-style: italic;
 }
 .message {
   font-weight: 600;

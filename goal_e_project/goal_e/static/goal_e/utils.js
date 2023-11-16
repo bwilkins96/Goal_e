@@ -27,6 +27,7 @@ function csrfVal() {
     return csrfToken.value;
 }
 
+// Functions for ui handling of goal completion
 async function completeGoalReq(id) {
     const reqOptions = {
         method: 'POST',
@@ -42,16 +43,40 @@ async function completeGoalReq(id) {
     return jsonData;
 }
 
-async function markGoalComplete(id) {
-    responseData = await completeGoalReq(id);
+function setCompletedPopUp(resData) {
+    const upperPopUp = document.getElementById('upperPopUp');
+    const titleSpan = upperPopUp.querySelector('.popUpTitle');
+    const pointsSpan = upperPopUp.querySelector('.popUpPoints');
+
+    titleSpan.innerText = resData['title'];
+    pointsSpan.innerText = resData['pointsAdded'];
+}
+
+function showCompletedPopUp(resData) {
+    setCompletedPopUp(resData);
+    showElementOverlay('completedPopUp');
     
+    document.body.addEventListener('click', () => {
+        hideElementOverlay('completedPopUp');
+    }, { once: true });
+}
+
+function updateGoalCard(id, resData) {
     const goalCard = document.getElementById(id);
     const completeBtn = goalCard.querySelector('.completeBtn');
     const progBar = goalCard.querySelector('.progBar .bar');
     const progText = goalCard.querySelector('.progBar p');
 
     completeBtn.classList.add('completedMsg');
-    completeBtn.innerText = `Completed on ${responseData['dateStr']}!`;
+    completeBtn.innerText = `Completed on ${resData['dateStr']}!`;
+    completeBtn.onclick = null;
+
     progBar.style.width = '100%';
     progText.innerText = '100%';
+}
+
+async function markGoalComplete(id) {
+    responseData = await completeGoalReq(id);
+    showCompletedPopUp(responseData);
+    updateGoalCard(id, responseData);
 }
