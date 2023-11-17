@@ -5,7 +5,14 @@ from django.urls import reverse
 from django.http import HttpRequest, HttpResponseRedirect, JsonResponse
 
 from .models import Goal
-from .utils import prepare_goal_params, get_yyyy_mm_dd, get_week_from_today_str, add_years
+
+from .utils import (
+    prepare_goal_params, 
+    get_yyyy_mm_dd, 
+    get_week_from_today_str, 
+    add_years, 
+    num_str_with_commas
+)
 
 def index(request: HttpRequest):
     goal_list = Goal.objects.filter(completed=None).order_by('deadline', '-priority')
@@ -98,8 +105,9 @@ def complete_goal(request: HttpRequest, goal_id: int):
         goal.complete_goal()
         goal.save()
 
+        points = goal.calculate_points()
         response = {
-            'pointsAdded': goal.calculate_points(),
+            'pointsAdded': num_str_with_commas(points),
             'newPointsTotal': 'to be implemented!',
             'dateStr': goal.get_completed_str(),
             'title': goal.title

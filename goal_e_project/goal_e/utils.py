@@ -35,3 +35,6 @@ def add_years(date_inst: date, years: int) -> date:
 def days_before(start: date, end: date) -> int:
     diff = end - start 
     return diff.days
+
+def num_str_with_commas(num: int | float) -> str:
+    return f'{num:,}'
