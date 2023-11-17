@@ -76,7 +76,13 @@ def edit_goal(request: HttpRequest, goal_id: int):
             goal.undo_complete()
         
         goal.save()
-        return HttpResponseRedirect(reverse('goal_e:index') + f'#{goal.id}')
+        
+        if goal.completed:
+            response = HttpResponseRedirect(reverse('goal_e:past_goals') + f'#{goal.id}')
+        else:
+            response = HttpResponseRedirect(reverse('goal_e:index') + f'#{goal.id}')
+
+        return response
 
     context = {
         'goal': goal,
