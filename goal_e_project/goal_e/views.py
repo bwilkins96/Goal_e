@@ -29,11 +29,15 @@ def new_goal(request):
     if request.method == 'POST':
         [title, description, deadline, priority, progress] = prepare_goal_params(request)
 
-        Goal.objects.create(title=title, 
-                            description=description, 
-                            deadline=deadline, 
-                            priority=priority, 
-                            progress=progress)
+        goal = Goal.objects.create(title=title, 
+                                   description=description, 
+                                   deadline=deadline, 
+                                   priority=priority, 
+                                   progress=progress)
+        
+        if float(goal.progress) == 100.0:
+            goal.complete_goal()
+            goal.save()
         
         return HttpResponseRedirect(reverse('goal_e:index'))
 
@@ -50,6 +54,9 @@ def edit_goal(request, goal_id):
         goal.deadline = deadline
         goal.priority = priority
         goal.progress = progress
+
+        if float(goal.progress) == 100.0:
+            goal.complete_goal()
         
         goal.save()
     
