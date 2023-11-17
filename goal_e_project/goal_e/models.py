@@ -1,7 +1,7 @@
 from datetime import date
 from django.db import models
 
-from .utils import get_full_date
+from .utils import get_full_date, days_before
 
 class Goal(models.Model):
     """Goal model class"""
@@ -38,6 +38,27 @@ class Goal(models.Model):
 
     def undo_complete(self):
         self.completed = None
+
+    def calculate_points(self):
+        points = 0
+        
+        if self.completed:
+            base = 10000
+            days_before_deadline = days_before(self.completed, self.deadline)
+            mult = 1000
+
+            print()
+            print(days_before_deadline)
+            print()
+
+            if days_before_deadline > 0:
+                days_bonus = min(mult * days_before_deadline, 10000)
+            else: 
+                days_bonus = 0
+            
+            points = (base + days_bonus) * self.priority
+
+        return points
 
     def __str__(self):
         return self.title

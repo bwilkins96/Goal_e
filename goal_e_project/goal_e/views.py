@@ -99,8 +99,8 @@ def complete_goal(request: HttpRequest, goal_id: int):
         goal.save()
 
         response = {
-            'pointsAdded': 15000,
-            'newPointsTotal': 30000,
+            'pointsAdded': goal.calculate_points(),
+            'newPointsTotal': 'to be implemented!',
             'dateStr': goal.get_completed_str(),
             'title': goal.title
         }

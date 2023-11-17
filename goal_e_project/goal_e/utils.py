@@ -31,3 +31,7 @@ def add_years(date_inst: date, years: int) -> date:
         date_inst = date_inst.replace(month = 3, day = 1) 
 
     return date_inst
+
+def days_before(start: date, end: date) -> int:
+    diff = end - start 
+    return diff.days

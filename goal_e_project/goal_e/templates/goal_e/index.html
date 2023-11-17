@@ -15,7 +15,7 @@
         {% if title == 'Current Goals' %}
             <div id="noElesMsg">
                 <p>There are no goals yet!</p>
-                <a href="#">Add one now</a>
+                <a href="{% url 'goal_e:new_goal' %}">Add one now</a>
             </div>
         {% else %}
             <div id="noElesMsg">
