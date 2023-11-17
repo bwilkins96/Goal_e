@@ -36,5 +36,8 @@ class Goal(models.Model):
         self.completed = date.today()
         self.progress = 100.0
 
+    def undo_complete(self):
+        self.completed = None
+
     def __str__(self):
         return self.title

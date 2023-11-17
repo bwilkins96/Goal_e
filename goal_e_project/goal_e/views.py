@@ -2,12 +2,12 @@ from datetime import date
 
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpRequest, HttpResponseRedirect, JsonResponse
 
 from .models import Goal
 from .utils import prepare_goal_params, get_yyyy_mm_dd, get_week_from_today_str, add_years
 
-def index(request):
+def index(request: HttpRequest):
     goal_list = Goal.objects.filter(completed=None).order_by('deadline', '-priority')
 
     context = {
@@ -17,7 +17,7 @@ def index(request):
 
     return render(request, 'goal_e/index.html', context)
 
-def past_goals(request):
+def past_goals(request: HttpRequest):
     goal_list = Goal.objects.exclude(completed=None).order_by('-completed', '-priority')
 
     context = {
@@ -27,7 +27,7 @@ def past_goals(request):
 
     return render(request, 'goal_e/index.html', context)
 
-def new_goal(request):
+def new_goal(request: HttpRequest):
     if request.method == 'POST':
         [title, description, deadline, priority, progress] = prepare_goal_params(request)
 
@@ -51,7 +51,7 @@ def new_goal(request):
    
     return render(request, 'goal_e/new_goal.html', context)
 
-def edit_goal(request, goal_id):
+def edit_goal(request: HttpRequest, goal_id: int):
     goal = get_object_or_404(Goal, id=goal_id)
 
     if request.method == 'POST':
@@ -63,13 +63,13 @@ def edit_goal(request, goal_id):
         goal.priority = priority
         goal.progress = progress
 
-        if float(goal.progress) == 100.0:
+        if (float(goal.progress) == 100.0) and (not goal.completed):
             goal.complete_goal()
+        elif goal.completed and (float(goal.progress) < 100.0):
+            goal.undo_complete()
         
         goal.save()
         return HttpResponseRedirect(reverse('goal_e:index') + f'#{goal.id}')
-    
-    goal = Goal.objects.get(id=goal_id)
 
     context = {
         'goal': goal,
@@ -80,7 +80,7 @@ def edit_goal(request, goal_id):
 
     return render(request, 'goal_e/edit_goal.html', context)
 
-def delete_goal(request):
+def delete_goal(request: HttpRequest):
     if request.method == 'POST':
         goal_id = request.POST['id']
         
@@ -89,7 +89,7 @@ def delete_goal(request):
 
     return HttpResponseRedirect(reverse('goal_e:index'))
 
-def complete_goal(request, goal_id):
+def complete_goal(request: HttpRequest, goal_id: int):
     response = {'error': 'operation unsuccessful'}
 
     if request.method == 'POST':
@@ -107,7 +107,7 @@ def complete_goal(request, goal_id):
 
     return JsonResponse(response)
 
-def resource_not_found(request, exception=None):
+def resource_not_found(request: HttpRequest, exception=None):
     if 'goals' in request.path:
         title = 'Goal Not Found'
     else:
@@ -115,7 +115,5 @@ def resource_not_found(request, exception=None):
 
     response = render(request, 'goal_e/not_found.html', { 'title': title })
     response.status_code = 404
-
-    print(request.path)
 
     return response 
