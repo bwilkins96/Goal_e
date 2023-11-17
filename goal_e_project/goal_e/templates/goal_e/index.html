@@ -72,6 +72,11 @@
 
             <p id="lowerPopUp">Click anywhere to continue</p>
         </div>
+
+        {% if goal_list|length > 2 %}
+            <!-- Extra Space for Add Goal Button -->
+            <br><br>   
+        {% endif %}
     
     {% endif %}
         

@@ -17,9 +17,13 @@ from .utils import (
 def index(request: HttpRequest):
     goal_list = Goal.objects.filter(completed=None).order_by('deadline', '-priority')
 
+    prev_action = request.session.get('prev_action')
+    request.session['prev_action'] = None
+
     context = {
         'title': 'Current Goals',
-        'goal_list': goal_list
+        'goal_list': goal_list,
+        'prev_action': prev_action
     }
 
     return render(request, 'goal_e/index.html', context)
@@ -48,6 +52,7 @@ def new_goal(request: HttpRequest):
             goal.complete_goal()
             
         goal.save()
+        request.session['prev_action'] = 'new goal'
         return HttpResponseRedirect(reverse('goal_e:index'))
 
     context = { 
@@ -99,6 +104,8 @@ def delete_goal(request: HttpRequest):
         
         goal = get_object_or_404(Goal, id=goal_id)
         goal.delete()
+
+        request.session['prev_action'] = 'delete goal'
 
     return HttpResponseRedirect(reverse('goal_e:index'))
 
