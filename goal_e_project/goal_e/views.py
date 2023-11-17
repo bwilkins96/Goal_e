@@ -1,9 +1,11 @@
+from datetime import date
+
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.http import HttpResponseRedirect, JsonResponse
 
 from .models import Goal
-from .utils import prepare_goal_params, get_yyyy_mm_dd
+from .utils import prepare_goal_params, get_yyyy_mm_dd, get_week_from_today_str, add_years
 
 def index(request):
     goal_list = Goal.objects.filter(completed=None).order_by('deadline', '-priority')
@@ -16,7 +18,7 @@ def index(request):
     return render(request, 'goal_e/index.html', context)
 
 def past_goals(request):
-    goal_list = Goal.objects.exclude(completed=None).order_by('deadline', '-priority')
+    goal_list = Goal.objects.exclude(completed=None).order_by('-completed', '-priority')
 
     context = {
         'title': 'Past Goals',
@@ -29,19 +31,25 @@ def new_goal(request):
     if request.method == 'POST':
         [title, description, deadline, priority, progress] = prepare_goal_params(request)
 
-        goal = Goal.objects.create(title=title, 
-                                   description=description, 
-                                   deadline=deadline, 
-                                   priority=priority, 
-                                   progress=progress)
+        goal = Goal(title=title, 
+                    description=description, 
+                    deadline=deadline, 
+                    priority=priority, 
+                    progress=progress)
         
         if float(goal.progress) == 100.0:
             goal.complete_goal()
-            goal.save()
-        
+            
+        goal.save()
         return HttpResponseRedirect(reverse('goal_e:index'))
 
-    return render(request, 'goal_e/new_goal.html')
+    context = { 
+        'default_date': get_week_from_today_str(),
+        'min_date': get_yyyy_mm_dd(date.today()),
+        'max_date': get_yyyy_mm_dd(add_years(date.today(), 100))
+        }
+   
+    return render(request, 'goal_e/new_goal.html', context)
 
 def edit_goal(request, goal_id):
     goal = get_object_or_404(Goal, id=goal_id)
@@ -59,12 +67,15 @@ def edit_goal(request, goal_id):
             goal.complete_goal()
         
         goal.save()
+        return HttpResponseRedirect(reverse('goal_e:index') + f'#{goal.id}')
     
     goal = Goal.objects.get(id=goal_id)
 
     context = {
         'goal': goal,
-        'date_val': get_yyyy_mm_dd(goal.deadline)
+        'date_val': get_yyyy_mm_dd(goal.deadline),
+        'min_date': get_yyyy_mm_dd(date.today()),
+        'max_date': get_yyyy_mm_dd(add_years(date.today(), 100))
     }
 
     return render(request, 'goal_e/edit_goal.html', context)

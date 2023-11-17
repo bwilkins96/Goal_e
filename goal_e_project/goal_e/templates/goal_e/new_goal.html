@@ -15,17 +15,17 @@
 
         <div class="formEle">
             <label for="title">Title</label>
-            <input type="text" id="title" name="title" placeholder="Read 100 books, walk 1000 steps, etc.">
+            <input type="text" id="title" name="title" maxlength="65" placeholder="Read 100 books, walk 1000 steps, etc." required>
         </div>
 
         <div class="formEle">
             <label for="description">Description</label>
-            <textarea id="description" name="description" rows="5" placeholder="I want to complete this goal because..."></textarea>
+            <textarea id="description" name="description" rows="5" maxlength="750" placeholder="I want to complete this goal because..."></textarea>
         </div>
 
         <div class="formEle">
             <label for="deadline">Deadline</label>
-            <input type="date" id="deadline" name="deadline">
+            <input type="date" id="deadline" name="deadline" value={{ default_date }} min="{{ min_date }}" max="{{ max_date }}">
         </div>
 
         <div class="formEle">
@@ -44,12 +44,12 @@
                 <label for="progress">Progress</label>
 
                 <span>
-                    <input type="number" id="progress" name="progress" value="50" min="0" max="100" onchange="changeProgBar()">
+                    <input type="number" id="progress" name="progress" value="0" min="0" max="100" onchange="changeProgBar()">
                     %
                 </span>
             </div>
             
-            <input type="range" value="50" min="0" max="100" id="progressBar" oninput="changeProgInput()">
+            <input type="range" value="0" min="0" max="100" id="progressBar" oninput="changeProgInput()">
         </div>
 
         <button type="submit">Set Goal!</button>

@@ -27,6 +27,8 @@
     {% else %}
         
         {% csrf_token %}
+        
+        <!-- Goal List -->
         {% for goal in goal_list %}
             
             <div class="goalCard {{goal.get_priority_display}}" id="{{ goal.id }}">

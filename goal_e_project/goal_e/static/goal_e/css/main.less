@@ -189,7 +189,7 @@ textarea {
 }
 
 #deleteBox, #completedPopUp {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translateY(-50%) translateX(-50%);
@@ -255,6 +255,10 @@ textarea {
 // Header
 @headerHeight: 55px;
 @headerSideMargin: 7.5px;
+
+html {
+    scroll-padding-top: @headerHeight + 5px;
+}
 
 header {
     width: 100%;
@@ -507,7 +511,7 @@ header {
 
 // Overlay
 #overlay {
-    position: absolute;
+    position: fixed;
     top: 0;
     height: 100%;
     width: 100%;

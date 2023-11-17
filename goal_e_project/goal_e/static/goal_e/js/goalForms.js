@@ -2,6 +2,8 @@
 
 // Functions for changing the progress bar/value
 function changeProgBar() {
+    validateProgInput();
+
     const progBar = document.getElementById('progressBar');
     const progInput = document.getElementById('progress');
     progBar.value = progInput.value;
@@ -54,4 +56,17 @@ function setPriority(val) {
     priorityInput.value = val;
     removePriorityStyles(prevVal, formEle);
     addPriorityStyles(val, formEle);
+}
+
+// Functions for client-side form validation / value updates
+function validateProgInput() {
+    const progInput = document.getElementById('progress');
+
+    if (progInput.value < 0) {
+        progInput.value = 0;
+    } else if (progInput.value > 100) {
+        progInput.value = 100;
+    } else if(!progInput.value) {
+        progInput.value = 0;
+    }
 }
