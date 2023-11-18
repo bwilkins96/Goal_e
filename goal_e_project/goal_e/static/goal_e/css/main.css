@@ -13,7 +13,7 @@
   src: url(https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Me5Q.ttf) format('truetype');
 }
 .hide {
-  display: none;
+  display: none !important;
 }
 .testBorder {
   border: 1px solid black;
@@ -201,14 +201,14 @@ textarea {
 }
 .message {
   position: fixed;
-  bottom: 1.5vh;
+  top: 0;
   font-weight: 600;
   color: #212529;
-  padding: 10px;
-  border-radius: 8px;
-  text-align: center;
   width: 100%;
-  height: 45px;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 1;
 }
 html {
