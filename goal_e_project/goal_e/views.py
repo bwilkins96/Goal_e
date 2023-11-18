@@ -46,7 +46,8 @@ def new_goal(request: HttpRequest):
                     priority=priority, 
                     progress=progress)
         
-        if float(goal.progress) == 100.0:
+        goal.full_clean()
+        if goal.progress == 100.0:
             goal.complete_goal()
             
         goal.save()
@@ -73,9 +74,10 @@ def edit_goal(request: HttpRequest, goal_id: int):
         goal.priority = priority
         goal.progress = progress
 
-        if (float(goal.progress) == 100.0) and (not goal.completed):
+        goal.full_clean()
+        if (goal.progress == 100.0) and (not goal.completed):
             goal.complete_goal()
-        elif goal.completed and (float(goal.progress) < 100.0):
+        elif goal.completed and (goal.progress < 100.0):
             goal.undo_complete()
         
         goal.save()

@@ -1,5 +1,7 @@
 from datetime import date
+
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 from .utils import get_full_date, days_before
 
@@ -12,10 +14,12 @@ class Goal(models.Model):
         (3, 'High')
     ]
 
+    PROGRESS_VALIDATORS = [MinValueValidator(0.0), MaxValueValidator(100.0)]
+
     title = models.CharField(max_length=65)
     description = models.TextField(null=True, blank=True)
     deadline = models.DateField()
-    progress = models.FloatField(default=0.0)
+    progress = models.FloatField(default=0.0, validators=PROGRESS_VALIDATORS)
     priority = models.IntegerField(choices=PRIORITY_CHOICES, default=2)
     completed = models.DateField(null=True, blank=True)
 
