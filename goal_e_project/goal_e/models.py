@@ -47,10 +47,6 @@ class Goal(models.Model):
             days_before_deadline = days_before(self.completed, self.deadline)
             mult = 1000
 
-            print()
-            print(days_before_deadline)
-            print()
-
             if days_before_deadline > 0:
                 days_bonus = min(mult * days_before_deadline, 10000)
             else: 

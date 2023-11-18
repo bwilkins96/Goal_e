@@ -77,6 +77,24 @@
             <!-- Extra Space for Add Goal Button -->
             <br><br>   
         {% endif %}
+
+        {% if prev_action %}
+            <!--Notification Message-->
+
+            {% if prev_action == 'new goal' %}
+                <p class="message green">
+                    Goal Set!
+                </p>
+            {% elif prev_action == 'delete goal' %}
+                <p class="message red">
+                    Goal Deleted
+                </p>
+            {% endif %}
+
+            <script>
+                hideNotification(1);
+            </script>
+        {% endif %}
     
     {% endif %}
         

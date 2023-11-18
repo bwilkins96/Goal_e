@@ -12,6 +12,9 @@
 @cardWidth: 90%;
 @smallerFont: 14px;
 
+@addGoalDim: 45px;
+@distFromSides: 1.5vh;
+
 // Mixins
 .fit-content() {
     width: -moz-fit-content;
@@ -246,10 +249,20 @@ textarea {
 
 // Messages 
 .message {
+    position: fixed;
+    //top: 50%;
+    //transform: translateY(-50%);
+    bottom: @distFromSides;
     font-weight: 600;
-    color: black;
+    color: @textBlack;
     padding: 10px;
     border-radius: 8px;
+    text-align: center;
+    width: 100%;
+    height: @addGoalDim;
+    //border: 1px solid @textBlack;
+
+    z-index: 1;
 }
 
 // Header
@@ -356,9 +369,6 @@ header {
     width: 100vw;
     height: 0;
 }
-
-@addGoalDim: 45px;
-@distFromSides: 1.5vh;
 
 #addGoalBtn {
     height: @addGoalDim;

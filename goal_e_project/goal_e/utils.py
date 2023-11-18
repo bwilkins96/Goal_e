@@ -11,6 +11,12 @@ def prepare_goal_params(request):
         request.POST['progress'],
     ]
 
+def get_prev_action(request):
+    prev_action = request.session.get('prev_action')
+    request.session['prev_action'] = None
+
+    return prev_action
+
 def get_yyyy_mm_dd(date_inst: date) -> str:
     return date_inst.strftime('%Y-%m-%d')
 

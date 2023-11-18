@@ -11,19 +11,17 @@ from .utils import (
     get_yyyy_mm_dd, 
     get_week_from_today_str, 
     add_years, 
-    num_str_with_commas
+    num_str_with_commas,
+    get_prev_action
 )
 
 def index(request: HttpRequest):
     goal_list = Goal.objects.filter(completed=None).order_by('deadline', '-priority')
 
-    prev_action = request.session.get('prev_action')
-    request.session['prev_action'] = None
-
     context = {
         'title': 'Current Goals',
         'goal_list': goal_list,
-        'prev_action': prev_action
+        'prev_action': get_prev_action(request)
     }
 
     return render(request, 'goal_e/index.html', context)
