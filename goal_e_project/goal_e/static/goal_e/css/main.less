@@ -1,0 +1,536 @@
+@import url('https://fonts.googleapis.com/css2?family=Pangolin&family=Roboto&display=swap');
+
+// Variables
+@red: rgb(255, 179, 186);
+@orange: rgb(255, 223, 186);
+@yellow: rgb(255, 255, 186);
+@green: rgb(186, 255, 201);
+@blue: rgb(196, 225, 255);
+
+@textBlack: #212529;
+@goldenWidth: 61.8vw;
+@cardWidth: 90%;
+@smallerFont: 14px;
+
+// Mixins
+.fit-content() {
+    width: -moz-fit-content;
+    width: fit-content;
+}
+
+.hide {
+    display: none !important;
+}
+
+.testBorder {
+    border: 1px solid black;
+}
+
+.centerItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// General 
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+main {
+    margin: auto;   
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Pangolin', cursive;
+}
+
+button {
+    background-color: @orange;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+button:active {
+    border-color: white;
+}
+
+a {
+    text-decoration: none;
+}
+
+p {
+    margin: 0;
+}
+
+.pageTitle {
+    margin: 2vh auto 0;
+
+    .fit-content();
+}
+
+.darkTheme {
+    background-color: rgb(35, 35, 35);
+    color: white;
+}
+
+// Colors 
+.red {
+    background-color: @red;
+}
+
+.orange {
+    background-color: @orange;
+}
+
+.yellow {
+    background-color: @yellow;
+}
+
+.green {
+    background-color: @green;
+}
+
+.blue {
+    background-color: @blue;
+}
+
+// Forms
+form {
+    width: @cardWidth;
+    margin: 10px auto 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    font-size: @smallerFont;
+}
+
+#goalForm {
+    min-height: 70vh;
+    margin-bottom: 20px;
+
+    button {
+        background-color: @yellow;
+    }
+
+    button[type='submit'] {
+        width: 45%;
+        margin-bottom: 10px;
+    }
+}
+
+label {
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+input[type='text'] {
+    padding: 5px;
+    border-radius: 5px;
+}
+
+input[type='checkbox'], input[type='radio'] {
+    height: 17.5px;
+    width: 17.5px;
+}
+
+textarea {
+    resize: none;
+}
+
+.formEle {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 0;
+    width: 92.5%;
+}
+
+.formTextEle > label {
+    padding-bottom: 2px;
+}
+
+#priorityBtns {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+        width: 31.5%;
+    }
+
+    .selected {
+        border: 2px solid black;
+    }
+}
+
+#progHeader {
+    display: flex;
+    justify-content: space-between;
+    
+    input {
+        width: 45px;
+    }
+}
+
+#progressBar {
+    margin-top: 5px;
+}
+
+#cancelBtn {
+    margin: 0 0 0 5%;
+    font-size: 12px;
+    background-color: @red;
+    color: @textBlack;
+    padding: 5px;
+
+    &:hover {
+        background-color: darken(@red, 10%);
+    }
+}
+
+#deleteBox, #completedPopUp {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    width: @cardWidth;
+    z-index: 11;
+
+    background-color: @blue;
+    min-height: 30vh;
+    justify-content: space-around;
+
+    #deleteFormBtns {
+        display: flex;
+        justify-content: space-between;
+        width: 250px;
+    }
+
+    #cancelDelete {
+        background-color: @yellow;
+    }
+
+    #deleteConfirm {
+        background-color: @red;
+
+        &:hover {
+            background-color: darken(@red, 10%);
+        }
+    }
+}
+
+// Mark Goal as Complete Pop-up
+#completedPopUp {
+    text-align: center;
+
+    #upperPopUp {
+        font-size: 15px;
+        width: 95%;
+        margin: 20% auto 0;
+    }
+
+    #lowerPopUp {
+        font-size: 12px;
+        margin-top: 40px;
+        margin: 40px auto 0;
+    }
+
+    .popUpTitle {
+        font-weight: bold;
+    }
+
+    .popUpPoints {
+        font-style: italic;
+    }
+}
+
+// Messages 
+.message {
+    position: fixed;
+    top: 0;
+    font-weight: 600;
+    color: @textBlack;
+    width: 100%;
+    height: @headerHeight;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1;
+}
+
+// Header
+@headerHeight: 55px;
+@headerSideMargin: 7.5px;
+@logoDim: @headerHeight - 22.5px;
+
+html {
+    scroll-padding-top: @headerHeight + 5px;
+}
+
+header {
+    width: 100%;
+    height: @headerHeight;
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    color: @textBlack;
+    background-color: @green;
+    z-index: 1;
+
+    .menuBtn {
+        margin-left: @headerSideMargin;
+        padding: 10px 5px;
+        background-color: darken(@green, 15%);
+
+        &:hover {
+            background-color: darken(@green, 15%);
+        }
+    }
+
+    .collapsed {
+        background-color: @green;
+    }
+
+    #pointsDisplay {
+        margin: 0;
+    }
+
+    #logo {
+        margin-right: @headerSideMargin;
+        height: @logoDim;
+        width: @logoDim;
+    }
+}
+
+// Hamburger Nav Menu
+@linkBorder: 1px solid @textBlack;
+
+#navMenu {
+    position: fixed;
+    top: @headerHeight;
+    height: 80vh;
+    background-color: @blue;
+    z-index: 1;
+
+    #username {
+        font-weight: bold;
+        margin: 0 5px;
+    }
+
+    #topLinks, #lowerLinks {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100vw;
+
+        a {
+            padding: 10px;
+            border-bottom: @linkBorder;
+            color: @textBlack;
+            width: 100%;
+            text-align: center;
+
+            &:hover {
+                background-color: darken(@blue, 5%);
+            }
+        }
+
+        #topLink, #bottomLink {
+            border-top: @linkBorder;
+        }
+
+        #bottomLink {
+            border-bottom: none;
+        }
+    }
+
+    #topLinks {
+        margin-top: 30px;
+    }
+
+    #lowerLinks {
+        position: absolute;
+        bottom: 0;
+    }
+}
+
+#stretchHolder {
+    width: 100vw;
+    height: 0;
+}
+
+@addGoalDim: 45px;
+@distFromSides: 1.5vh;
+
+#addGoalBtn {
+    height: @addGoalDim;
+    width: @addGoalDim;
+    background-color: @orange;
+    position: fixed;
+    bottom: @distFromSides;
+    right: @distFromSides;
+    color: @textBlack;
+
+    .centerItem();
+
+    &:hover {
+        background-color: darken(@orange, 10%);
+    }
+}
+
+#themeSwitcher {
+    width: 25px;
+}
+
+#themeSwitcher:hover {
+    color: white;
+}
+
+// Goals List
+#noElesMsg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10vh;
+
+    a {
+        text-decoration: underline;
+        margin-left: 4px;
+    }
+}
+
+@ligthenPerc: 5%;
+.Low {
+    background-color: lighten(@blue, @ligthenPerc);
+}
+
+.Medium {
+    background-color: lighten(@orange, @ligthenPerc);
+}
+
+.High {
+    background-color: lighten(@red, @ligthenPerc);
+}
+
+@marginBetween: 15px;
+.goalCard {
+    position: relative;
+    width: @cardWidth;
+    margin: auto;
+    margin-top: 3vh;
+    margin-bottom: 1.5vh;
+
+    min-height: 220px;
+    font-size: 14px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    h2 {
+        font-size: medium;
+        text-align: center;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+
+    .completeBtn {
+        background-color: @yellow;
+        width: fit-content;
+        padding: 5px;
+        margin: 0 auto 5px;
+    }
+
+    .completedMsg {
+        font-weight: bold;
+    }
+
+    .editLink {
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        width: 30px;
+        height: 25px;
+        background-color: @orange;
+        color: @textBlack;
+
+        .centerItem();
+    }
+
+    .descript {
+        width: 92.5%;
+        background-color: white;
+        margin: 0 auto @marginBetween;
+        
+        max-height: 150px;
+        overflow-y: scroll;
+        padding: 0 5px;
+    }
+
+    .deadline, .priority {
+        margin-left: 3.75%;
+    }
+
+    .deadline {
+        span {
+            font-style: italic;
+        }
+    }
+
+    // .priority {
+        
+    // }
+
+    @progBarHeight: 25px;
+    .prog {
+        position: relative;
+        margin: 0 auto @marginBetween;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 85%;
+
+        .progBar {
+            width: 100%;
+            background-color: white;
+            height: @progBarHeight;
+
+            .bar {
+                height: @progBarHeight;
+                background-color: @green;
+            }
+
+            p {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 0;
+            }
+        }
+    }
+}
+
+// Overlay
+#overlay {
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.35);
+    z-index: 10;
+}
+
+// 404 Pages
+#notFoundLink {
+    text-decoration: underline;
+    position: absolute;
+    top: 25vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    text-align: center;
+}

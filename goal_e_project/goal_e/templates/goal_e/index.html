@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css/js %}
+    <script src="{% static 'goal_e/js/utils.js' %}"></script>
+{% endblock %}
+
+{% block main %}
+
+    <h1 class="pageTitle">{{ title }}</h1>
+
+    {% if goal_list|length == 0 %}
+
+        {% if title == 'Current Goals' %}
+            <div id="noElesMsg">
+                <p>There are no goals yet!</p>
+                <a href="{% url 'goal_e:new_goal' %}">Add one now</a>
+            </div>
+        {% else %}
+            <div id="noElesMsg">
+                <p>None yet!</p>
+                <a href="{% url 'goal_e:index' %}">Check current goals</a>
+            </div>
+        {% endif %}
+
+    {% else %}
+        
+        {% csrf_token %}
+        
+        <!-- Goal List -->
+        {% for goal in goal_list %}
+            
+            <div class="goalCard {{goal.get_priority_display}}" id="{{ goal.id }}">
+                <h2>{{ goal.title }}</h2>
+                
+                <a class="editLink" href="{% url 'goal_e:edit_goal' goal.id %}">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                
+                {% if goal.description %}
+                    <div class="descript">{{ goal.description }}</div>
+                {% endif %}
+
+                <div class="deadline">Deadline: <span>{{ goal.get_deadline_str }}</span></div>
+                <div class="priority">{{ goal.get_priority_display }} Priority</div>
+                
+                <div class="prog">
+                    <p>Progress</p>
+
+                    <div class="progBar">
+                        <div class="bar" style="width:{{ goal.progress }}%"></div>
+                        <p>{{ goal.get_progress_str }}</p>
+                    </div>
+                </div>
+
+                {% if goal.completed %}
+                    <button class="completeBtn completedMsg" id="completeBtn{{ goal.id }}" type="button">Completed on {{ goal.get_completed_str }}!</button>
+                {% else %}
+                    <button class="completeBtn" id="completeBtn{{ goal.id }}" type="button" onclick="markGoalComplete({{ goal.id }})">Mark as complete!</button>
+                {% endif %}
+            </div>
+        
+        {% endfor %}
+        
+        <!-- Mark Goal as Complete Pop-up -->
+        <div id="completedPopUp" class="hide">
+            <p id="upperPopUp">
+                Congratulations on completing the goal: <span class="popUpTitle"></span>!
+                You have earned <span class="popUpPoints"></span> points!</p>
+            </p>
+
+            <p id="lowerPopUp">Click anywhere to continue</p>
+        </div>
+
+        {% if goal_list|length > 2 %}
+            <!-- Extra Space for Add Goal Button -->
+            <br><br>   
+        {% endif %}
+
+        {% if prev_action %}
+            <!--Notification Message-->
+
+            {% if prev_action == 'new goal' %}
+                <p class="message green">
+                    Goal Set!
+                </p>
+            {% elif prev_action == 'delete goal' %}
+                <p class="message red">
+                    Goal Deleted
+                </p>
+            {% endif %}
+
+            <script>
+                hideNotification(1);
+            </script>
+        {% endif %}
+    
+    {% endif %}
+        
+
+{% endblock %}
