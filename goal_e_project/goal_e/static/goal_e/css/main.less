@@ -262,6 +262,7 @@ textarea {
 // Header
 @headerHeight: 55px;
 @headerSideMargin: 7.5px;
+@logoDim: @headerHeight - 22.5px;
 
 html {
     scroll-padding-top: @headerHeight + 5px;
@@ -299,11 +300,8 @@ header {
 
     #logo {
         margin-right: @headerSideMargin;
-        height: @headerHeight - 10px;
-        width: @headerHeight - 10px;
-        
-        .testBorder();
-        .centerItem();
+        height: @logoDim;
+        width: @logoDim;
     }
 }
 

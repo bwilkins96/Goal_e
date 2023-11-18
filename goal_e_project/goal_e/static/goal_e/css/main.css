@@ -242,12 +242,8 @@ header #pointsDisplay {
 }
 header #logo {
   margin-right: 7.5px;
-  height: 45px;
-  width: 45px;
-  border: 1px solid black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height: 32.5px;
+  width: 32.5px;
 }
 #navMenu {
   position: fixed;

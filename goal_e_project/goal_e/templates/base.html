@@ -12,6 +12,8 @@
         <title>Goal-e</title>
         {% endblock %}
 
+        <link href="{% static 'goal_e/images/logo.png' %}" rel="icon">
+
         <!-- Load Bootstrap -->
         {% bootstrap_css %}
         {% bootstrap_javascript %}
@@ -36,10 +38,10 @@
             </div>
 
             <p id="pointsDisplay">15,000 points</p>
-
-            <div id="logo">
-                G
-            </div>
+            
+            <a href="{% url 'goal_e:index' %}">
+                <img id="logo" src="{% static 'goal_e/images/logo.png' %}">
+            </a>
         </header>
         
         <!-- Collapsible Nav Menu -->
