@@ -3,8 +3,10 @@ from datetime import date
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.http import HttpRequest, HttpResponseRedirect, JsonResponse
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.models import User
 
-from .models import Goal
+from .models import Goal, Profile
 
 from .utils import (
     prepare_goal_params, 
@@ -138,3 +140,17 @@ def resource_not_found(request: HttpRequest, exception=None):
     response.status_code = 404
 
     return response 
+
+def signup(request: HttpRequest):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        password_conf = request.POST['passwordConf']
+
+        if password == password_conf:
+            user = User.objects.create_user(username, password=password)
+            profile = Profile.objects.create(user=user)
+
+            login(request, user)
+
+    return render(request, 'auth/signup.html')
