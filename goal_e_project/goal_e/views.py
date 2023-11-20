@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.http import HttpRequest, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 from .models import Goal, Profile
 
@@ -17,6 +18,7 @@ from .utils import (
     get_prev_action
 )
 
+@login_required
 def index(request: HttpRequest):
     profile = request.user.profile
     goal_list = Goal.objects.filter(profile=profile, completed=None).order_by('deadline', '-priority')
@@ -29,6 +31,7 @@ def index(request: HttpRequest):
 
     return render(request, 'goal_e/index.html', context)
 
+@login_required
 def past_goals(request: HttpRequest):
     profile = request.user.profile
     goal_list = Goal.objects.filter(profile=profile).exclude(completed=None).order_by('-completed', '-priority')
@@ -40,6 +43,7 @@ def past_goals(request: HttpRequest):
 
     return render(request, 'goal_e/index.html', context)
 
+@login_required
 def new_goal(request: HttpRequest):
     if request.method == 'POST':
         [title, description, deadline, priority, progress] = prepare_goal_params(request)
@@ -68,6 +72,7 @@ def new_goal(request: HttpRequest):
    
     return render(request, 'goal_e/new_goal.html', context)
 
+@login_required
 def edit_goal(request: HttpRequest, goal_id: int):
     profile = request.user.profile
     goal = get_object_or_404(Goal, id=goal_id, profile=profile)
@@ -105,6 +110,7 @@ def edit_goal(request: HttpRequest, goal_id: int):
 
     return render(request, 'goal_e/edit_goal.html', context)
 
+@login_required
 def delete_goal(request: HttpRequest):
     if request.method == 'POST':
         goal_id = request.POST['id']
@@ -117,6 +123,7 @@ def delete_goal(request: HttpRequest):
 
     return HttpResponseRedirect(reverse('goal_e:index'))
 
+@login_required
 def complete_goal(request: HttpRequest, goal_id: int):
     response = {'error': 'operation unsuccessful'}
 
@@ -137,6 +144,7 @@ def complete_goal(request: HttpRequest, goal_id: int):
 
     return JsonResponse(response)
 
+@login_required
 def resource_not_found(request: HttpRequest, exception=None):
     if 'goals' in request.path:
         title = 'Goal Not Found'
@@ -177,6 +185,7 @@ def login_view(request: HttpRequest):
 
     return render(request, 'auth/login.html')
 
+@login_required
 def sign_out_view(request: HttpRequest):
     logout(request)
 
