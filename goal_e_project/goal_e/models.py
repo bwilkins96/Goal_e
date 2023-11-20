@@ -2,6 +2,7 @@ from datetime import date
 
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.models import User
 
 from .utils import get_full_date, days_before
 
@@ -62,3 +63,9 @@ class Goal(models.Model):
 
     def __str__(self):
         return self.title
+    
+class Profile(models.Model):
+    """User profile model class that extends built-in User model"""
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    points = models.IntegerField(default=0)
