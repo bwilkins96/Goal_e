@@ -15,7 +15,8 @@ from .utils import (
     get_week_from_today_str, 
     add_years, 
     num_str_with_commas,
-    get_prev_action
+    get_prev_action,
+    redirect_when_logged_in
 )
 
 @login_required
@@ -156,6 +157,7 @@ def resource_not_found(request: HttpRequest, exception=None):
 
     return response 
 
+@redirect_when_logged_in
 def signup_view(request: HttpRequest):
     if request.method == 'POST':
         username = request.POST['username']
@@ -171,6 +173,7 @@ def signup_view(request: HttpRequest):
 
     return render(request, 'auth/signup.html')
 
+@redirect_when_logged_in
 def login_view(request: HttpRequest):
     if request.method == 'POST':
         username = request.POST['username']

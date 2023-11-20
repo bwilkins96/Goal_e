@@ -2,7 +2,10 @@
 
 from datetime import date, timedelta
 
-def prepare_goal_params(request):
+from django.urls import reverse
+from django.http import HttpRequest, HttpResponseRedirect
+
+def prepare_goal_params(request: HttpRequest) -> list:
     return [
         request.POST['title'],
         request.POST['description'],
@@ -11,7 +14,7 @@ def prepare_goal_params(request):
         request.POST['progress'],
     ]
 
-def get_prev_action(request):
+def get_prev_action(request: HttpRequest):
     prev_action = request.session.get('prev_action')
     request.session['prev_action'] = None
 
@@ -44,3 +47,12 @@ def days_before(start: date, end: date) -> int:
 
 def num_str_with_commas(num: int | float) -> str:
     return f'{num:,}'
+
+def redirect_when_logged_in(func):
+    def inner(request: HttpRequest):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect(reverse('goal_e:index'))
+
+        return func(request)
+    
+    return inner
