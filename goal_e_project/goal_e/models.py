@@ -4,13 +4,24 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 
-from .utils import get_full_date, days_before
+from .utils import get_full_date, days_before, num_str_with_commas
 
 class Profile(models.Model):
     """User profile model class that extends built-in User model"""
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     points = models.IntegerField(default=0)
+
+    def add_points(self, points):
+        self.points += points
+
+        if self.points < 0:
+            self.points = 0
+
+        self.save()
+
+    def get_points_str(self):
+        return num_str_with_commas(self.points)
 
     def __str__(self):
         return f"{self.user.username}'s profile"
@@ -47,12 +58,26 @@ class Goal(models.Model):
     def get_completed_str(self):
         if self.completed:
             return get_full_date(self.completed)
+        
+    def add_points(self):
+        points = self.calculate_points()
+        self.profile.add_points(points)
+
+        return points
+    
+    def undo_points(self):
+        points = self.calculate_points()
+        self.profile.add_points(-points)
+
+        return points
     
     def complete_goal(self):
         self.completed = date.today()
         self.progress = 100.0
+        self.add_points()
 
     def undo_complete(self):
+        self.undo_points()
         self.completed = None
 
     def calculate_points(self):

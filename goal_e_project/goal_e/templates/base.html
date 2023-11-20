@@ -38,7 +38,7 @@
             </div>
 
             {% if user.is_authenticated %}
-            <p id="pointsDisplay">{{ user.profile.points }} points</p>
+            <p id="pointsDisplay">{{ user.profile.get_points_str }} points</p>
             {% endif %}
 
             <a href="{% url 'goal_e:index' %}">
