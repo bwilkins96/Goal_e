@@ -75,10 +75,16 @@ function updateGoalCard(id, resData) {
     progText.innerText = '100%';
 }
 
+function updatePointsDisplay(resData) {
+    const pointsDisplay = document.getElementById('pointsDisplay');
+    pointsDisplay.innerText = `${resData['newPointsTotal']} points`;
+}
+
 async function markGoalComplete(id) {
     responseData = await completeGoalReq(id);
     showCompletedPopUp(responseData);
     updateGoalCard(id, responseData);
+    updatePointsDisplay(responseData);
 }
 
 // Notification message handling functions
