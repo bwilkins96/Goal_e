@@ -141,11 +141,11 @@ def resource_not_found(request: HttpRequest, exception=None):
 
     return response 
 
-def signup(request: HttpRequest):
+def signup_view(request: HttpRequest):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        password_conf = request.POST['passwordConf']
+        password_conf = request.POST['confirmPassword']
 
         if password == password_conf:
             user = User.objects.create_user(username, password=password)
@@ -154,3 +154,17 @@ def signup(request: HttpRequest):
             login(request, user)
 
     return render(request, 'auth/signup.html')
+
+def login_view(request: HttpRequest):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            login(request, user)
+
+            return HttpResponseRedirect(reverse('goal_e:index'))
+
+    return render(request, 'auth/login.html')
