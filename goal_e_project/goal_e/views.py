@@ -168,3 +168,8 @@ def login_view(request: HttpRequest):
             return HttpResponseRedirect(reverse('goal_e:index'))
 
     return render(request, 'auth/login.html')
+
+def sign_out_view(request: HttpRequest):
+    logout(request)
+
+    return HttpResponseRedirect(reverse('goal_e:login'))
