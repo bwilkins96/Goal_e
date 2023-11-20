@@ -18,7 +18,8 @@ from .utils import (
 )
 
 def index(request: HttpRequest):
-    goal_list = Goal.objects.filter(completed=None).order_by('deadline', '-priority')
+    profile = request.user.profile
+    goal_list = Goal.objects.filter(profile=profile, completed=None).order_by('deadline', '-priority')
 
     context = {
         'title': 'Current Goals',
@@ -29,7 +30,8 @@ def index(request: HttpRequest):
     return render(request, 'goal_e/index.html', context)
 
 def past_goals(request: HttpRequest):
-    goal_list = Goal.objects.exclude(completed=None).order_by('-completed', '-priority')
+    profile = request.user.profile
+    goal_list = Goal.objects.filter(profile=profile).exclude(completed=None).order_by('-completed', '-priority')
 
     context = {
         'title': 'Past Goals',
@@ -41,12 +43,14 @@ def past_goals(request: HttpRequest):
 def new_goal(request: HttpRequest):
     if request.method == 'POST':
         [title, description, deadline, priority, progress] = prepare_goal_params(request)
+        profile = request.user.profile
 
         goal = Goal(title=title, 
                     description=description, 
                     deadline=deadline, 
                     priority=priority, 
-                    progress=progress)
+                    progress=progress,
+                    profile=profile)
         
         goal.full_clean()
         if goal.progress == 100.0:
@@ -65,7 +69,8 @@ def new_goal(request: HttpRequest):
     return render(request, 'goal_e/new_goal.html', context)
 
 def edit_goal(request: HttpRequest, goal_id: int):
-    goal = get_object_or_404(Goal, id=goal_id)
+    profile = request.user.profile
+    goal = get_object_or_404(Goal, id=goal_id, profile=profile)
 
     if request.method == 'POST':
         [title, description, deadline, priority, progress] = prepare_goal_params(request)
@@ -103,8 +108,9 @@ def edit_goal(request: HttpRequest, goal_id: int):
 def delete_goal(request: HttpRequest):
     if request.method == 'POST':
         goal_id = request.POST['id']
+        profile = request.user.profile
         
-        goal = get_object_or_404(Goal, id=goal_id)
+        goal = get_object_or_404(Goal, id=goal_id, profile=profile)
         goal.delete()
 
         request.session['prev_action'] = 'delete goal'
@@ -115,7 +121,8 @@ def complete_goal(request: HttpRequest, goal_id: int):
     response = {'error': 'operation unsuccessful'}
 
     if request.method == 'POST':
-        goal = get_object_or_404(Goal, id=goal_id)
+        profile = request.user.profile
+        goal = get_object_or_404(Goal, id=goal_id, profile=profile)
 
         goal.complete_goal()
         goal.save()
@@ -152,6 +159,7 @@ def signup_view(request: HttpRequest):
             profile = Profile.objects.create(user=user)
 
             login(request, user)
+            return HttpResponseRedirect(reverse('goal_e:index'))
 
     return render(request, 'auth/signup.html')
 

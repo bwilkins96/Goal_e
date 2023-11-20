@@ -6,6 +6,12 @@ from django.contrib.auth.models import User
 
 from .utils import get_full_date, days_before
 
+class Profile(models.Model):
+    """User profile model class that extends built-in User model"""
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    points = models.IntegerField(default=0)
+
 class Goal(models.Model):
     """Goal model class"""
 
@@ -23,6 +29,8 @@ class Goal(models.Model):
     progress = models.FloatField(default=0.0, validators=PROGRESS_VALIDATORS)
     priority = models.IntegerField(choices=PRIORITY_CHOICES, default=2)
     completed = models.DateField(null=True, blank=True)
+
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
     def get_progress_str(self):
         if self.progress % 1 == 0:
@@ -63,9 +71,3 @@ class Goal(models.Model):
 
     def __str__(self):
         return self.title
-    
-class Profile(models.Model):
-    """User profile model class that extends built-in User model"""
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    points = models.IntegerField(default=0)
