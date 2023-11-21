@@ -59,6 +59,15 @@ class Goal(models.Model):
         if self.completed:
             return get_full_date(self.completed)
         
+    def get_title_str(self):
+        str_len = 20
+        title_str = self.title[:str_len]
+
+        if len(self.title) > str_len:
+            title_str += '...'
+
+        return title_str
+        
     def add_points(self):
         points = self.calculate_points()
         self.profile.add_points(points)
