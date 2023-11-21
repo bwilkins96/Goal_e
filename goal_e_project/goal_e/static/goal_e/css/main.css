@@ -214,11 +214,12 @@ textarea {
 }
 #completedPopUp {
   text-align: center;
+  max-width: 400px;
 }
 #completedPopUp #upperPopUp {
   font-size: 15px;
   width: 95%;
-  margin: 20% auto 0;
+  margin: 50px auto 0;
 }
 #completedPopUp #lowerPopUp {
   font-size: 12px;
