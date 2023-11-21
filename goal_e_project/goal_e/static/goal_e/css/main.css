@@ -77,6 +77,7 @@ p {
 }
 form {
   width: 90%;
+  max-width: 500px;
   margin: 10px auto 0;
   display: flex;
   flex-direction: column;
@@ -99,6 +100,7 @@ form {
 #signupForm {
   min-height: 40vh;
   margin-top: 10vh;
+  max-width: 400px;
   justify-content: space-around;
 }
 #loginForm button[type='submit'],
@@ -369,6 +371,7 @@ header #logo {
 .goalCard {
   position: relative;
   width: 90%;
+  max-width: 450px;
   margin: auto;
   margin-top: 3vh;
   margin-bottom: 1.5vh;
@@ -459,4 +462,22 @@ header #logo {
   transform: translateX(-50%);
   width: 200px;
   text-align: center;
+}
+@media screen and (min-width: 1024px) {
+  #navMenu #topLinks,
+  #navMenu #lowerLinks {
+    width: 40vw;
+  }
+  #stretchHolder {
+    width: 40vw;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  #navMenu #topLinks,
+  #navMenu #lowerLinks {
+    width: 50vw;
+  }
+  #stretchHolder {
+    width: 50vw;
+  }
 }
