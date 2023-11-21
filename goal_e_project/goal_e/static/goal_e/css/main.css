@@ -471,6 +471,15 @@ header #logo {
   #stretchHolder {
     width: 40vw;
   }
+  #goalList {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  #goalList .goalCard {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 }
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   #navMenu #topLinks,

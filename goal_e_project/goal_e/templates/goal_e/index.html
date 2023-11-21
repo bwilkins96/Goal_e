@@ -29,6 +29,7 @@
         {% csrf_token %}
         
         <!-- Goal List -->
+        <div id="goalList">
         {% for goal in goal_list %}
             
             <div class="goalCard {{goal.get_priority_display}}" id="{{ goal.id }}">
@@ -62,6 +63,7 @@
             </div>
         
         {% endfor %}
+        </div>
         
         <!-- Mark Goal as Complete Pop-up -->
         <div id="completedPopUp" class="hide">
