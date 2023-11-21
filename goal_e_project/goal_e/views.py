@@ -16,7 +16,8 @@ from .utils import (
     add_years, 
     num_str_with_commas,
     get_prev_action,
-    redirect_when_logged_in
+    redirect_when_logged_in,
+    get_signup_errors
 )
 
 @login_required
@@ -159,19 +160,28 @@ def resource_not_found(request: HttpRequest, exception=None):
 
 @redirect_when_logged_in
 def signup_view(request: HttpRequest):
+    context = {}
+
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         password_conf = request.POST['confirmPassword']
 
-        if password == password_conf:
+        errors = get_signup_errors(username, password, password_conf)
+
+        if not errors:
             user = User.objects.create_user(username, password=password)
             profile = Profile.objects.create(user=user)
 
             login(request, user)
             return HttpResponseRedirect(reverse('goal_e:index'))
+        else:
+            context = {
+                'username': username,
+                'errors': errors
+            }
 
-    return render(request, 'auth/signup.html')
+    return render(request, 'auth/signup.html', context)
 
 @redirect_when_logged_in
 def login_view(request: HttpRequest):

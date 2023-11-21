@@ -1,9 +1,11 @@
 # Utility functions
 
+from collections import defaultdict
 from datetime import date, timedelta
 
 from django.urls import reverse
 from django.http import HttpRequest, HttpResponseRedirect
+from django.contrib.auth.models import User
 
 def prepare_goal_params(request: HttpRequest) -> list:
     return [
@@ -56,3 +58,18 @@ def redirect_when_logged_in(func):
         return func(request)
     
     return inner
+
+def user_already_exists(username: str) -> bool:
+    prev_user = User.objects.filter(username=username)
+    return bool(prev_user)
+
+def get_signup_errors(username, password, password_conf):
+    errors = defaultdict(list)
+
+    if user_already_exists(username):
+        errors['user'].append('Username already exists')
+
+    if password != password_conf:
+        errors['password'].append('Passwords do not match')
+
+    return errors
