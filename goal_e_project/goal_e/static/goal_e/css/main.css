@@ -95,6 +95,19 @@ form {
   width: 45%;
   margin-bottom: 10px;
 }
+#loginForm,
+#signupForm {
+  min-height: 40vh;
+  margin-top: 10vh;
+  justify-content: space-around;
+}
+#loginForm button[type='submit'],
+#signupForm button[type='submit'] {
+  width: 45%;
+}
+#loginForm {
+  padding: 15px 0;
+}
 label {
   font-weight: 600;
   margin-right: 10px;
@@ -179,6 +192,12 @@ textarea {
 #deleteBox #deleteConfirm:hover,
 #completedPopUp #deleteConfirm:hover {
   background-color: #ff808c;
+}
+#belowLogin {
+  font-size: 14px;
+  margin: 30px auto 0;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 #completedPopUp {
   text-align: center;

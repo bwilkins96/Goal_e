@@ -1,21 +1,28 @@
 {% extends 'base.html' %}
 
 {% block main %}
-    <form method="post">
+
+    <!-- Login Form -->
+    <form method="post" class="blue" id="loginForm">
         {% csrf_token %}
 
         <div class="formEle">
             <label for="username">Username</label>
-            <input type="text" id="username" name="username">
+            <input type="text" id="username" name="username" required>
         </div>
 
         <div class="formEle">
             <label for="password">Password</label>
-            <input type="password" id="password" name="password">
+            <input type="password" id="password" name="password" required>
         </div>
 
         <button type="submit">Log in</button>
     </form>
 
-    <p>No Account? <a href="{% url 'goal_e:signup' %}">Sign up here</a></p>
+    <p id="belowLogin">No Account? <a href="{% url 'goal_e:signup' %}">Sign up here</a></p>
+
+{% endblock %}
+
+{% comment %} Remove add button {% endcomment %}
+{% block bottom %}
 {% endblock %}

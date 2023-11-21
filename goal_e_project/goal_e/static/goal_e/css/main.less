@@ -120,6 +120,20 @@ form {
     }
 }
 
+#loginForm, #signupForm {
+    min-height: 40vh;
+    margin-top: 10vh;
+    justify-content: space-around;
+
+    button[type='submit'] {
+        width: 45%;
+    }
+}
+
+#loginForm {
+    padding: 15px 0;
+}
+
 label {
     font-weight: 600;
     margin-right: 10px;
@@ -217,6 +231,13 @@ textarea {
             background-color: darken(@red, 10%);
         }
     }
+}
+
+#belowLogin {
+    font-size: @smallerFont;
+    margin: 30px auto 0;
+
+    .fit-content();
 }
 
 // Mark Goal as Complete Pop-up

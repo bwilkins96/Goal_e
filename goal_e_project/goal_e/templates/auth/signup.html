@@ -1,26 +1,33 @@
 {% extends 'base.html' %}
 
 {% block main %}
-    <form method="post">
+
+    <!-- Signup Form -->
+    <form method="post" class="yellow" id="signupForm">
         {% csrf_token %}
 
         <div class="formEle">
             <label for="username">Username</label>
-            <input type="text" id="username" name="username">
+            <input type="text" id="username" name="username" required>
         </div>
 
         <div class="formEle">
             <label for="password">Password</label>
-            <input type="password" id="password" name="password">
+            <input type="password" id="password" name="password" required>
         </div>
 
         <div class="formEle">
             <label for="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword" name="confirmPassword">
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
         </div>
 
         <button type="submit">Sign up</button>
     </form>
 
-    <p>Have an Account? <a href="{% url 'goal_e:login' %}">Log in here</a></p>
+    <p id="belowLogin">Have an Account? <a href="{% url 'goal_e:login' %}">Log in here</a></p>
+
+{% endblock %}
+
+{% comment %} Remove add button {% endcomment %}
+{% block bottom %}
 {% endblock %}
