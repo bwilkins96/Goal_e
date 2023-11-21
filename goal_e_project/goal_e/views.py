@@ -175,6 +175,8 @@ def signup_view(request: HttpRequest):
 
 @redirect_when_logged_in
 def login_view(request: HttpRequest):
+    context = {}
+
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -185,8 +187,13 @@ def login_view(request: HttpRequest):
             login(request, user)
 
             return HttpResponseRedirect(reverse('goal_e:index'))
+        else:
+            context = {
+                'username': username,
+                'message': 'Invalid username and/or password'
+            } 
 
-    return render(request, 'auth/login.html')
+    return render(request, 'auth/login.html', context)
 
 @login_required
 def sign_out_view(request: HttpRequest):

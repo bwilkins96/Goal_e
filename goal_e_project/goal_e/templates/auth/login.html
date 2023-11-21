@@ -8,7 +8,7 @@
 
         <div class="formEle">
             <label for="username">Username</label>
-            <input type="text" id="username" name="username" required>
+            <input type="text" id="username" name="username" value="{{ username }}" required>
         </div>
 
         <div class="formEle">
@@ -20,6 +20,10 @@
     </form>
 
     <p id="belowLogin">No Account? <a href="{% url 'goal_e:signup' %}">Sign up here</a></p>
+
+    {% if message %}
+        <p id="invalidMsg">{{ message }}</p>
+    {% endif %}
 
 {% endblock %}
 
