@@ -3,9 +3,9 @@
 {% block main %}
 
     <div id="calendarTitle">
-        <a id="left" href="#"><i class="fa-solid fa-chevron-left fa-xl"></i></a>
+        <a id="left" href="{% url 'goal_e:calendar' prev.0 prev.1 %}"><i class="fa-solid fa-chevron-left fa-xl"></i></a>
         <h1>{{ title }}</h1>  
-        <a id="right" href="#"><i class="fa-solid fa-chevron-right fa-xl"></i></a>
+        <a id="right" href="{% url 'goal_e:calendar' next.0 next.1 %}"><i class="fa-solid fa-chevron-right fa-xl"></i></a>
     </div>
 
     <table class="calendar">
