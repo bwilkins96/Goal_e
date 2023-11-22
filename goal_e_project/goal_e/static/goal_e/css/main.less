@@ -576,6 +576,63 @@ header {
     text-align: center;
 }
 
+// Calendar
+
+@calendarWidth: 95%;
+
+.calendar {
+    margin: 0 auto;
+    width: @calendarWidth;
+    min-height: 80vh;
+    table-layout: fixed;
+
+    .testBorder;
+
+    .False {
+        color: gray;
+    }
+
+    thead {
+        background-color: @orange;
+    }
+
+    td {
+        .testBorder();
+        vertical-align: top;
+    }
+}
+
+#calendarTitle {
+    display: flex;
+    margin: 1vh auto 1vh;
+    align-items: center;
+
+    .fit-content();
+
+    a {
+        color: @textBlack;
+        padding: 5px 10px;
+        background-color: @yellow; 
+        border: 1px solid black;
+
+        &:hover {
+            background-color: darken(@yellow, 15%);
+        }
+    }
+
+    #left {
+        margin-right: 10px;
+    }
+
+    #right {
+        margin-left: 10px;
+    }
+
+    h1 {
+        margin: 0;
+    }
+}
+
 // Laptop screens
 @media screen and (min-width: 1024px) {
     @laptopNavWidth: 40vw;

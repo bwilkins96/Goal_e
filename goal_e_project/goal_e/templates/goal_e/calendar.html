@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 
 {% block main %}
-    
+
+    <div id="calendarTitle">
+        <a id="left" href="#"><i class="fa-solid fa-chevron-left fa-xl"></i></a>
+        <h1>{{ title }}</h1>  
+        <a id="right" href="#"><i class="fa-solid fa-chevron-right fa-xl"></i></a>
+    </div>
+
     <table class="calendar">
         <thead>
             <tr>

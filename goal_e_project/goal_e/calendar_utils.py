@@ -12,6 +12,9 @@ def get_next_month_year(month: int, year: int):
 
     return (month+1, year)
 
+def get_month_year_str(month: int, year: int):
+    return f'{calendar.month_name[month]}, {year}'
+
 class MonthCalendar:
     def __init__(self, month: int, year: int):
         self.data = self._get_calendar_data(month, year)

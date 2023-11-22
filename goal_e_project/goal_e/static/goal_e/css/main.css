@@ -464,6 +464,48 @@ header #logo {
   width: 200px;
   text-align: center;
 }
+.calendar {
+  margin: 0 auto;
+  width: 95%;
+  min-height: 80vh;
+  table-layout: fixed;
+  border: 1px solid black;
+}
+.calendar .False {
+  color: gray;
+}
+.calendar thead {
+  background-color: #ffdfba;
+}
+.calendar td {
+  border: 1px solid black;
+  vertical-align: top;
+}
+#calendarTitle {
+  display: flex;
+  margin: 1vh auto 1vh;
+  align-items: center;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+#calendarTitle a {
+  color: #212529;
+  padding: 5px 10px;
+  background-color: #ffffba;
+  border: 1px solid black;
+}
+#calendarTitle a:hover {
+  background-color: #ffff6e;
+}
+#calendarTitle #left {
+  margin-right: 10px;
+}
+#calendarTitle #right {
+  margin-left: 10px;
+}
+#calendarTitle h1 {
+  margin: 0;
+}
 @media screen and (min-width: 1024px) {
   #navMenu #topLinks,
   #navMenu #lowerLinks {
