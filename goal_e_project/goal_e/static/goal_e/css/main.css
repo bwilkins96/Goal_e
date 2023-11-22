@@ -484,9 +484,10 @@ header #logo {
 #calendarTitle {
   display: flex;
   margin: 1vh auto 1vh;
+  justify-content: space-between;
   align-items: center;
-  width: -moz-fit-content;
-  width: fit-content;
+  width: 95%;
+  max-width: 425px;
 }
 #calendarTitle a {
   color: #212529;

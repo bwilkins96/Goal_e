@@ -605,9 +605,10 @@ header {
 #calendarTitle {
     display: flex;
     margin: 1vh auto 1vh;
+    justify-content: space-between;
     align-items: center;
-
-    .fit-content();
+    width: @calendarWidth;
+    max-width: 425px;
 
     a {
         color: @textBlack;
