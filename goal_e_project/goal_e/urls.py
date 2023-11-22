@@ -11,5 +11,7 @@ urlpatterns = [
     path('goals/<int:goal_id>/complete', views.complete_goal, name='complete_goal'),
     path('signup', views.signup_view, name='signup'),
     path('login', views.login_view, name='login'),
-    path('signOut', views.sign_out_view, name='sign_out')
+    path('signOut', views.sign_out_view, name='sign_out'),
+    path('calendar/<int:month>/<int:year>', views.calendar_view, name='calendar'),
+    path('calendar', views.calendar_view, name='calendar_default')
 ]

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    
+    <table class="calendar">
+        <thead>
+            <tr>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+                <th>Sun</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for week in calendar %}
+            
+            <tr>
+            {% for day, current in week %}
+            
+                <td class="{{ current }}">{{ day }}</td>
+
+            {% endfor %}
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

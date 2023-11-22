@@ -54,7 +54,7 @@
             <div id="topLinks">
                 <a href="{% url 'goal_e:index' %}" id="topLink">Current Goals</a>
                 <a href="{% url 'goal_e:past_goals' %}">Past Goals</a>
-                <a href="#">Calendar</a>
+                <a href="{% url 'goal_e:calendar_default' %}">Calendar</a>
             </div>
 
             {% if user.is_authenticated %}
