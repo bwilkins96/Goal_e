@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css/js %}
+    <script src="{% static 'goal_e/js/utils.js' %}"></script>
+{% endblock %}
+
+{% block main %}
+
+    <!-- Signup Form -->
+    <form method="post" class="yellow" id="signupForm" onsubmit="validateSignUpForm(event)">
+        {% csrf_token %}
+
+        <div class="formEle">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" value="{{ username }}" required>
+        </div>
+
+        <div class="formEle">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <div class="formEle">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+        </div>
+
+        <button type="submit">Sign up</button>
+    </form>
+
+    <p id="belowLogin">Have an Account? <a href="{% url 'goal_e:login' %}">Log in here</a></p>
+
+    {% if errors %}
+        
+    <div id="invalidMsg">
+        {% if errors.user %}
+            <p>{{ errors.user.0 }}</p>
+        {% endif %}
+
+        {% if errors.password %}
+            <p>{{ errors.password.0 }}</p>
+        {% endif %}    
+    </div>
+
+    {% endif %}
+
+{% endblock %}
+
+{% comment %} Remove add button {% endcomment %}
+{% block bottom %}
+{% endblock %}

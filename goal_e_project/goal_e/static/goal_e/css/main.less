@@ -98,6 +98,7 @@ p {
 // Forms
 form {
     width: @cardWidth;
+    max-width: 500px;
     margin: 10px auto 0;
     display: flex;
     flex-direction: column;
@@ -120,14 +121,36 @@ form {
     }
 }
 
+#loginForm, #signupForm {
+    min-height: 40vh;
+    margin-top: 10vh;
+    max-width: 400px;
+    justify-content: space-around;
+
+    button[type='submit'] {
+        width: 45%;
+    }
+}
+
+#loginForm {
+    padding: 15px 0;
+
+    
+    button[type='submit'] {
+        margin-top: 25px;
+    }
+}
+
+#signupForm {
+    button[type='submit'] {
+        margin-bottom: 15px;
+        margin-top: 10px;
+    }
+}
+
 label {
     font-weight: 600;
     margin-right: 10px;
-}
-
-input[type='text'] {
-    padding: 5px;
-    border-radius: 5px;
 }
 
 input[type='checkbox'], input[type='radio'] {
@@ -219,14 +242,31 @@ textarea {
     }
 }
 
+#belowLogin {
+    font-size: @smallerFont;
+    margin: 30px auto 0;
+
+    .fit-content();
+}
+
+#invalidMsg {
+    position: absolute;
+    top: @headerHeight;
+    font-size: @smallerFont;
+    text-align: center;
+    width: 100%;
+    background-color: @red;
+}
+
 // Mark Goal as Complete Pop-up
 #completedPopUp {
     text-align: center;
+    max-width: 400px;
 
     #upperPopUp {
         font-size: 15px;
         width: 95%;
-        margin: 20% auto 0;
+        margin: 50px auto 0;
     }
 
     #lowerPopUp {
@@ -419,6 +459,7 @@ header {
 .goalCard {
     position: relative;
     width: @cardWidth;
+    max-width: 450px;
     margin: auto;
     margin-top: 3vh;
     margin-bottom: 1.5vh;
@@ -534,3 +575,46 @@ header {
     width: 200px;
     text-align: center;
 }
+
+// Laptop screens
+@media screen and (min-width: 1024px) {
+    @laptopNavWidth: 40vw;
+    
+    #navMenu {
+        #topLinks, #lowerLinks {
+            width: @laptopNavWidth;
+        }
+    }
+    
+    
+    #stretchHolder {
+        width: @laptopNavWidth;
+    }
+
+    #goalList {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+
+        .goalCard {
+            margin-left: 10px;
+            margin-right: 10px; 
+        }
+    }
+} 
+
+// Tablet screens
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    @tabletNavWidth: 50vw;
+    
+    #navMenu {
+        #topLinks, #lowerLinks {
+            width: @tabletNavWidth;
+        }
+    }
+    
+    
+    #stretchHolder {
+        width: @tabletNavWidth;
+    }
+} 

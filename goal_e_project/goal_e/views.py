@@ -3,8 +3,11 @@ from datetime import date
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.http import HttpRequest, HttpResponseRedirect, JsonResponse
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
-from .models import Goal
+from .models import Goal, Profile
 
 from .utils import (
     prepare_goal_params, 
@@ -12,11 +15,15 @@ from .utils import (
     get_week_from_today_str, 
     add_years, 
     num_str_with_commas,
-    get_prev_action
+    get_prev_action,
+    redirect_when_logged_in,
+    get_signup_errors
 )
 
+@login_required
 def index(request: HttpRequest):
-    goal_list = Goal.objects.filter(completed=None).order_by('deadline', '-priority')
+    profile = request.user.profile
+    goal_list = Goal.objects.filter(profile=profile, completed=None).order_by('deadline', '-priority')
 
     context = {
         'title': 'Current Goals',
@@ -26,8 +33,10 @@ def index(request: HttpRequest):
 
     return render(request, 'goal_e/index.html', context)
 
+@login_required
 def past_goals(request: HttpRequest):
-    goal_list = Goal.objects.exclude(completed=None).order_by('-completed', '-priority')
+    profile = request.user.profile
+    goal_list = Goal.objects.filter(profile=profile).exclude(completed=None).order_by('-completed', '-priority')
 
     context = {
         'title': 'Past Goals',
@@ -36,15 +45,18 @@ def past_goals(request: HttpRequest):
 
     return render(request, 'goal_e/index.html', context)
 
+@login_required
 def new_goal(request: HttpRequest):
     if request.method == 'POST':
         [title, description, deadline, priority, progress] = prepare_goal_params(request)
+        profile = request.user.profile
 
         goal = Goal(title=title, 
                     description=description, 
                     deadline=deadline, 
                     priority=priority, 
-                    progress=progress)
+                    progress=progress,
+                    profile=profile)
         
         goal.full_clean()
         if goal.progress == 100.0:
@@ -62,8 +74,10 @@ def new_goal(request: HttpRequest):
    
     return render(request, 'goal_e/new_goal.html', context)
 
+@login_required
 def edit_goal(request: HttpRequest, goal_id: int):
-    goal = get_object_or_404(Goal, id=goal_id)
+    profile = request.user.profile
+    goal = get_object_or_404(Goal, id=goal_id, profile=profile)
 
     if request.method == 'POST':
         [title, description, deadline, priority, progress] = prepare_goal_params(request)
@@ -98,22 +112,26 @@ def edit_goal(request: HttpRequest, goal_id: int):
 
     return render(request, 'goal_e/edit_goal.html', context)
 
+@login_required
 def delete_goal(request: HttpRequest):
     if request.method == 'POST':
         goal_id = request.POST['id']
+        profile = request.user.profile
         
-        goal = get_object_or_404(Goal, id=goal_id)
+        goal = get_object_or_404(Goal, id=goal_id, profile=profile)
         goal.delete()
 
         request.session['prev_action'] = 'delete goal'
 
     return HttpResponseRedirect(reverse('goal_e:index'))
 
+@login_required
 def complete_goal(request: HttpRequest, goal_id: int):
     response = {'error': 'operation unsuccessful'}
 
     if request.method == 'POST':
-        goal = get_object_or_404(Goal, id=goal_id)
+        profile = request.user.profile
+        goal = get_object_or_404(Goal, id=goal_id, profile=profile)
 
         goal.complete_goal()
         goal.save()
@@ -121,13 +139,14 @@ def complete_goal(request: HttpRequest, goal_id: int):
         points = goal.calculate_points()
         response = {
             'pointsAdded': num_str_with_commas(points),
-            'newPointsTotal': 'to be implemented!',
+            'newPointsTotal': goal.profile.get_points_str(),
             'dateStr': goal.get_completed_str(),
             'title': goal.title
         }
 
     return JsonResponse(response)
 
+@login_required
 def resource_not_found(request: HttpRequest, exception=None):
     if 'goals' in request.path:
         title = 'Goal Not Found'
@@ -138,3 +157,56 @@ def resource_not_found(request: HttpRequest, exception=None):
     response.status_code = 404
 
     return response 
+
+@redirect_when_logged_in
+def signup_view(request: HttpRequest):
+    context = {}
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        password_conf = request.POST['confirmPassword']
+
+        errors = get_signup_errors(username, password, password_conf)
+
+        if not errors:
+            user = User.objects.create_user(username, password=password)
+            profile = Profile.objects.create(user=user)
+
+            login(request, user)
+            return HttpResponseRedirect(reverse('goal_e:index'))
+        else:
+            context = {
+                'username': username,
+                'errors': errors
+            }
+
+    return render(request, 'auth/signup.html', context)
+
+@redirect_when_logged_in
+def login_view(request: HttpRequest):
+    context = {}
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            login(request, user)
+
+            return HttpResponseRedirect(reverse('goal_e:index'))
+        else:
+            context = {
+                'username': username,
+                'message': 'Invalid username and/or password'
+            } 
+
+    return render(request, 'auth/login.html', context)
+
+@login_required
+def sign_out_view(request: HttpRequest):
+    logout(request)
+
+    return HttpResponseRedirect(reverse('goal_e:login'))

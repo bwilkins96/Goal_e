@@ -37,8 +37,10 @@
                 <i class="fa-solid fa-bars fa-2xl"></i>
             </div>
 
-            <p id="pointsDisplay">15,000 points</p>
-            
+            {% if user.is_authenticated %}
+            <p id="pointsDisplay">{{ user.profile.get_points_str }} points</p>
+            {% endif %}
+
             <a href="{% url 'goal_e:index' %}">
                 <img id="logo" src="{% static 'goal_e/images/logo.png' %}">
             </a>
@@ -47,7 +49,7 @@
         <!-- Collapsible Nav Menu -->
         <nav id="navMenu" class="collapse collapse-horizontal">
             <div id="stretchHolder"></div>
-            <div id="username">username</div>
+            <div id="username">{{ user }}</div>
 
             <div id="topLinks">
                 <a href="{% url 'goal_e:index' %}" id="topLink">Current Goals</a>
@@ -55,9 +57,11 @@
                 <a href="#">Calendar</a>
             </div>
 
+            {% if user.is_authenticated %}
             <div id="lowerLinks">
-                <a href="#" id="bottomLink">Sign Out</a>
+                <a href="{% url 'goal_e:sign_out' %}" id="bottomLink">Sign Out</a>
             </div>
+            {% endif %}
         </nav>
 
         <!-- Main Content -->

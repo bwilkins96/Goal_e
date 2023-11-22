@@ -75,10 +75,16 @@ function updateGoalCard(id, resData) {
     progText.innerText = '100%';
 }
 
+function updatePointsDisplay(resData) {
+    const pointsDisplay = document.getElementById('pointsDisplay');
+    pointsDisplay.innerText = `${resData['newPointsTotal']} points`;
+}
+
 async function markGoalComplete(id) {
     responseData = await completeGoalReq(id);
     showCompletedPopUp(responseData);
     updateGoalCard(id, responseData);
+    updatePointsDisplay(responseData);
 }
 
 // Notification message handling functions
@@ -88,4 +94,34 @@ function hideNotification(secondsDelay) {
     setTimeout(() => {
         notif.classList.add('hide');
     }, secondsDelay * 1000);
+}
+
+// Signup form validation
+function clearMessage() {
+    message = document.getElementById('invalidMsg');
+    
+    if (message) {
+        message.remove();
+    }
+}
+
+function handleNonMatchingPasswords() {
+    const message = document.createElement('p');
+    message.id = 'invalidMsg';
+    message.innerText = 'Passwords do not match';
+
+    document.body.appendChild(message);
+}
+
+function validateSignUpForm(e) {
+    clearMessage();
+
+    const form = document.getElementById('signupForm');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
+
+    if (password.value !== confirmPassword.value) {
+        e.preventDefault();
+        handleNonMatchingPasswords();
+    }
 }
