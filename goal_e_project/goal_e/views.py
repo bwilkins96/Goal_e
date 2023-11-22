@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Goal, Profile
 
 from .calendar_utils import (
-    MonthCalendar, 
+    GoalCalendar, 
     get_month_year_str, 
     get_next_month_year, 
     get_prev_month_year
@@ -220,9 +220,11 @@ def sign_out_view(request: HttpRequest):
 
 @login_required
 def calendar_view(request: HttpRequest, month: int = 11, year: int = 2023):
+    profile = request.user.profile
+
     context = {
         'title': get_month_year_str(month, year),
-        'calendar': MonthCalendar(month, year).data,
+        'calendar': GoalCalendar(month, year, profile).data,
         'next': get_next_month_year(month, year),
         'prev': get_prev_month_year(month, year)
     }

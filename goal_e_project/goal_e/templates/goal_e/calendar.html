@@ -25,9 +25,9 @@
         {% for week in calendar %}
             
             <tr>
-            {% for day, current in week %}
+            {% for node in week %}
             
-                <td class="{{ current }}">{{ day }}</td>
+                <td class="{{ node.current_month }}">{{ node.day }}</td>
 
             {% endfor %}
             </tr>
