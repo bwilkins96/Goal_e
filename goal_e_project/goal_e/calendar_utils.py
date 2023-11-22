@@ -40,14 +40,26 @@ class GoalCalendar:
             for i, day in enumerate(week):
                 week[i] = GoalCalendarNode(day, True if day else False)
 
+    def _get_first_day_idx(self, data: list):
+        for i, node in enumerate(data[0]):
+            if node.day == 1:
+                return i
+            
     def _add_goals_to_data(self, data: list, month: int, year: int, profile: Profile):
         first = date(year, month, 1)
         last = date(year, month, last_of_month(month, year))
 
-        goals = Goal.objects.filter(profile=profile, deadline__gte=first, deadline__lte=last)
+        goals = Goal.objects.filter(profile=profile, completed=None, deadline__gte=first, deadline__lte=last)
 
+        first_day_idx = self._get_first_day_idx(data)
         for goal in goals:
-            pass
+            goal_day = goal.deadline.day
+            
+            abs_idx = first_day_idx + goal_day - 1
+            week_idx = abs_idx // 7
+            day_idx = abs_idx % 7
+
+            data[week_idx][day_idx].goals.append(goal)
         
     def _get_calendar_data(self, month: int, year: int, profile: Profile) -> list:
         data = calendar.monthcalendar(year, month)

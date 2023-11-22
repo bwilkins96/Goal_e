@@ -27,7 +27,13 @@
             <tr>
             {% for node in week %}
             
-                <td class="{{ node.current_month }}">{{ node.day }}</td>
+                <td class="{{ node.current_month }}">
+                    {{ node.day }}
+                    
+                    {% if node.goals %}
+                        here!
+                    {% endif %}
+                </td>
 
             {% endfor %}
             </tr>
