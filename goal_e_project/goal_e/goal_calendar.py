@@ -20,6 +20,12 @@ def get_next_month_year(month: int, year: int):
 def get_month_year_str(month: int, year: int):
     return f'{calendar.month_name[month]}, {year}'
 
+def get_month_input_val(month: int, year: int):
+    if month < 10:
+        month = f'0{month}'
+
+    return f'{year}-{month}'
+
 def last_of_month(month: int, year: int):
     return calendar.monthrange(year, month)[1]
 

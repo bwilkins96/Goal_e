@@ -1,10 +1,33 @@
 {% extends 'base.html' %}
 
+{% block css/js %}
+    <script>
+        // Redirect calendar on input change 
+
+        function getMonthYear(inputVal) {
+            let [year, month] = inputVal.split('-');
+            month = Number(month);
+
+            return [month, year]
+        }
+
+        function handleMonthChange() {
+            const monthVal = document.getElementById('monthInput').value;            
+            const [month, year] = getMonthYear(monthVal); 
+           
+            const url = "{% url 'goal_e:calendar_default' %}";
+            window.location = `${url}/${month}/${year}`; 
+        }
+    </script>
+{% endblock %}
+
 {% block main %}
 
     <div id="calendarTitle">
         <a id="left" href="{% url 'goal_e:calendar' prev.0 prev.1 %}"><i class="fa-solid fa-chevron-left fa-xl"></i></a>
-        <h1>{{ title }}</h1>  
+        
+        <input type="month" value="{{ month_input_val }}" id="monthInput" onchange="handleMonthChange()"></input>  
+        
         <a id="right" href="{% url 'goal_e:calendar' next.0 next.1 %}"><i class="fa-solid fa-chevron-right fa-xl"></i></a>
     </div>
 

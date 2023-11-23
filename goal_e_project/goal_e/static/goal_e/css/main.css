@@ -512,14 +512,17 @@ header #logo {
   background-color: #ffff6e;
 }
 #calendarTitle #left {
-  margin-right: 10px;
+  margin-right: 5px;
 }
 #calendarTitle #right {
-  margin-left: 10px;
+  margin-left: 5px;
 }
-#calendarTitle h1 {
+#calendarTitle input {
   margin: 0;
-  font-size: calc(1.3rem + 1.5vw);
+  font-size: calc(1.2rem + 1.5vw);
+  font-family: 'Pangolin', sans-serif;
+  border: none;
+  text-align: center;
 }
 #dailyTitle {
   font-size: calc(1.15rem + 1.5vw);

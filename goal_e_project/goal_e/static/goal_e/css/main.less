@@ -579,6 +579,7 @@ header {
 // Calendar
 
 @calendarWidth: 95%;
+@arrowMargin: 5px;
 
 .calendar {
     margin: 0 auto;
@@ -637,16 +638,19 @@ header {
     }
 
     #left {
-        margin-right: 10px;
+        margin-right: @arrowMargin;
     }
 
     #right {
-        margin-left: 10px;
+        margin-left: @arrowMargin;
     }
 
-    h1 {
+    input {
         margin: 0;
-        font-size: calc(1.3rem + 1.5vw);;
+        font-size: calc(1.2rem + 1.5vw);
+        font-family: 'Pangolin', sans-serif;
+        border: none;
+        text-align: center;
     }
 }
 
