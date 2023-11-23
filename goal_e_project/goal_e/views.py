@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Goal, Profile
 
-from .calendar_utils import (
+from .goal_calendar import (
     GoalCalendar, 
     get_month_year_str, 
     get_next_month_year, 
@@ -24,7 +24,8 @@ from .utils import (
     num_str_with_commas,
     get_prev_action,
     redirect_when_logged_in,
-    get_signup_errors
+    get_signup_errors,
+    get_full_date
 )
 
 @login_required
@@ -226,7 +227,25 @@ def calendar_view(request: HttpRequest, month: int = 11, year: int = 2023):
         'title': get_month_year_str(month, year),
         'calendar': GoalCalendar(month, year, profile).data,
         'next': get_next_month_year(month, year),
-        'prev': get_prev_month_year(month, year)
+        'prev': get_prev_month_year(month, year),
+        'month': month,
+        'year': year
     }
 
     return render(request, 'goal_e/calendar.html', context)
+
+@login_required
+def daily_goals(request: HttpRequest, month: int, day: int, year: int):
+    profile = request.user.profile
+    day_date = date(year, month, day)
+    goal_list = Goal.objects.filter(profile=profile, completed=None, deadline=day_date).order_by('-priority')
+
+    context = {
+        'title': f'Goals for {get_full_date(day_date)}',
+        'goal_list': goal_list,
+        'prev_action': get_prev_action(request),
+        'month': month,
+        'year': year
+    }
+
+    return render(request, 'goal_e/index.html', context)

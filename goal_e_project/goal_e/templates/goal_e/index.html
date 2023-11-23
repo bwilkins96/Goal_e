@@ -8,7 +8,7 @@
 
 {% block main %}
 
-    <h1 class="pageTitle">{{ title }}</h1>
+    <h1 class="pageTitle" {% if month %} id="dailyTitle" {% endif %}>{{ title }}</h1>
 
     {% if goal_list|length == 0 %}
 
@@ -98,6 +98,10 @@
         <script>
             hideNotification(1);
         </script>
+    {% endif %}
+
+    {% if month %}
+        <a class="calendarLink" href="{% url 'goal_e:calendar' month year %}">Back to calendar</a>
     {% endif %}
         
 {% endblock %}

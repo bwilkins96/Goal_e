@@ -32,7 +32,9 @@
                     {{ node.day }}
                     
                     {% if node.goals %}
-                        <i class="fa-solid fa-star fa-2xl calendarStar"></i>
+                        <a class="calendarStar" href="{% url 'goal_e:daily_goals' month node.day year %}">
+                            <i class="fa-solid fa-star fa-2xl"></i>
+                        </a>
                     {% endif %}
                 </td>
 

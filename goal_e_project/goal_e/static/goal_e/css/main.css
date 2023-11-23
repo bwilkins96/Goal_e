@@ -35,7 +35,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Pangolin', cursive;
+  font-family: 'Pangolin', sans-serif;
 }
 button {
   background-color: #ffdfba;
@@ -488,6 +488,12 @@ header #logo {
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
 }
+.calendarLink {
+  text-decoration: underline;
+  position: fixed;
+  bottom: 1.5vh;
+  left: 1.5vh;
+}
 #calendarTitle {
   display: flex;
   margin: 1vh auto 1vh;
@@ -513,6 +519,10 @@ header #logo {
 }
 #calendarTitle h1 {
   margin: 0;
+  font-size: calc(1.3rem + 1.5vw);
+}
+#dailyTitle {
+  font-size: calc(1.15rem + 1.5vw);
 }
 @media screen and (min-width: 1024px) {
   #navMenu #topLinks,
