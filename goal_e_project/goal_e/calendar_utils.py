@@ -45,6 +45,14 @@ class GoalCalendar:
             if node.day == 1:
                 return i
             
+    def _get_week_day_idx(self, goal_day: int, first_day_idx: int, data: list):
+        abs_idx = first_day_idx + goal_day - 1
+        
+        week_idx = abs_idx // 7
+        day_idx = abs_idx % 7
+
+        return (week_idx, day_idx)
+            
     def _add_goals_to_data(self, data: list, month: int, year: int, profile: Profile):
         first = date(year, month, 1)
         last = date(year, month, last_of_month(month, year))
@@ -55,10 +63,7 @@ class GoalCalendar:
         for goal in goals:
             goal_day = goal.deadline.day
             
-            abs_idx = first_day_idx + goal_day - 1
-            week_idx = abs_idx // 7
-            day_idx = abs_idx % 7
-
+            week_idx, day_idx = self._get_week_day_idx(goal_day, first_day_idx, data) 
             data[week_idx][day_idx].goals.append(goal)
         
     def _get_calendar_data(self, month: int, year: int, profile: Profile) -> list:

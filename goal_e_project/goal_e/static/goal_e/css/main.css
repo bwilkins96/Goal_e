@@ -480,6 +480,13 @@ header #logo {
 .calendar td {
   border: 1px solid black;
   vertical-align: top;
+  position: relative;
+}
+.calendar td .calendarStar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
 }
 #calendarTitle {
   display: flex;

@@ -8,6 +8,7 @@
         <a id="right" href="{% url 'goal_e:calendar' next.0 next.1 %}"><i class="fa-solid fa-chevron-right fa-xl"></i></a>
     </div>
 
+    <!-- Monthly Calendar -->
     <table class="calendar">
         <thead>
             <tr>
@@ -31,9 +32,14 @@
                     {{ node.day }}
                     
                     {% if node.goals %}
-                        here!
+                        <i class="fa-solid fa-star fa-2xl calendarStar"></i>
                     {% endif %}
                 </td>
+
+                <!-- <div id="{{ node.day }}" class="calendarGoalContainer">
+                    {% for goal in node.goals %}
+                    {% endfor %}
+                </div> -->
 
             {% endfor %}
             </tr>
