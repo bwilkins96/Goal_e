@@ -149,7 +149,7 @@ def complete_goal(request: HttpRequest, goal_id: int):
             'pointsAdded': num_str_with_commas(points),
             'newPointsTotal': goal.profile.get_points_str(),
             'dateStr': goal.get_completed_str(),
-            'title': goal.title
+            'title': goal.get_title_str()
         }
 
     return JsonResponse(response)

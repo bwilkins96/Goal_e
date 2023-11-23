@@ -1,3 +1,5 @@
+# GoalCalendar class and utility calendar functions
+
 import calendar
 from datetime import date
 
