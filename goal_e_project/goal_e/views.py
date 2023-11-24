@@ -11,7 +11,6 @@ from .models import Goal, Profile
 
 from .goal_calendar import (
     GoalCalendar, 
-    get_month_year_str, 
     get_next_month_year, 
     get_prev_month_year,
     get_month_input_val
@@ -26,7 +25,9 @@ from .utils import (
     get_prev_action,
     redirect_when_logged_in,
     get_signup_errors,
-    get_full_date
+    get_full_date,
+    previous_url,
+    get_prev_url
 )
 
 @login_required
@@ -49,7 +50,8 @@ def past_goals(request: HttpRequest):
 
     context = {
         'title': 'Past Goals',
-        'goal_list': goal_list
+        'goal_list': goal_list,
+        'prev_action': get_prev_action(request)
     }
 
     return render(request, 'goal_e/index.html', context)
@@ -98,17 +100,22 @@ def edit_goal(request: HttpRequest, goal_id: int):
         goal.progress = progress
 
         goal.full_clean()
+
+        completion_undone = False
         if (goal.progress == 100.0) and (not goal.completed):
             goal.complete_goal()
         elif goal.completed and (goal.progress < 100.0):
             goal.undo_complete()
+            completion_undone = True
         
         goal.save()
         
         if goal.completed:
             response = HttpResponseRedirect(reverse('goal_e:past_goals') + f'#{goal.id}')
-        else:
+        elif completion_undone:
             response = HttpResponseRedirect(reverse('goal_e:index') + f'#{goal.id}')
+        else:
+            response = HttpResponseRedirect(get_prev_url(request) + f'#{goal.id}')
 
         return response
 
@@ -119,6 +126,7 @@ def edit_goal(request: HttpRequest, goal_id: int):
         'max_date': get_yyyy_mm_dd(add_years(date.today(), 100))
     }
 
+    request.session['prev_url'] = previous_url(request)
     return render(request, 'goal_e/edit_goal.html', context)
 
 @login_required
@@ -132,7 +140,7 @@ def delete_goal(request: HttpRequest):
 
         request.session['prev_action'] = 'delete goal'
 
-    return HttpResponseRedirect(reverse('goal_e:index'))
+    return HttpResponseRedirect(get_prev_url(request))
 
 @login_required
 def complete_goal(request: HttpRequest, goal_id: int):

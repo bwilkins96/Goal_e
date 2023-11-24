@@ -73,3 +73,14 @@ def get_signup_errors(username, password, password_conf):
         errors['password'].append('Passwords do not match')
 
     return errors
+
+def previous_url(request: HttpRequest):
+    return request.META.get('HTTP_REFERER')
+
+def get_prev_url(request: HttpRequest):
+    url = request.session.get('prev_url')
+
+    if url:
+        return url
+    
+    return reverse('goal_e:index')
