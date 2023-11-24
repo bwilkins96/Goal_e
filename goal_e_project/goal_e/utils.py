@@ -61,6 +61,9 @@ def get_prev_url(request: HttpRequest, session=True):
     
     return reverse('goal_e:index')
 
+def url_equals_reversed(url: str, reverse_str: str):
+    return url.endswith(reverse(reverse_str))
+
 def num_str_with_commas(num: int | float) -> str:
     return f'{num:,}'
 

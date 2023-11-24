@@ -22,6 +22,7 @@ from .utils import (
     get_full_date,
     previous_url,
     get_prev_url,
+    url_equals_reversed,
     get_next_month_year,
     get_prev_month_year,
     get_month_input_val
@@ -108,12 +109,13 @@ def edit_goal(request: HttpRequest, goal_id: int):
         
         goal.save()
         
-        if goal.completed:
+        prev_url = get_prev_url(request)
+        if goal.completed and url_equals_reversed(prev_url, 'goal_e:index'):
             response = HttpResponseRedirect(reverse('goal_e:past_goals') + f'#{goal.id}')
-        elif completion_undone:
+        elif completion_undone and url_equals_reversed(prev_url, 'goal_e:past_goals'):
             response = HttpResponseRedirect(reverse('goal_e:index') + f'#{goal.id}')
         else:
-            response = HttpResponseRedirect(get_prev_url(request) + f'#{goal.id}')
+            response = HttpResponseRedirect(prev_url + f'#{goal.id}')
 
         return response
 
