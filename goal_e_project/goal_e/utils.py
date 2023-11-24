@@ -50,8 +50,11 @@ def get_prev_action(request: HttpRequest):
 def previous_url(request: HttpRequest):
     return request.META.get('HTTP_REFERER')
 
-def get_prev_url(request: HttpRequest):
-    url = request.session.get('prev_url')
+def get_prev_url(request: HttpRequest, session=True):
+    if session:
+        url = request.session.get('prev_url')
+    else:
+        url = previous_url(request)
 
     if url:
         return url

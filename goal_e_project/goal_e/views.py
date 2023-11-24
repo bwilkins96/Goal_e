@@ -77,7 +77,8 @@ def new_goal(request: HttpRequest):
     context = { 
         'default_date': get_week_from_today_str(),
         'min_date': get_yyyy_mm_dd(date.today()),
-        'max_date': get_yyyy_mm_dd(add_years(date.today(), 100))
+        'max_date': get_yyyy_mm_dd(add_years(date.today(), 100)),
+        'prev_url': get_prev_url(request, False)
         }
    
     return render(request, 'goal_e/new_goal.html', context)
