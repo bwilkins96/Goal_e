@@ -224,13 +224,17 @@ def sign_out_view(request: HttpRequest):
 def calendar_view(request: HttpRequest, month: int = 11, year: int = 2023):
     profile = request.user.profile
 
+    date_plus_100 = add_years(date.today(), 100)
+    max_date = get_month_input_val(date_plus_100.month, date_plus_100.year)
+
     context = {
         'month_input_val': get_month_input_val(month, year),
         'calendar': GoalCalendar(month, year, profile).data,
         'next': get_next_month_year(month, year),
         'prev': get_prev_month_year(month, year),
         'month': month,
-        'year': year
+        'year': year,
+        'max_date': max_date
     }
 
     return render(request, 'goal_e/calendar.html', context)
