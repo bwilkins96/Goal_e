@@ -29,14 +29,15 @@ def get_month_input_val(month: int, year: int):
 def last_of_month(month: int, year: int):
     return calendar.monthrange(year, month)[1]
 
-class GoalCalendarNode():
+class GoalCalendarNode:
     def __init__(self, day: int, current_month: bool):
         self.day = day
         self.current_month = current_month
         self.goals = []
 
 class GoalCalendar:
-    def __init__(self, month: int, year: int, profile: Profile):
+    def __init__(self, month: int, year: int, profile: Profile, node_class):
+        self.node_class = node_class
         self.data = self._get_calendar_data(month, year, profile)
 
     def _pad_calendar_data(self, data: list, rows: int):
@@ -46,7 +47,7 @@ class GoalCalendar:
     def _convert_data(self, data: list):
         for week in data:
             for i, day in enumerate(week):
-                week[i] = GoalCalendarNode(day, True if day else False)
+                week[i] = self.node_class(day, True if day else False)
 
     def _get_first_day_idx(self, data: list):
         for i, node in enumerate(data[0]):

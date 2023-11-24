@@ -11,6 +11,7 @@ from .models import Goal, Profile
 
 from .goal_calendar import (
     GoalCalendar, 
+    GoalCalendarNode,
     get_next_month_year, 
     get_prev_month_year,
     get_month_input_val
@@ -237,7 +238,7 @@ def calendar_view(request: HttpRequest, month: int = 11, year: int = 2023):
 
     context = {
         'month_input_val': get_month_input_val(month, year),
-        'calendar': GoalCalendar(month, year, profile).data,
+        'calendar': GoalCalendar(month, year, profile, GoalCalendarNode).data,
         'next': get_next_month_year(month, year),
         'prev': get_prev_month_year(month, year),
         'month': month,
