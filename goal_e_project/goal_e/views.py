@@ -8,14 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 from .models import Goal, Profile
-
-from .goal_calendar import (
-    GoalCalendar, 
-    GoalCalendarNode,
-    get_next_month_year, 
-    get_prev_month_year,
-    get_month_input_val
-)
+from .goal_calendar import GoalCalendar, GoalCalendarNode
 
 from .utils import (
     prepare_goal_params, 
@@ -28,7 +21,10 @@ from .utils import (
     get_signup_errors,
     get_full_date,
     previous_url,
-    get_prev_url
+    get_prev_url,
+    get_next_month_year,
+    get_prev_month_year,
+    get_month_input_val
 )
 
 @login_required

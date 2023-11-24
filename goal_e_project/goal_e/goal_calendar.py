@@ -1,33 +1,10 @@
-# GoalCalendar class and utility calendar functions
+# Goal calendar class for monthly calendar data
 
-import calendar
+from calendar import monthcalendar
 from datetime import date
 
 from .models import Goal, Profile
-
-def get_prev_month_year(month: int, year: int):
-    if month == 1:
-        return (12, year-1)
-    
-    return (month-1, year)
-
-def get_next_month_year(month: int, year: int):
-    if month == 12:
-        return (1, year+1)
-
-    return (month+1, year)
-
-def get_month_year_str(month: int, year: int):
-    return f'{calendar.month_name[month]}, {year}'
-
-def get_month_input_val(month: int, year: int):
-    if month < 10:
-        month = f'0{month}'
-
-    return f'{year}-{month}'
-
-def last_of_month(month: int, year: int):
-    return calendar.monthrange(year, month)[1]
+from .utils import last_of_month, get_prev_month_year
 
 class GoalCalendarNode:
     def __init__(self, day: int, current_month: bool):
@@ -76,7 +53,7 @@ class GoalCalendar:
             data[week_idx][day_idx].goals.append(goal)
         
     def _get_calendar_data(self, month: int, year: int, profile: Profile) -> list:
-        data = calendar.monthcalendar(year, month)
+        data = monthcalendar(year, month)
         
         self._pad_calendar_data(data, 6)
         self._convert_data(data)

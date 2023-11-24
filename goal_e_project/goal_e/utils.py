@@ -1,5 +1,6 @@
 # Utility functions
 
+from calendar import month_name, monthrange
 from collections import defaultdict
 from datetime import date, timedelta
 
@@ -16,12 +17,51 @@ def prepare_goal_params(request: HttpRequest) -> list:
         request.POST['progress'],
     ]
 
+def user_already_exists(username: str) -> bool:
+    prev_user = User.objects.filter(username=username)
+    return bool(prev_user)
+
+def get_signup_errors(username, password, password_conf):
+    errors = defaultdict(list)
+
+    if user_already_exists(username):
+        errors['user'].append('Username already exists')
+
+    if password != password_conf:
+        errors['password'].append('Passwords do not match')
+
+    return errors
+
+def redirect_when_logged_in(func):
+    def inner(request: HttpRequest):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect(reverse('goal_e:index'))
+
+        return func(request)
+    
+    return inner
+
 def get_prev_action(request: HttpRequest):
     prev_action = request.session.get('prev_action')
     request.session['prev_action'] = None
 
     return prev_action
 
+def previous_url(request: HttpRequest):
+    return request.META.get('HTTP_REFERER')
+
+def get_prev_url(request: HttpRequest):
+    url = request.session.get('prev_url')
+
+    if url:
+        return url
+    
+    return reverse('goal_e:index')
+
+def num_str_with_commas(num: int | float) -> str:
+    return f'{num:,}'
+
+# Date / calendar related functions 
 def get_yyyy_mm_dd(date_inst: date) -> str:
     return date_inst.strftime('%Y-%m-%d')
 
@@ -47,40 +87,26 @@ def days_before(start: date, end: date) -> int:
     diff = end - start 
     return diff.days
 
-def num_str_with_commas(num: int | float) -> str:
-    return f'{num:,}'
-
-def redirect_when_logged_in(func):
-    def inner(request: HttpRequest):
-        if request.user.is_authenticated:
-            return HttpResponseRedirect(reverse('goal_e:index'))
-
-        return func(request)
+def get_prev_month_year(month: int, year: int):
+    if month == 1:
+        return (12, year-1)
     
-    return inner
+    return (month-1, year)
 
-def user_already_exists(username: str) -> bool:
-    prev_user = User.objects.filter(username=username)
-    return bool(prev_user)
+def get_next_month_year(month: int, year: int):
+    if month == 12:
+        return (1, year+1)
 
-def get_signup_errors(username, password, password_conf):
-    errors = defaultdict(list)
+    return (month+1, year)
 
-    if user_already_exists(username):
-        errors['user'].append('Username already exists')
+def get_month_year_str(month: int, year: int):
+    return f'{month_name[month]}, {year}'
 
-    if password != password_conf:
-        errors['password'].append('Passwords do not match')
+def get_month_input_val(month: int, year: int):
+    if month < 10:
+        month = f'0{month}'
 
-    return errors
+    return f'{year}-{month}'
 
-def previous_url(request: HttpRequest):
-    return request.META.get('HTTP_REFERER')
-
-def get_prev_url(request: HttpRequest):
-    url = request.session.get('prev_url')
-
-    if url:
-        return url
-    
-    return reverse('goal_e:index')
+def last_of_month(month: int, year: int):
+    return monthrange(year, month)[1]
