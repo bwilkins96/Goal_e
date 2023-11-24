@@ -42,7 +42,7 @@ main {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Pangolin', cursive;
+    font-family: 'Pangolin', sans-serif;
 }
 
 button {
@@ -576,6 +576,122 @@ header {
     text-align: center;
 }
 
+// Calendar
+
+@calendarWidth: 95%;
+@arrowMargin: 5px;
+@darkenPerc: 15%;
+@darkenPercHover: 25%;
+
+.calendar {
+    margin: 0 auto;
+    width: @calendarWidth;
+    min-height: 80vh;
+    table-layout: fixed;
+
+    .testBorder;
+
+    .False {
+        color: gray;
+    }
+
+    thead {
+        background-color: @orange;
+    }
+
+    td {
+        .testBorder();
+        vertical-align: top;
+        position: relative;
+
+        .calendarStar {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateY(-50%) translateX(-50%);
+        }
+
+        .priority1 {
+            color: darken(@blue, @darkenPerc);
+
+            &:hover {
+                color: darken(@blue, @darkenPercHover);
+            }
+        }
+
+        .priority2 {
+            color: darken(@orange, @darkenPerc);
+
+            &:hover {
+                color: darken(@orange, @darkenPercHover);
+            }
+        }
+
+        .priority3 {
+            color: darken(@red, @darkenPerc);
+
+            &:hover {
+                color: darken(@red, @darkenPercHover);
+            }
+        }
+
+        .completed {
+            color: darken(@green, @darkenPerc + 25%);
+
+            &:hover {
+                color: darken(@green, @darkenPercHover + 20%);
+            }
+        }
+    }
+}
+
+.calendarLink {
+    text-decoration: underline;
+    position: fixed;
+    bottom: @distFromSides;
+    left: @distFromSides;
+}
+
+#calendarTitle {
+    display: flex;
+    margin: 1vh auto 1vh;
+    justify-content: space-between;
+    align-items: center;
+    width: @calendarWidth;
+    max-width: 425px;
+
+    a {
+        color: @textBlack;
+        padding: 5px 10px;
+        background-color: @yellow; 
+        border: 1px solid black;
+
+        &:hover {
+            background-color: darken(@yellow, 15%);
+        }
+    }
+
+    #left {
+        margin-right: @arrowMargin;
+    }
+
+    #right {
+        margin-left: @arrowMargin;
+    }
+
+    input {
+        margin: 0;
+        font-size: calc(1.2rem + 1.5vw);
+        font-family: 'Pangolin', sans-serif;
+        border: none;
+        text-align: center;
+    }
+}
+
+#dailyTitle {
+    font-size: calc(1.15rem + 1.5vw);
+}
+
 // Laptop screens
 @media screen and (min-width: 1024px) {
     @laptopNavWidth: 40vw;
@@ -599,6 +715,12 @@ header {
         .goalCard {
             margin-left: 10px;
             margin-right: 10px; 
+        }
+    }
+
+    #calendarTitle {
+        input {
+            font-size: calc(1.0rem + 1.5vw);
         }
     }
 } 

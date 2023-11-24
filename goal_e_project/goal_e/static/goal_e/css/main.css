@@ -35,7 +35,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Pangolin', cursive;
+  font-family: 'Pangolin', sans-serif;
 }
 button {
   background-color: #ffdfba;
@@ -464,6 +464,93 @@ header #logo {
   width: 200px;
   text-align: center;
 }
+.calendar {
+  margin: 0 auto;
+  width: 95%;
+  min-height: 80vh;
+  table-layout: fixed;
+  border: 1px solid black;
+}
+.calendar .False {
+  color: gray;
+}
+.calendar thead {
+  background-color: #ffdfba;
+}
+.calendar td {
+  border: 1px solid black;
+  vertical-align: top;
+  position: relative;
+}
+.calendar td .calendarStar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+}
+.calendar td .priority1 {
+  color: #77baff;
+}
+.calendar td .priority1:hover {
+  color: #44a0ff;
+}
+.calendar td .priority2 {
+  color: #ffbc6e;
+}
+.calendar td .priority2:hover {
+  color: #ffa43b;
+}
+.calendar td .priority3 {
+  color: #ff6675;
+}
+.calendar td .priority3:hover {
+  color: #ff3346;
+}
+.calendar td .completed {
+  color: #00ed34;
+}
+.calendar td .completed:hover {
+  color: #00d42e;
+}
+.calendarLink {
+  text-decoration: underline;
+  position: fixed;
+  bottom: 1.5vh;
+  left: 1.5vh;
+}
+#calendarTitle {
+  display: flex;
+  margin: 1vh auto 1vh;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  max-width: 425px;
+}
+#calendarTitle a {
+  color: #212529;
+  padding: 5px 10px;
+  background-color: #ffffba;
+  border: 1px solid black;
+}
+#calendarTitle a:hover {
+  background-color: #ffff6e;
+}
+#calendarTitle #left {
+  margin-right: 5px;
+}
+#calendarTitle #right {
+  margin-left: 5px;
+}
+#calendarTitle input {
+  margin: 0;
+  font-size: calc(1.2rem + 1.5vw);
+  font-family: 'Pangolin', sans-serif;
+  border: none;
+  text-align: center;
+}
+#dailyTitle {
+  font-size: calc(1.15rem + 1.5vw);
+}
 @media screen and (min-width: 1024px) {
   #navMenu #topLinks,
   #navMenu #lowerLinks {
@@ -480,6 +567,9 @@ header #logo {
   #goalList .goalCard {
     margin-left: 10px;
     margin-right: 10px;
+  }
+  #calendarTitle input {
+    font-size: calc(1rem + 1.5vw);
   }
 }
 @media screen and (min-width: 768px) and (max-width: 1024px) {
