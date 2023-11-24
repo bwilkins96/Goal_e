@@ -506,6 +506,12 @@ header #logo {
 .calendar td .priority3:hover {
   color: #ff3346;
 }
+.calendar td .completed {
+  color: #00ed34;
+}
+.calendar td .completed:hover {
+  color: #00d42e;
+}
 .calendarLink {
   text-decoration: underline;
   position: fixed;

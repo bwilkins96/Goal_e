@@ -634,6 +634,14 @@ header {
                 color: darken(@red, @darkenPercHover);
             }
         }
+
+        .completed {
+            color: darken(@green, @darkenPerc + 25%);
+
+            &:hover {
+                color: darken(@green, @darkenPercHover + 20%);
+            }
+        }
     }
 }
 

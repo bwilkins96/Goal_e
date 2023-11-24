@@ -40,8 +40,8 @@
                     {{ node.day }}
                     
                     {% if node.goals %}
-                        <a class="calendarStar priority{{ node.goals.0.priority }}" href="{% url 'goal_e:daily_goals' month node.day year %}">
-                            <i class="fa-solid fa-star fa-2xl"></i>
+                        <a class="calendarStar {{ node.get_css_class }}" href="{% url 'goal_e:daily_goals' month node.day year %}">
+                            <i class="fa-solid {{ node.get_icon_class }} fa-2xl"></i>
                         </a>
                     {% endif %}
                 </td>

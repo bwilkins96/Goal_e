@@ -12,6 +12,20 @@ class GoalCalendarNode:
         self.current_month = current_month
         self.goals = []
 
+    def get_css_class(self):
+        first_goal = self.goals[0]
+
+        if first_goal.completed:
+            return 'completed'
+        
+        return f'priority{first_goal.priority}'
+    
+    def get_icon_class(self):
+        if self.goals[0].completed:
+            return 'fa-medal'
+        
+        return 'fa-star'
+
 class GoalCalendar:
     def __init__(self, month: int, year: int, profile: Profile, node_class):
         self.node_class = node_class
@@ -46,7 +60,7 @@ class GoalCalendar:
         first = date(year, month, 1)
         last = date(year, month, last_of_month(month, year))
 
-        goals = Goal.objects.filter(profile=profile, completed=None, deadline__gte=first, deadline__lte=last)
+        goals = Goal.objects.filter(profile=profile, deadline__gte=first, deadline__lte=last).order_by('completed', '-priority')
 
         first_day_idx = self.get_first_day_idx()
         for goal in goals:

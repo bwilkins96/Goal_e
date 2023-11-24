@@ -249,7 +249,7 @@ def calendar_view(request: HttpRequest, month: int = 11, year: int = 2023):
 def daily_goals(request: HttpRequest, month: int, day: int, year: int):
     profile = request.user.profile
     day_date = date(year, month, day)
-    goal_list = Goal.objects.filter(profile=profile, completed=None, deadline=day_date).order_by('-priority')
+    goal_list = Goal.objects.filter(profile=profile, deadline=day_date).order_by('completed', '-priority')
 
     context = {
         'title': f'Goals for {get_full_date(day_date)}',
