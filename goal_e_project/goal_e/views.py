@@ -73,7 +73,7 @@ def new_goal(request: HttpRequest):
             goal.complete_goal()
             
         goal.save()
-        request.session['prev_action'] = 'new goal'
+        request.session['prev_action'] = ('Goal Set!', 'blue')
         return HttpResponseRedirect(reverse('goal_e:index'))
 
     context = { 
@@ -139,7 +139,7 @@ def delete_goal(request: HttpRequest):
         goal = get_object_or_404(Goal, id=goal_id, profile=profile)
         goal.delete()
 
-        request.session['prev_action'] = 'delete goal'
+        request.session['prev_action'] = ('Goal Deleted', 'red')
 
     return HttpResponseRedirect(get_prev_url(request))
 
@@ -290,7 +290,12 @@ def account_settings(request: HttpRequest):
 
         user.save()
         profile.save()
+ 
+        request.session['prev_action'] = ('Settings Saved', 'blue')
 
-    context = { 'profile': profile }
+    context = { 
+        'profile': profile,
+        'prev_action': get_prev_action(request) 
+        }
 
     return render(request, 'goal_e/acnt_settings.html', context)

@@ -23,8 +23,9 @@
         <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet">
         <link href="{% static 'fontawesomefree/css/regular.css' %}" rel="stylesheet">
 
-        <!-- Additional CSS -->
+        <!-- Additional CSS/JavaScript -->
         <link href="{% static 'goal_e/css/main.css' %}" rel="stylesheet">
+        <script src="{% static 'goal_e/js/notification.js' %}"></script>
         {% block css/js %}
         {% endblock %}
     </head>
@@ -80,6 +81,18 @@
 
         <!-- Overlay Element -->
         <div id="overlay" class="hide"></div>
+
+        {% if prev_action %}
+        <!--Notification Message-->
+
+        <p class="message {{ prev_action.1 }}">
+            {{ prev_action.0 }}
+        </p>
+        
+        <script>
+            hideNotification(1);
+        </script>
+    {% endif %}
         
     </body>
 </html>

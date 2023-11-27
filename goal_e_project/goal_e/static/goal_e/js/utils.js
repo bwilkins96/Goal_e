@@ -87,15 +87,6 @@ async function markGoalComplete(id) {
     updatePointsDisplay(responseData);
 }
 
-// Notification message handling functions
-function hideNotification(secondsDelay) {
-    const notif = document.querySelector('.message');
-
-    setTimeout(() => {
-        notif.classList.add('hide');
-    }, secondsDelay * 1000);
-}
-
 // Signup form validation
 function clearMessage() {
     message = document.getElementById('invalidMsg');
