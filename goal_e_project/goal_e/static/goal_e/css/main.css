@@ -148,6 +148,16 @@ textarea {
 #priorityBtns .selected {
   border: 2px solid black;
 }
+#themeBtns {
+  display: flex;
+  justify-content: space-around;
+}
+#themeBtns button {
+  width: 40%;
+}
+#themeBtns .selected {
+  border: 2px solid black;
+}
 #progHeader {
   display: flex;
   justify-content: space-between;

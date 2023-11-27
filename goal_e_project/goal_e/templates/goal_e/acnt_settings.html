@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css/js %}
+    <script src="{% static 'goal_e/js/acntSettings.js' %}"></script>
+{% endblock %}
+
+{% block main %}
+    <h1 class="pageTitle">Account Settings</h1>
+
+    <!-- Account Settings Form -->
+    <form method="post" class="blue" id="acntSettingsForm">
+        {% csrf_token %}
+
+        <div class="formEle">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" value="{{ user }}" required>
+        </div>
+
+        <div class="formEle">
+            <label for="password">New Password</label>
+            <input type="password" id="password" name="password">
+        </div>
+
+        <div class="formEle">
+            <label for="confirmPassword">Confirm New Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword">
+        </div>
+
+        <div class="formEle">
+            <label for="theme">Theme</label>
+            <div id="themeBtns">
+                <button type="button" onclick="changeTheme(this, 1)" id="themeBtn1" {% if profile.theme == 1 %} class="selected" {% endif %}>Light</button>
+                <button type="button" onclick="changeTheme(this, 2)" id="themeBtn2" {% if profile.theme == 2 %} class="selected" {% endif %}>Dark</button>
+            </div>
+
+            <input type="hidden" id="theme" name="theme" value="1">
+        </div>
+
+        <button type="submit">Save Settings</button>
+    </form>
+
+    <a id="cancelBtn" href="{{ prev_url }}">Cancel</a>
+
+{% endblock %}
+
+{% comment %} Remove add button {% endcomment %}
+{% block bottom %}
+{% endblock %}
