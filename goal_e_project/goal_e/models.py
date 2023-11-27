@@ -9,8 +9,14 @@ from .utils import get_full_date, days_before, num_str_with_commas
 class Profile(models.Model):
     """User profile model class that extends built-in User model"""
 
+    THEME_CHOICES = [
+        (1, 'Light'),
+        (2, 'Dark')
+    ]
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     points = models.IntegerField(default=0)
+    theme = models.IntegerField(choices=THEME_CHOICES, default=1)
 
     def add_points(self, points):
         self.points += points
