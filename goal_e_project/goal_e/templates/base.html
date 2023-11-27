@@ -59,6 +59,7 @@
 
             {% if user.is_authenticated %}
             <div id="lowerLinks">
+                <a href="#" id="settingsLink">Account Settings</a>
                 <a href="{% url 'goal_e:sign_out' %}" id="bottomLink">Sign Out</a>
             </div>
             {% endif %}

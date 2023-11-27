@@ -310,8 +310,8 @@ header #logo {
 }
 #navMenu #topLinks #topLink,
 #navMenu #lowerLinks #topLink,
-#navMenu #topLinks #bottomLink,
-#navMenu #lowerLinks #bottomLink {
+#navMenu #topLinks #settingsLink,
+#navMenu #lowerLinks #settingsLink {
   border-top: 1px solid #212529;
 }
 #navMenu #topLinks #bottomLink,
