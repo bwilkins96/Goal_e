@@ -12,8 +12,6 @@
 @cardWidth: 90%;
 @smallerFont: 14px;
 
-@darkThemeBlack: rgb(35, 35, 35);
-
 // Mixins
 .fit-content() {
     width: -moz-fit-content;
@@ -37,6 +35,7 @@
 // General 
 body {
     font-family: 'Roboto', sans-serif;
+    color: @textBlack;
 }
 
 main {
@@ -97,6 +96,21 @@ p {
     background-color: @blue;
 }
 
+// Dark Theme
+@darkThemeRGB: 40;
+@darkThemeBlack: rgb(@darkThemeRGB, @darkThemeRGB, @darkThemeRGB);
+
+.theme2 {
+    background-color: @darkThemeBlack;
+    color: white;
+
+    #calendarTitle {
+        input {
+            background-color: @orange;
+        }
+    }
+}
+
 // Forms
 form {
     width: @cardWidth;
@@ -107,6 +121,7 @@ form {
     align-items: center;
     justify-content: space-between;
     font-size: @smallerFont;
+    color: @textBlack;
 }
 
 #goalForm {
@@ -266,6 +281,7 @@ textarea {
     z-index: 11;
 
     background-color: @blue;
+    color: @textBlack;
     min-height: 30vh;
     justify-content: space-around;
 
@@ -399,6 +415,7 @@ header {
     top: @headerHeight;
     height: 80vh;
     background-color: @blue;
+    color: @textBlack;
     z-index: 1;
 
     #username {
@@ -512,6 +529,7 @@ header {
 
     min-height: 220px;
     font-size: 14px;
+    color: @textBlack;
 
     display: flex;
     flex-direction: column;
@@ -643,6 +661,7 @@ header {
 
     thead {
         background-color: @orange;
+        color: @textBlack;
     }
 
     td {

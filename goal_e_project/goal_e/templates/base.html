@@ -30,7 +30,7 @@
         {% endblock %}
     </head>
 
-    <body>
+    <body {% if user.profile.theme > 1 %} class="theme{{ user.profile.theme }}" {% endif %}>
 
         <!-- Header -->
         <header>
