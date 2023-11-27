@@ -96,6 +96,15 @@ form {
   width: 45%;
   margin-bottom: 10px;
 }
+#acntSettingsForm {
+  min-height: 55vh;
+  margin-top: 20px;
+  margin-bottom: 60px;
+}
+#acntSettingsForm button[type='submit'] {
+  width: 45%;
+  margin-bottom: 10px;
+}
 #loginForm,
 #signupForm {
   min-height: 40vh;
@@ -157,6 +166,22 @@ textarea {
 }
 #themeBtns .selected {
   border: 2px solid black;
+}
+#themeBtns #themeBtn1 {
+  background-color: white;
+}
+#themeBtns #themeBtn2 {
+  background-color: #232323;
+  color: white;
+}
+#themeBtns #themeBtn2.selected {
+  border-color: white;
+}
+#passwordsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 #progHeader {
   display: flex;

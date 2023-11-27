@@ -12,6 +12,8 @@
 @cardWidth: 90%;
 @smallerFont: 14px;
 
+@darkThemeBlack: rgb(35, 35, 35);
+
 // Mixins
 .fit-content() {
     width: -moz-fit-content;
@@ -121,6 +123,17 @@ form {
     }
 }
 
+#acntSettingsForm {
+    min-height: 55vh;
+    margin-top: 20px;
+    margin-bottom: 60px;
+
+    button[type='submit'] {
+        width: 45%;
+        margin-bottom: 10px;
+    }
+}
+
 #loginForm, #signupForm {
     min-height: 40vh;
     margin-top: 10vh;
@@ -197,6 +210,26 @@ textarea {
     .selected {
         border: 2px solid black;
     }
+
+    #themeBtn1 {
+        background-color: white;
+    }
+
+    #themeBtn2 {
+        background-color: @darkThemeBlack;
+        color: white;
+    }
+
+    #themeBtn2.selected {
+        border-color: white;
+    }
+}
+
+#passwordsContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #progHeader {
