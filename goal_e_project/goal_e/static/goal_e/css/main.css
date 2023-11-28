@@ -210,7 +210,6 @@ textarea {
 #usernameContainer {
   display: flex;
   width: 100%;
-  background-color: #ffffba;
 }
 #usernameContainer #checkAvail {
   display: flex;
@@ -218,11 +217,12 @@ textarea {
   align-items: center;
   width: 30%;
   font-size: 13px;
+  background-color: #ffdfba;
   border: 1px solid black;
   cursor: pointer;
 }
 #usernameContainer #checkAvail:hover {
-  background-color: #ffff87;
+  background-color: #ffc787;
 }
 #usernameContainer input {
   width: 70%;
