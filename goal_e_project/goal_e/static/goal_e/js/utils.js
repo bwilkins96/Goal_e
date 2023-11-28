@@ -88,31 +88,31 @@ async function markGoalComplete(id) {
 }
 
 // Signup form validation
-function clearMessage() {
-    message = document.getElementById('invalidMsg');
+function clearMessage(msgId) {
+    message = document.getElementById(msgId);
     
     if (message) {
         message.remove();
     }
 }
 
-function handleNonMatchingPasswords() {
+function handleNonMatchingPasswords(msgId) {
     const message = document.createElement('p');
-    message.id = 'invalidMsg';
+    message.id = msgId;
     message.innerText = 'Passwords do not match';
 
     document.body.appendChild(message);
 }
 
-function validateSignUpForm(e) {
-    clearMessage();
+function validatePasswords(e, msgId) {
+    clearMessage(msgId);
 
-    const form = document.getElementById('signupForm');
-    const password = document.getElementById('password');
-    const confirmPassword = document.getElementById('confirmPassword');
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    passwordsFilled = Boolean(password && confirmPassword);
 
-    if (password.value !== confirmPassword.value) {
+    if (passwordsFilled && (password !== confirmPassword)) {
         e.preventDefault();
-        handleNonMatchingPasswords();
+        handleNonMatchingPasswords(msgId);
     }
 }

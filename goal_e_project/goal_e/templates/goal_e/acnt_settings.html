@@ -4,13 +4,14 @@
 
 {% block css/js %}
     <script src="{% static 'goal_e/js/acntSettings.js' %}"></script>
+    <script src="{% static 'goal_e/js/utils.js' %}"></script>
 {% endblock %}
 
 {% block main %}
-    <h1 class="pageTitle">Account Settings</h1>
+    <h1 class="pageTitle" id="acntSettingsTitle">Account Settings</h1>
 
     <!-- Account Settings Form -->
-    <form method="post" class="blue" id="acntSettingsForm">
+    <form method="post" class="blue" id="acntSettingsForm" onsubmit="validatePasswords(event, 'invalidMsgAcnt')">
         {% csrf_token %}
 
         <div class="formEle">
@@ -44,6 +45,20 @@
     </form>
 
     <a id="cancelBtn" href="{% url 'goal_e:index' %}">Cancel</a>
+
+    {% if errors %}
+        
+    <div id="invalidMsgAcnt">
+        {% if errors.user %}
+            <p>{{ errors.user.0 }}</p>
+        {% endif %}
+
+        {% if errors.password %}
+            <p>{{ errors.password.0 }}</p>
+        {% endif %}    
+    </div>
+
+    {% endif %}
 
 {% endblock %}
 

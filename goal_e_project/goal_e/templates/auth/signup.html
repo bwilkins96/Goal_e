@@ -9,7 +9,7 @@
 {% block main %}
 
     <!-- Signup Form -->
-    <form method="post" class="yellow" id="signupForm" onsubmit="validateSignUpForm(event)">
+    <form method="post" class="yellow" id="signupForm" onsubmit="validatePasswords(event,'invalidMsg')">
         {% csrf_token %}
 
         <div class="formEle">

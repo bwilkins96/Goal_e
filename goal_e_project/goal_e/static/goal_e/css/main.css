@@ -57,10 +57,6 @@ p {
   width: -moz-fit-content;
   width: fit-content;
 }
-.darkTheme {
-  background-color: #232323;
-  color: white;
-}
 .red {
   background-color: #ffb3ba;
 }
@@ -262,6 +258,16 @@ textarea {
   position: absolute;
   top: 55px;
   font-size: 14px;
+  color: #212529;
+  text-align: center;
+  width: 100%;
+  background-color: #ffb3ba;
+}
+#invalidMsgAcnt {
+  position: absolute;
+  bottom: 4vh;
+  font-size: 14px;
+  color: #212529;
   text-align: center;
   width: 100%;
   background-color: #ffb3ba;

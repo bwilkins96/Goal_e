@@ -1,3 +1,4 @@
+from collections import defaultdict
 from datetime import date
 
 from django.shortcuts import render, get_object_or_404
@@ -268,6 +269,8 @@ def daily_goals(request: HttpRequest, month: int, day: int, year: int):
 def account_settings(request: HttpRequest):
     user = request.user
     profile = user.profile
+
+    errors = defaultdict(list)
     
     if request.method == 'POST':
         new_username = request.POST['username']
@@ -275,27 +278,36 @@ def account_settings(request: HttpRequest):
         new_pword_conf = request.POST['confirmPassword']
         new_theme = request.POST['theme']
 
-        if user.username != new_username and not user_already_exists(new_username):
-            user.username = new_username
+        if user.username != new_username:
+            if not user_already_exists(new_username):
+                user.username = new_username
+            else:
+                errors['user'].append('Username already exists')
 
         if new_pword and new_pword_conf:
             if new_pword == new_pword_conf:
                 user.set_password(new_pword)
-        
+            else:
+                errors['password'].append('Passwords do not match')
+
         if new_theme != profile.theme:
             profile.theme = new_theme
 
         user.full_clean()
         profile.full_clean()
 
-        user.save()
-        profile.save()
- 
-        request.session['prev_action'] = ('Settings Saved', 'blue')
+        if not errors:
+            user.save()
+            profile.save()
+
+            request.session['prev_action'] = ('Settings Saved', 'blue')
+        else:
+            request.session['prev_action'] = ('Error Saving Settings', 'red')
 
     context = { 
         'profile': profile,
-        'prev_action': get_prev_action(request) 
-        }
-
+        'prev_action': get_prev_action(request),
+        'errors': errors
+    }
+ 
     return render(request, 'goal_e/acnt_settings.html', context)
