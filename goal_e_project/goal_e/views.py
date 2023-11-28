@@ -299,7 +299,8 @@ def account_settings(request: HttpRequest):
         if not errors:
             user.save()
             profile.save()
-
+            
+            login(request, user)
             request.session['prev_action'] = ('Settings Saved', 'blue')
         else:
             request.session['prev_action'] = ('Error Saving Settings', 'red')
