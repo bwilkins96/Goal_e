@@ -16,7 +16,11 @@
 
         <div class="formEle">
             <label for="username">Username</label>
-            <input type="text" id="username" name="username" value="{{ user }}" required>
+            
+            <div id="usernameContainer">
+                <input type="text" id="username" name="username" value="{{ user }}" oninput="removeAvailableClasses()" required>
+                <div id="checkAvail" onclick="checkUsernameAvailable()">Available?</div>
+            </div>
         </div>
 
         <div id="passwordsContainer">

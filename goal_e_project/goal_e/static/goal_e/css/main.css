@@ -207,6 +207,32 @@ textarea {
 #progressBar {
   margin-top: 5px;
 }
+#usernameContainer {
+  display: flex;
+  width: 100%;
+  background-color: #ffffba;
+}
+#usernameContainer #checkAvail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  font-size: 13px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+#usernameContainer #checkAvail:hover {
+  background-color: #ffff87;
+}
+#usernameContainer input {
+  width: 70%;
+}
+#usernameContainer .available {
+  background-color: #d4ffdd;
+}
+#usernameContainer .unavailable {
+  background-color: #ffcdd1;
+}
 #cancelBtn {
   margin: 0 0 0 5%;
   font-size: 12px;
@@ -343,7 +369,7 @@ header #logo {
   color: #212529;
   z-index: 1;
 }
-#navMenu #username {
+#navMenu #usernameDisplay {
   font-weight: bold;
   margin: 0 5px;
 }

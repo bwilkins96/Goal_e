@@ -267,6 +267,38 @@ textarea {
     margin-top: 5px;
 }
 
+#usernameContainer {
+    display: flex;
+    width: 100%;
+    background-color: @yellow;
+
+    #checkAvail {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30%;
+        font-size: 13px;
+        border: 1px solid black;
+        cursor: pointer;
+
+        &:hover {
+            background-color: darken(@yellow, 10%);
+        }
+    }
+
+    input {
+        width: 70%;
+    }
+
+    .available {
+        background-color: lighten(@green, @ligthenPerc);
+    }
+
+    .unavailable {
+        background-color: lighten(@red, @ligthenPerc);
+    }
+}
+
 #cancelBtn {
     margin: 0 0 0 5%;
     font-size: 12px;
@@ -433,7 +465,7 @@ header {
     color: @textBlack;
     z-index: 1;
 
-    #username {
+    #usernameDisplay {
         font-weight: bold;
         margin: 0 5px;
     }

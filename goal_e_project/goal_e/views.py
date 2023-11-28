@@ -312,3 +312,16 @@ def account_settings(request: HttpRequest):
     }
  
     return render(request, 'goal_e/acnt_settings.html', context)
+
+def username_available(request: HttpRequest, username: str):
+    available = True
+
+    if request.user.username == username:
+        available = 'current username'
+    elif user_already_exists(username):
+        available = False
+
+    return JsonResponse({
+        'username': username,
+        'available': available
+    })

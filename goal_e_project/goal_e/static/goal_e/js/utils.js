@@ -87,7 +87,7 @@ async function markGoalComplete(id) {
     updatePointsDisplay(responseData);
 }
 
-// Signup form validation
+// Signup / account settings form validation
 function clearMessage(msgId) {
     message = document.getElementById(msgId);
     
@@ -114,5 +114,29 @@ function validatePasswords(e, msgId) {
     if (passwordsFilled && (password !== confirmPassword)) {
         e.preventDefault();
         handleNonMatchingPasswords(msgId);
+    }
+}
+
+function removeAvailableClasses() {
+    const usernameInput = document.getElementById('username');
+    usernameInput.classList.remove('available');
+    usernameInput.classList.remove('unavailable');
+}
+
+async function checkUsernameAvailable() {
+    const usernameInput = document.getElementById('username');
+    const username = usernameInput.value;
+    if (!username) {
+        return removeAvailableClasses();
+    }
+
+    const response = await fetch(serverURL + '/usernameAvailable/' + username);
+    const jsonData = await response.json();
+    const available = jsonData.available;
+
+    if (available) {
+        usernameInput.classList.add('available');
+    } else {
+        usernameInput.classList.add('unavailable');
     }
 }
