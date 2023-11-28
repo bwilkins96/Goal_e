@@ -109,7 +109,7 @@ function validatePasswords(e, msgId) {
 
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
-    passwordsFilled = Boolean(password && confirmPassword);
+    passwordsFilled = Boolean(password || confirmPassword);
 
     if (passwordsFilled && (password !== confirmPassword)) {
         e.preventDefault();

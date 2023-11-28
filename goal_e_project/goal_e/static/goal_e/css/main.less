@@ -318,9 +318,8 @@ textarea {
     .fit-content();
 }
 
-#invalidMsg {
+#invalidMsg, #invalidMsgAcnt {
     position: absolute;
-    top: @headerHeight;
     font-size: @smallerFont;
     color: @textBlack;
     text-align: center;
@@ -328,14 +327,12 @@ textarea {
     background-color: @red;
 }
 
+#invalidMsg {
+    top: @headerHeight;
+}
+
 #invalidMsgAcnt {
-    position: absolute;
     bottom: 4vh;
-    font-size: @smallerFont;
-    color: @textBlack;
-    text-align: center;
-    width: 100%;
-    background-color: @red;
 }
 
 // Mark Goal as Complete Pop-up

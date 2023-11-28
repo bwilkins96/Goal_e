@@ -284,7 +284,7 @@ def account_settings(request: HttpRequest):
             else:
                 errors['user'].append('Username already exists')
 
-        if new_pword and new_pword_conf:
+        if new_pword or new_pword_conf:
             if new_pword == new_pword_conf:
                 user.set_password(new_pword)
             else:

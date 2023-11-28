@@ -254,23 +254,20 @@ textarea {
   width: -moz-fit-content;
   width: fit-content;
 }
-#invalidMsg {
+#invalidMsg,
+#invalidMsgAcnt {
   position: absolute;
-  top: 55px;
   font-size: 14px;
   color: #212529;
   text-align: center;
   width: 100%;
   background-color: #ffb3ba;
 }
+#invalidMsg {
+  top: 55px;
+}
 #invalidMsgAcnt {
-  position: absolute;
   bottom: 4vh;
-  font-size: 14px;
-  color: #212529;
-  text-align: center;
-  width: 100%;
-  background-color: #ffb3ba;
 }
 #completedPopUp {
   text-align: center;
