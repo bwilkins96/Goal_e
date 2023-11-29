@@ -117,26 +117,37 @@ function validatePasswords(e, msgId) {
     }
 }
 
-function removeAvailableClasses() {
+function removeAvailableInfo() {
     const usernameInput = document.getElementById('username');
     usernameInput.classList.remove('available');
     usernameInput.classList.remove('unavailable');
+
+    const usernameLabel = document.querySelector('label[for="username"]');
+    const availableSpan = document.querySelector('label[for="username"] span');
+
+    if (availableSpan) {
+        availableSpan.remove();
+    }
 }
 
 async function checkUsernameAvailable() {
     const usernameInput = document.getElementById('username');
     const username = usernameInput.value;
     if (!username) {
-        return removeAvailableClasses();
+        return removeAvailableInfo();
     }
 
     const response = await fetch(serverURL + '/usernameAvailable/' + username);
     const jsonData = await response.json();
     const available = jsonData.available;
 
+    const usernameLabel = document.querySelector('label[for="username"]');
+    
     if (available) {
         usernameInput.classList.add('available');
+        usernameLabel.innerHTML += '<span> (Available)</span>'
     } else {
         usernameInput.classList.add('unavailable');
+        usernameLabel.innerHTML += '<span> (Not Available)</span>'
     }
 }

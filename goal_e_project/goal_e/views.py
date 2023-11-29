@@ -293,7 +293,6 @@ def account_settings(request: HttpRequest):
         if new_theme != profile.theme:
             profile.theme = new_theme
 
-        user.full_clean()
         profile.full_clean()
 
         if not errors:
