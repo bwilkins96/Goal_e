@@ -231,10 +231,15 @@ def sign_out_view(request: HttpRequest):
     return HttpResponseRedirect(reverse('goal_e:login'))
 
 @login_required
-def calendar_view(request: HttpRequest, month: int = 11, year: int = 2023):
+def calendar_view(request: HttpRequest, month: int = None, year: int = None):
     profile = request.user.profile
+    today = date.today()
 
-    date_plus_100 = add_years(date.today(), 100)
+    if not (month or year):
+        month = today.month
+        year = today.year
+
+    date_plus_100 = add_years(today, 100)
     max_date = get_month_input_val(date_plus_100.month, date_plus_100.year)
 
     context = {
