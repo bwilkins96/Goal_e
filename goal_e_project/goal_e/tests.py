@@ -1,7 +1,9 @@
 from datetime import date, timedelta
 
 from django.test import TestCase
+from django.urls import reverse
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 from .models import Profile, Goal
 
@@ -58,6 +60,10 @@ class GoalModelTests(TestCase):
         self.goal.deadline = date(2023, 11, 5)
         self.assertEqual(self.goal.get_deadline_str(), 'November 05, 2023')
 
+    def test_get_completed_str(self):
+        self.goal.completed = date(2023, 11, 5)
+        self.assertEqual(self.goal.get_completed_str(), 'November 05, 2023')
+
     def test_get_title_str(self):
         self.assertEqual(self.goal.get_title_str(), 'test goal')
        
@@ -106,3 +112,169 @@ class GoalModelTests(TestCase):
         self.assertEqual(self.goal.completed, None)
         self.assertEqual(self.profile.points, 0)
     
+
+class ViewTests(TestCase):
+    """Tests for behavior of views"""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create_user(username='test_user', password='password')
+        cls.profile = Profile.objects.create(user=cls.user)
+
+        cls.user2 = User.objects.create_user(username='test_user2', password='password2')
+        cls.profile2 = Profile.objects.create(user=cls.user2)
+        
+        cls.goal = Goal.objects.create(title='test goal', 
+                                        description='test description', 
+                                        deadline=get_week_from_today(), 
+                                        priority=2, 
+                                        progress=50.0,
+                                        profile=cls.profile)
+        
+        cls.goal2 = Goal.objects.create(title='test goal 2', 
+                                        description='test description 2', 
+                                        deadline=get_week_from_today(), 
+                                        priority=2, 
+                                        progress=50.0,
+                                        profile=cls.profile2)
+        
+        cls.urls_logged_in = {
+            'goal_e:index': reverse('goal_e:index'),
+            'goal_e:past_goals': reverse('goal_e:past_goals'),
+            'goal_e:new_goal': reverse('goal_e:new_goal'),
+            'goal_e:calendar_default': reverse('goal_e:calendar_default'),
+            'goal_e:calendar_daily_goals': reverse('goal_e:daily_goals', args=[11, 5, 2023]),
+            'goal_e:account_settings': reverse('goal_e:account_settings'),
+        }
+
+        cls.urls_logged_out = {
+            'goal_e:signup': reverse('goal_e:signup'),
+            'goal_e:login': reverse('goal_e:login'),
+        }
+
+        cls.valid_goal_req = {
+            'title': 'valid goal', 
+            'description': '', 
+            'deadline': date.today(), 
+            'priority': 2, 
+            'progress': 50.0,
+        }
+
+        cls.invalid_goal_req = {
+            'title': 'invalid goal', 
+            'description': '', 
+            'deadline': 'this is a string!', 
+            'priority': -50, 
+            'progress': 5000000.0,
+        }
+        
+    def test_login_required(self):
+        urls =  self.urls_logged_in.values()
+        
+        for url in urls:
+            response = self.client.get(url)
+            self.assertEqual(response.status_code, 302)
+
+        self.client.login(username='test_user', password='password')
+
+        for url in urls:
+            response = self.client.get(url)
+            self.assertEqual(response.status_code, 200)
+
+    def test_redirect_when_logged_in(self):
+        urls = self.urls_logged_out.values()
+        self.client.login(username='test_user', password='password')
+
+        for url in urls:
+            response = self.client.get(url)
+            self.assertEqual(response.status_code, 302)
+
+        self.client.logout()
+        for url in urls:
+            response = self.client.get(url)
+            self.assertEqual(response.status_code, 200)
+
+    def test_user_can_only_access_own_goals(self):
+        self.client.login(username='test_user', password='password')
+        response = self.client.get(self.urls_logged_in['goal_e:index'])
+
+        goal_list = response.context['goal_list']
+        self.assertTrue(self.goal in goal_list)
+        self.assertFalse(self.goal2 in goal_list)
+
+        response = self.client.get(reverse('goal_e:edit_goal', args=[1]))
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.get(reverse('goal_e:edit_goal', args=[2]))
+        self.assertEqual(response.status_code, 404)
+
+    def test_index(self):
+        self.client.login(username='test_user', password='password')
+
+        response = self.client.get(self.urls_logged_in['goal_e:index'])
+        goal_list = response.context['goal_list']
+        self.assertEqual(len(goal_list), 1)
+
+        self.goal.complete_goal()
+        self.goal.save()
+
+        response = self.client.get(self.urls_logged_in['goal_e:index'])
+        goal_list = response.context['goal_list']
+        self.assertEqual(len(goal_list), 0)
+        
+    def test_past_goals(self):
+        self.client.login(username='test_user', password='password')
+
+        response = self.client.get(self.urls_logged_in['goal_e:past_goals'])
+        goal_list = response.context['goal_list']
+        self.assertEqual(len(goal_list), 0)
+
+        self.goal.complete_goal()
+        self.goal.save()
+
+        response = self.client.get(self.urls_logged_in['goal_e:past_goals'])
+        goal_list = response.context['goal_list']
+        self.assertEqual(len(goal_list), 1)
+
+    def test_new_goal(self):
+        self.client.login(username='test_user', password='password')
+
+        response = self.client.post(self.urls_logged_in['goal_e:new_goal'], self.valid_goal_req)
+        new_goal = Goal.objects.filter(id=3).first()   
+
+        self.assertTrue(new_goal)
+
+        with self.assertRaises(ValidationError):
+            self.client.post(self.urls_logged_in['goal_e:new_goal'], self.invalid_goal_req)
+
+    def test_edit_goal(self):
+        self.client.login(username='test_user', password='password')
+        
+        response = self.client.post(reverse('goal_e:edit_goal', args=[1]), self.valid_goal_req)
+        edited_goal = Goal.objects.get(id=1)
+        
+        self.assertEqual(edited_goal.title, 'valid goal')
+
+        with self.assertRaises(ValidationError):
+            self.client.post(reverse('goal_e:edit_goal', args=[1]), self.invalid_goal_req)
+
+    def test_delete_goal(self):
+        self.client.login(username='test_user', password='password')        
+        response = self.client.post(reverse('goal_e:delete_goal'), {'id': 1})
+
+        deleted = Goal.objects.filter(id=1).first()
+        self.assertFalse(deleted)
+
+    def test_complete_goal(self):
+        self.client.login(username='test_user', password='password')        
+        response = self.client.post(reverse('goal_e:complete_goal', args=[1]), {'id': 1})
+        
+        completed = Goal.objects.filter(id=1).first()
+        self.assertEqual(completed.completed, date.today())
+        self.assertEqual(completed.progress, 100)
+
+        
+        
+
+
+        
