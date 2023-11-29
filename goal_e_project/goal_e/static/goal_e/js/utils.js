@@ -145,9 +145,9 @@ async function checkUsernameAvailable() {
     
     if (available) {
         usernameInput.classList.add('available');
-        usernameLabel.innerHTML += '<span> (Available)</span>'
+        usernameLabel.innerHTML = 'Username <span>(Available)</span>';
     } else {
         usernameInput.classList.add('unavailable');
-        usernameLabel.innerHTML += '<span> (Not Available)</span>'
+        usernameLabel.innerHTML = 'Username <span>(Not Available)</span>';
     }
 }
