@@ -9,12 +9,16 @@
 {% block main %}
 
     <!-- Signup Form -->
-    <form method="post" class="yellow" id="signupForm" onsubmit="validateSignUpForm(event)">
+    <form method="post" class="yellow" id="signupForm" onsubmit="validatePasswords(event,'invalidMsg')">
         {% csrf_token %}
 
         <div class="formEle">
             <label for="username">Username</label>
-            <input type="text" id="username" name="username" value="{{ username }}" required>
+            
+            <div id="usernameContainer">
+                <input type="text" id="username" name="username" oninput="removeAvailableInfo()" maxlength="30" required>
+                <div id="checkAvail" onclick="checkUsernameAvailable()">Available?</div>
+            </div>
         </div>
 
         <div class="formEle">

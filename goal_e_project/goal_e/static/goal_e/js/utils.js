@@ -87,41 +87,67 @@ async function markGoalComplete(id) {
     updatePointsDisplay(responseData);
 }
 
-// Notification message handling functions
-function hideNotification(secondsDelay) {
-    const notif = document.querySelector('.message');
-
-    setTimeout(() => {
-        notif.classList.add('hide');
-    }, secondsDelay * 1000);
-}
-
-// Signup form validation
-function clearMessage() {
-    message = document.getElementById('invalidMsg');
+// Signup / account settings form validation
+function clearMessage(msgId) {
+    message = document.getElementById(msgId);
     
     if (message) {
         message.remove();
     }
 }
 
-function handleNonMatchingPasswords() {
+function handleNonMatchingPasswords(msgId) {
     const message = document.createElement('p');
-    message.id = 'invalidMsg';
+    message.id = msgId;
     message.innerText = 'Passwords do not match';
 
     document.body.appendChild(message);
 }
 
-function validateSignUpForm(e) {
-    clearMessage();
+function validatePasswords(e, msgId) {
+    clearMessage(msgId);
 
-    const form = document.getElementById('signupForm');
-    const password = document.getElementById('password');
-    const confirmPassword = document.getElementById('confirmPassword');
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    passwordsFilled = Boolean(password || confirmPassword);
 
-    if (password.value !== confirmPassword.value) {
+    if (passwordsFilled && (password !== confirmPassword)) {
         e.preventDefault();
-        handleNonMatchingPasswords();
+        handleNonMatchingPasswords(msgId);
+    }
+}
+
+function removeAvailableInfo() {
+    const usernameInput = document.getElementById('username');
+    usernameInput.classList.remove('available');
+    usernameInput.classList.remove('unavailable');
+
+    const usernameLabel = document.querySelector('label[for="username"]');
+    const availableSpan = document.querySelector('label[for="username"] span');
+
+    if (availableSpan) {
+        availableSpan.remove();
+    }
+}
+
+async function checkUsernameAvailable() {
+    const usernameInput = document.getElementById('username');
+    const username = usernameInput.value;
+    if (!username) {
+        return removeAvailableInfo();
+    }
+
+    const response = await fetch(serverURL + '/usernameAvailable/' + username);
+    const jsonData = await response.json();
+    const available = jsonData.available;
+
+    const usernameLabel = document.querySelector('label[for="username"]');
+    
+    if (available) {
+        usernameInput.classList.add('available');
+        usernameLabel.innerHTML += '<span> (Available)</span>'
+    } else {
+        usernameInput.classList.add('unavailable');
+        usernameLabel.innerHTML += '<span> (Not Available)</span>'
     }
 }

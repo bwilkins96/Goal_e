@@ -1,3 +1,4 @@
+from collections import defaultdict
 from datetime import date
 
 from django.shortcuts import render, get_object_or_404
@@ -25,7 +26,8 @@ from .utils import (
     url_equals_reversed,
     get_next_month_year,
     get_prev_month_year,
-    get_month_input_val
+    get_month_input_val,
+    user_already_exists
 )
 
 @login_required
@@ -72,7 +74,7 @@ def new_goal(request: HttpRequest):
             goal.complete_goal()
             
         goal.save()
-        request.session['prev_action'] = 'new goal'
+        request.session['prev_action'] = ('Goal Set!', 'blue')
         return HttpResponseRedirect(reverse('goal_e:index'))
 
     context = { 
@@ -138,7 +140,7 @@ def delete_goal(request: HttpRequest):
         goal = get_object_or_404(Goal, id=goal_id, profile=profile)
         goal.delete()
 
-        request.session['prev_action'] = 'delete goal'
+        request.session['prev_action'] = ('Goal Deleted', 'red')
 
     return HttpResponseRedirect(get_prev_url(request))
 
@@ -262,3 +264,63 @@ def daily_goals(request: HttpRequest, month: int, day: int, year: int):
     }
 
     return render(request, 'goal_e/index.html', context)
+
+@login_required
+def account_settings(request: HttpRequest):
+    user = request.user
+    profile = user.profile
+
+    errors = defaultdict(list)
+    
+    if request.method == 'POST':
+        new_username = request.POST['username']
+        new_pword = request.POST['password']
+        new_pword_conf = request.POST['confirmPassword']
+        new_theme = request.POST['theme']
+
+        if user.username != new_username:
+            if not user_already_exists(new_username):
+                user.username = new_username
+            else:
+                errors['user'].append('Username already exists')
+
+        if new_pword or new_pword_conf:
+            if new_pword == new_pword_conf:
+                user.set_password(new_pword)
+            else:
+                errors['password'].append('Passwords do not match')
+
+        if new_theme != profile.theme:
+            profile.theme = new_theme
+
+        profile.full_clean()
+
+        if not errors:
+            user.save()
+            profile.save()
+            
+            login(request, user)
+            request.session['prev_action'] = ('Settings Saved', 'blue')
+        else:
+            request.session['prev_action'] = ('Error Saving Settings', 'red')
+
+    context = { 
+        'profile': profile,
+        'prev_action': get_prev_action(request),
+        'errors': errors
+    }
+ 
+    return render(request, 'goal_e/acnt_settings.html', context)
+
+def username_available(request: HttpRequest, username: str):
+    available = True
+
+    if request.user.username == username:
+        available = 'current username'
+    elif user_already_exists(username):
+        available = False
+
+    return JsonResponse({
+        'username': username,
+        'available': available
+    })

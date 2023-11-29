@@ -23,13 +23,14 @@
         <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet">
         <link href="{% static 'fontawesomefree/css/regular.css' %}" rel="stylesheet">
 
-        <!-- Additional CSS -->
+        <!-- Additional CSS/JavaScript -->
         <link href="{% static 'goal_e/css/main.css' %}" rel="stylesheet">
+        <script src="{% static 'goal_e/js/notification.js' %}"></script>
         {% block css/js %}
         {% endblock %}
     </head>
 
-    <body>
+    <body {% if user.profile.theme > 1 %} class="theme{{ user.profile.theme }}" {% endif %}>
 
         <!-- Header -->
         <header>
@@ -49,7 +50,7 @@
         <!-- Collapsible Nav Menu -->
         <nav id="navMenu" class="collapse collapse-horizontal">
             <div id="stretchHolder"></div>
-            <div id="username">{{ user }}</div>
+            <div id="usernameDisplay">{{ user }}</div>
 
             <div id="topLinks">
                 <a href="{% url 'goal_e:index' %}" id="topLink">Current Goals</a>
@@ -59,6 +60,7 @@
 
             {% if user.is_authenticated %}
             <div id="lowerLinks">
+                <a href="{% url 'goal_e:account_settings' %}" id="settingsLink">Account Settings</a>
                 <a href="{% url 'goal_e:sign_out' %}" id="bottomLink">Sign Out</a>
             </div>
             {% endif %}
@@ -79,6 +81,18 @@
 
         <!-- Overlay Element -->
         <div id="overlay" class="hide"></div>
+
+        {% if prev_action %}
+        <!--Notification Message-->
+
+        <p class="message {{ prev_action.1 }}">
+            {{ prev_action.0 }}
+        </p>
+        
+        <script>
+            hideNotification(1);
+        </script>
+    {% endif %}
         
     </body>
 </html>

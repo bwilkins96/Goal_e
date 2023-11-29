@@ -25,6 +25,7 @@
 }
 body {
   font-family: 'Roboto', sans-serif;
+  color: #212529;
 }
 main {
   margin: auto;
@@ -56,10 +57,6 @@ p {
   width: -moz-fit-content;
   width: fit-content;
 }
-.darkTheme {
-  background-color: #232323;
-  color: white;
-}
 .red {
   background-color: #ffb3ba;
 }
@@ -75,6 +72,22 @@ p {
 .blue {
   background-color: #c4e1ff;
 }
+.theme2 {
+  background-color: #282828;
+  color: white;
+}
+.theme2 #calendarTitle input {
+  background-color: #ffdfba;
+}
+.theme2 .calendar {
+  border-color: white;
+}
+.theme2 .calendar thead {
+  border: 1px solid #ffdfba;
+}
+.theme2 .calendar td {
+  border-color: white;
+}
 form {
   width: 90%;
   max-width: 500px;
@@ -84,6 +97,7 @@ form {
   align-items: center;
   justify-content: space-between;
   font-size: 14px;
+  color: #212529;
 }
 #goalForm {
   min-height: 70vh;
@@ -93,6 +107,15 @@ form {
   background-color: #ffffba;
 }
 #goalForm button[type='submit'] {
+  width: 45%;
+  margin-bottom: 10px;
+}
+#acntSettingsForm {
+  min-height: 55vh;
+  margin-top: 20px;
+  margin-bottom: 60px;
+}
+#acntSettingsForm button[type='submit'] {
   width: 45%;
   margin-bottom: 10px;
 }
@@ -148,6 +171,32 @@ textarea {
 #priorityBtns .selected {
   border: 2px solid black;
 }
+#themeBtns {
+  display: flex;
+  justify-content: space-around;
+}
+#themeBtns button {
+  width: 40%;
+}
+#themeBtns .selected {
+  border: 2px solid black;
+}
+#themeBtns #themeBtn1 {
+  background-color: white;
+}
+#themeBtns #themeBtn2 {
+  background-color: #282828;
+  color: white;
+}
+#themeBtns #themeBtn2.selected {
+  border-color: white;
+}
+#passwordsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 #progHeader {
   display: flex;
   justify-content: space-between;
@@ -157,6 +206,32 @@ textarea {
 }
 #progressBar {
   margin-top: 5px;
+}
+#usernameContainer {
+  display: flex;
+  width: 100%;
+}
+#usernameContainer #checkAvail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  font-size: 13px;
+  background-color: #ffdfba;
+  border: 1px solid black;
+  cursor: pointer;
+}
+#usernameContainer #checkAvail:hover {
+  background-color: #ffc787;
+}
+#usernameContainer input {
+  width: 70%;
+}
+#usernameContainer .available {
+  background-color: #d4ffdd;
+}
+#usernameContainer .unavailable {
+  background-color: #ffcdd1;
 }
 #cancelBtn {
   margin: 0 0 0 5%;
@@ -177,6 +252,7 @@ textarea {
   width: 90%;
   z-index: 11;
   background-color: #c4e1ff;
+  color: #212529;
   min-height: 30vh;
   justify-content: space-around;
 }
@@ -204,13 +280,20 @@ textarea {
   width: -moz-fit-content;
   width: fit-content;
 }
-#invalidMsg {
+#invalidMsg,
+#invalidMsgAcnt {
   position: absolute;
-  top: 55px;
   font-size: 14px;
+  color: #212529;
   text-align: center;
   width: 100%;
   background-color: #ffb3ba;
+}
+#invalidMsg {
+  top: 55px;
+}
+#invalidMsgAcnt {
+  bottom: 4vh;
 }
 #completedPopUp {
   text-align: center;
@@ -283,9 +366,10 @@ header #logo {
   top: 55px;
   height: 80vh;
   background-color: #c4e1ff;
+  color: #212529;
   z-index: 1;
 }
-#navMenu #username {
+#navMenu #usernameDisplay {
   font-weight: bold;
   margin: 0 5px;
 }
@@ -310,8 +394,8 @@ header #logo {
 }
 #navMenu #topLinks #topLink,
 #navMenu #lowerLinks #topLink,
-#navMenu #topLinks #bottomLink,
-#navMenu #lowerLinks #bottomLink {
+#navMenu #topLinks #settingsLink,
+#navMenu #lowerLinks #settingsLink {
   border-top: 1px solid #212529;
 }
 #navMenu #topLinks #bottomLink,
@@ -378,6 +462,7 @@ header #logo {
   margin-bottom: 1.5vh;
   min-height: 220px;
   font-size: 14px;
+  color: #212529;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -476,6 +561,7 @@ header #logo {
 }
 .calendar thead {
   background-color: #ffdfba;
+  color: #212529;
 }
 .calendar td {
   border: 1px solid black;

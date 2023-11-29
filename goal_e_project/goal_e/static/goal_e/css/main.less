@@ -35,6 +35,7 @@
 // General 
 body {
     font-family: 'Roboto', sans-serif;
+    color: @textBlack;
 }
 
 main {
@@ -69,11 +70,6 @@ p {
     .fit-content();
 }
 
-.darkTheme {
-    background-color: rgb(35, 35, 35);
-    color: white;
-}
-
 // Colors 
 .red {
     background-color: @red;
@@ -95,6 +91,33 @@ p {
     background-color: @blue;
 }
 
+// Dark Theme
+@darkThemeRGB: 40;
+@darkThemeBlack: rgb(@darkThemeRGB, @darkThemeRGB, @darkThemeRGB);
+
+.theme2 {
+    background-color: @darkThemeBlack;
+    color: white;
+
+    #calendarTitle {
+        input {
+            background-color: @orange;
+        }
+    }
+
+    .calendar {
+        border-color: white;
+
+        thead {
+            border: 1px solid @orange;
+        }
+
+        td {
+            border-color: white;
+        }
+    }
+}
+
 // Forms
 form {
     width: @cardWidth;
@@ -105,6 +128,7 @@ form {
     align-items: center;
     justify-content: space-between;
     font-size: @smallerFont;
+    color: @textBlack;
 }
 
 #goalForm {
@@ -114,6 +138,17 @@ form {
     button {
         background-color: @yellow;
     }
+
+    button[type='submit'] {
+        width: 45%;
+        margin-bottom: 10px;
+    }
+}
+
+#acntSettingsForm {
+    min-height: 55vh;
+    margin-top: 20px;
+    margin-bottom: 60px;
 
     button[type='submit'] {
         width: 45%;
@@ -186,6 +221,39 @@ textarea {
     }
 }
 
+#themeBtns {
+    display: flex;
+    justify-content: space-around;
+
+    button {
+        width: 40%;
+    }
+
+    .selected {
+        border: 2px solid black;
+    }
+
+    #themeBtn1 {
+        background-color: white;
+    }
+
+    #themeBtn2 {
+        background-color: @darkThemeBlack;
+        color: white;
+    }
+
+    #themeBtn2.selected {
+        border-color: white;
+    }
+}
+
+#passwordsContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 #progHeader {
     display: flex;
     justify-content: space-between;
@@ -197,6 +265,38 @@ textarea {
 
 #progressBar {
     margin-top: 5px;
+}
+
+#usernameContainer {
+    display: flex;
+    width: 100%;
+
+    #checkAvail {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30%;
+        font-size: 13px;
+        background-color: @orange;
+        border: 1px solid black;
+        cursor: pointer;
+
+        &:hover {
+            background-color: darken(@orange, 10%);
+        }
+    }
+
+    input {
+        width: 70%;
+    }
+
+    .available {
+        background-color: lighten(@green, @ligthenPerc);
+    }
+
+    .unavailable {
+        background-color: lighten(@red, @ligthenPerc);
+    }
 }
 
 #cancelBtn {
@@ -220,6 +320,7 @@ textarea {
     z-index: 11;
 
     background-color: @blue;
+    color: @textBlack;
     min-height: 30vh;
     justify-content: space-around;
 
@@ -249,13 +350,21 @@ textarea {
     .fit-content();
 }
 
-#invalidMsg {
+#invalidMsg, #invalidMsgAcnt {
     position: absolute;
-    top: @headerHeight;
     font-size: @smallerFont;
+    color: @textBlack;
     text-align: center;
     width: 100%;
     background-color: @red;
+}
+
+#invalidMsg {
+    top: @headerHeight;
+}
+
+#invalidMsgAcnt {
+    bottom: 4vh;
 }
 
 // Mark Goal as Complete Pop-up
@@ -353,9 +462,10 @@ header {
     top: @headerHeight;
     height: 80vh;
     background-color: @blue;
+    color: @textBlack;
     z-index: 1;
 
-    #username {
+    #usernameDisplay {
         font-weight: bold;
         margin: 0 5px;
     }
@@ -378,7 +488,7 @@ header {
             }
         }
 
-        #topLink, #bottomLink {
+        #topLink, #settingsLink {
             border-top: @linkBorder;
         }
 
@@ -466,6 +576,7 @@ header {
 
     min-height: 220px;
     font-size: 14px;
+    color: @textBlack;
 
     display: flex;
     flex-direction: column;
@@ -589,7 +700,7 @@ header {
     min-height: 80vh;
     table-layout: fixed;
 
-    .testBorder;
+    .testBorder();
 
     .False {
         color: gray;
@@ -597,6 +708,7 @@ header {
 
     thead {
         background-color: @orange;
+        color: @textBlack;
     }
 
     td {
