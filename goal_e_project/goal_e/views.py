@@ -180,6 +180,7 @@ def resource_not_found(request: HttpRequest, exception=None):
 @redirect_when_logged_in
 def signup_view(request: HttpRequest):
     context = {}
+    status_code = 200
 
     if request.method == 'POST':
         username = request.POST['username']
@@ -200,11 +201,17 @@ def signup_view(request: HttpRequest):
                 'errors': errors
             }
 
-    return render(request, 'auth/signup.html', context)
+            status_code = 400
+
+    response = render(request, 'auth/signup.html', context)
+    response.status_code = status_code
+
+    return response
 
 @redirect_when_logged_in
 def login_view(request: HttpRequest):
     context = {}
+    status_code = 200
 
     if request.method == 'POST':
         username = request.POST['username']
@@ -220,9 +227,14 @@ def login_view(request: HttpRequest):
             context = {
                 'username': username,
                 'message': 'Invalid username and/or password'
-            } 
+            }
 
-    return render(request, 'auth/login.html', context)
+            status_code = 401 
+    
+    response = render(request, 'auth/login.html', context)
+    response.status_code = status_code
+    
+    return response
 
 @login_required
 def sign_out_view(request: HttpRequest):

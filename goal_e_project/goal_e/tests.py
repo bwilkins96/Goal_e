@@ -304,6 +304,59 @@ class ViewTests(TestCase):
         self.assertEqual(goal_list[0], self.goal)
         self.assertEqual(goal_list[0].deadline, deadline)
 
+    def test_login_view(self):
+        invalid_login = {'username': 'not_real_user', 'password': 'not_real_password'}
+        response = self.client.post(self.urls_logged_out['goal_e:login'], invalid_login)
+
+        self.assertEqual(response.status_code, 401)
+
+        valid_login = {'username': 'test_user', 'password': 'password'}
+        response = self.client.post(self.urls_logged_out['goal_e:login'], valid_login)
+        
+        self.assertEqual(response.wsgi_request.user, self.user)
+        self.assertRedirects(response, self.urls_logged_in['goal_e:index'], 302)
+
+    def test_signup_view(self):
+        non_matching_passwords = {
+            'username': 'test_user3',
+            'password': 'password',
+            'confirmPassword': 'non_matching_password'
+        }
+
+        response = self.client.post(self.urls_logged_out['goal_e:signup'], non_matching_passwords)
+        self.assertEqual(response.status_code, 400)
+
+        username_exists = {
+            'username': 'test_user',
+            'password': 'password',
+            'confirmPassword': 'password'
+        }
+
+        response = self.client.post(self.urls_logged_out['goal_e:signup'], username_exists)
+        self.assertEqual(response.status_code, 400)
+
+        valid_sign_up = {
+            'username': 'test_user3',
+            'password': 'password',
+            'confirmPassword': 'password'
+        }
+
+        response = self.client.post(self.urls_logged_out['goal_e:signup'], valid_sign_up)
+        self.assertRedirects(response, self.urls_logged_in['goal_e:index'], 302)
+
+    def test_signout_view(self):
+        self.client.login(username='test_user', password='password')
+        
+        response = self.client.get(self.urls_logged_in['goal_e:index'])
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.get(reverse('goal_e:sign_out'))
+        self.assertRedirects(response, self.urls_logged_out['goal_e:login'], 302)
+
+        response = self.client.get(self.urls_logged_in['goal_e:index'])
+        self.assertEqual(response.status_code, 302)
+
+
         
         
 
