@@ -273,6 +273,37 @@ class ViewTests(TestCase):
         self.assertEqual(completed.completed, date.today())
         self.assertEqual(completed.progress, 100)
 
+    def test_calendar_view(self):
+        self.client.login(username='test_user', password='password')        
+        response = self.client.get(self.urls_logged_in['goal_e:calendar_default'])
+        today = date.today()
+
+        context = response.context
+        self.assertEqual(context['year'], today.year)
+        self.assertEqual(context['month'], today.month)
+
+        response = self.client.get(reverse('goal_e:calendar', args=[1, 2024]))
+
+        context = response.context
+        self.assertEqual(context['year'], 2024)
+        self.assertEqual(context['month'], 1)
+
+    def test_daily_goals(self):
+        self.client.login(username='test_user', password='password')
+
+        today = date.today()
+        response = self.client.get(reverse('goal_e:daily_goals', args=[today.month, today.day, today.year]))        
+        
+        goal_list = response.context['goal_list']
+        self.assertEqual(len(goal_list), 0)
+
+        deadline = get_week_from_today()
+        response = self.client.get(reverse('goal_e:daily_goals', args=[deadline.month, deadline.day, deadline.year]))
+        
+        goal_list = response.context['goal_list']
+        self.assertEqual(goal_list[0], self.goal)
+        self.assertEqual(goal_list[0].deadline, deadline)
+
         
         
 
