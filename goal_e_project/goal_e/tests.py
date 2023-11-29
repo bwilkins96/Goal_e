@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 from .models import Profile, Goal
+from .goal_calendar import GoalCalendar, GoalCalendarNode
 
 from .utils import get_week_from_today
 
@@ -111,7 +112,53 @@ class GoalModelTests(TestCase):
 
         self.assertEqual(self.goal.completed, None)
         self.assertEqual(self.profile.points, 0)
-    
+
+class GoalCalendarTests(TestCase):
+    """Tests for GoalCalendar class"""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create_user(username='test_user')
+        cls.profile = Profile.objects.create(user=cls.user)
+        
+        cls.goal = Goal.objects.create(title='test goal', 
+                                       description='test description', 
+                                       deadline=date(2023, 11, 1), 
+                                       priority=2, 
+                                       progress=50.0,
+                                       profile=cls.profile)
+        
+        cls.calendar = GoalCalendar(11, 2023, cls.profile, GoalCalendarNode)
+
+    def test_data(self):
+        first = self.calendar.data[0][0]
+        self.assertEqual(first.day, 30)
+        self.assertFalse(first.current_month)
+        self.assertEqual(len(first.goals), 0)
+
+        last = self.calendar.data[-1][-1]
+        self.assertEqual(last.day, 10)
+        self.assertFalse(last.current_month)
+        self.assertEqual(len(last.goals), 0)
+
+        nov1_idx = self.calendar.get_first_day_idx()
+        nov1 = self.calendar.data[0][nov1_idx]
+        self.assertEqual(nov1.day, 1)
+        self.assertTrue(nov1.current_month)
+        self.assertEqual(len(nov1.goals), 1)
+
+    def test_get_first_day_idx(self):
+        expected = 2
+        actual = self.calendar.get_first_day_idx()
+
+        self.assertEqual(expected, actual)
+
+    def test_get_week_day_idx(self):
+        first_day_idx = self.calendar.get_first_day_idx()
+        week_idx, day_idx = self.calendar.get_week_day_idx(15, first_day_idx)
+
+        self.assertEqual(week_idx, 2)
+        self.assertEqual(day_idx, 2)
 
 class ViewTests(TestCase):
     """Tests for behavior of views"""
@@ -139,17 +186,17 @@ class ViewTests(TestCase):
                                         profile=cls.profile2)
         
         cls.urls_logged_in = {
-            'goal_e:index': reverse('goal_e:index'),
-            'goal_e:past_goals': reverse('goal_e:past_goals'),
-            'goal_e:new_goal': reverse('goal_e:new_goal'),
-            'goal_e:calendar_default': reverse('goal_e:calendar_default'),
-            'goal_e:calendar_daily_goals': reverse('goal_e:daily_goals', args=[11, 5, 2023]),
-            'goal_e:account_settings': reverse('goal_e:account_settings'),
+            'index': reverse('goal_e:index'),
+            'past_goals': reverse('goal_e:past_goals'),
+            'new_goal': reverse('goal_e:new_goal'),
+            'calendar_default': reverse('goal_e:calendar_default'),
+            'calendar_daily_goals': reverse('goal_e:daily_goals', args=[11, 5, 2023]),
+            'account_settings': reverse('goal_e:account_settings'),
         }
 
         cls.urls_logged_out = {
-            'goal_e:signup': reverse('goal_e:signup'),
-            'goal_e:login': reverse('goal_e:login'),
+            'signup': reverse('goal_e:signup'),
+            'login': reverse('goal_e:login'),
         }
 
         cls.valid_goal_req = {
@@ -196,7 +243,7 @@ class ViewTests(TestCase):
 
     def test_user_can_only_access_own_goals(self):
         self.client.login(username='test_user', password='password')
-        response = self.client.get(self.urls_logged_in['goal_e:index'])
+        response = self.client.get(self.urls_logged_in['index'])
 
         goal_list = response.context['goal_list']
         self.assertTrue(self.goal in goal_list)
@@ -211,41 +258,41 @@ class ViewTests(TestCase):
     def test_index(self):
         self.client.login(username='test_user', password='password')
 
-        response = self.client.get(self.urls_logged_in['goal_e:index'])
+        response = self.client.get(self.urls_logged_in['index'])
         goal_list = response.context['goal_list']
         self.assertEqual(len(goal_list), 1)
 
         self.goal.complete_goal()
         self.goal.save()
 
-        response = self.client.get(self.urls_logged_in['goal_e:index'])
+        response = self.client.get(self.urls_logged_in['index'])
         goal_list = response.context['goal_list']
         self.assertEqual(len(goal_list), 0)
         
     def test_past_goals(self):
         self.client.login(username='test_user', password='password')
 
-        response = self.client.get(self.urls_logged_in['goal_e:past_goals'])
+        response = self.client.get(self.urls_logged_in['past_goals'])
         goal_list = response.context['goal_list']
         self.assertEqual(len(goal_list), 0)
 
         self.goal.complete_goal()
         self.goal.save()
 
-        response = self.client.get(self.urls_logged_in['goal_e:past_goals'])
+        response = self.client.get(self.urls_logged_in['past_goals'])
         goal_list = response.context['goal_list']
         self.assertEqual(len(goal_list), 1)
 
     def test_new_goal(self):
         self.client.login(username='test_user', password='password')
 
-        response = self.client.post(self.urls_logged_in['goal_e:new_goal'], self.valid_goal_req)
+        response = self.client.post(self.urls_logged_in['new_goal'], self.valid_goal_req)
         new_goal = Goal.objects.filter(id=3).first()   
 
         self.assertTrue(new_goal)
 
         with self.assertRaises(ValidationError):
-            self.client.post(self.urls_logged_in['goal_e:new_goal'], self.invalid_goal_req)
+            self.client.post(self.urls_logged_in['new_goal'], self.invalid_goal_req)
 
     def test_edit_goal(self):
         self.client.login(username='test_user', password='password')
@@ -275,7 +322,7 @@ class ViewTests(TestCase):
 
     def test_calendar_view(self):
         self.client.login(username='test_user', password='password')        
-        response = self.client.get(self.urls_logged_in['goal_e:calendar_default'])
+        response = self.client.get(self.urls_logged_in['calendar_default'])
         today = date.today()
 
         context = response.context
@@ -306,15 +353,15 @@ class ViewTests(TestCase):
 
     def test_login_view(self):
         invalid_login = {'username': 'not_real_user', 'password': 'not_real_password'}
-        response = self.client.post(self.urls_logged_out['goal_e:login'], invalid_login)
+        response = self.client.post(self.urls_logged_out['login'], invalid_login)
 
         self.assertEqual(response.status_code, 401)
 
         valid_login = {'username': 'test_user', 'password': 'password'}
-        response = self.client.post(self.urls_logged_out['goal_e:login'], valid_login)
+        response = self.client.post(self.urls_logged_out['login'], valid_login)
         
         self.assertEqual(response.wsgi_request.user, self.user)
-        self.assertRedirects(response, self.urls_logged_in['goal_e:index'], 302)
+        self.assertRedirects(response, self.urls_logged_in['index'], 302)
 
     def test_signup_view(self):
         non_matching_passwords = {
@@ -323,7 +370,7 @@ class ViewTests(TestCase):
             'confirmPassword': 'non_matching_password'
         }
 
-        response = self.client.post(self.urls_logged_out['goal_e:signup'], non_matching_passwords)
+        response = self.client.post(self.urls_logged_out['signup'], non_matching_passwords)
         self.assertEqual(response.status_code, 400)
 
         username_exists = {
@@ -332,7 +379,7 @@ class ViewTests(TestCase):
             'confirmPassword': 'password'
         }
 
-        response = self.client.post(self.urls_logged_out['goal_e:signup'], username_exists)
+        response = self.client.post(self.urls_logged_out['signup'], username_exists)
         self.assertEqual(response.status_code, 400)
 
         valid_sign_up = {
@@ -341,19 +388,19 @@ class ViewTests(TestCase):
             'confirmPassword': 'password'
         }
 
-        response = self.client.post(self.urls_logged_out['goal_e:signup'], valid_sign_up)
-        self.assertRedirects(response, self.urls_logged_in['goal_e:index'], 302)
+        response = self.client.post(self.urls_logged_out['signup'], valid_sign_up)
+        self.assertRedirects(response, self.urls_logged_in['index'], 302)
 
     def test_signout_view(self):
         self.client.login(username='test_user', password='password')
         
-        response = self.client.get(self.urls_logged_in['goal_e:index'])
+        response = self.client.get(self.urls_logged_in['index'])
         self.assertEqual(response.status_code, 200)
 
         response = self.client.get(reverse('goal_e:sign_out'))
-        self.assertRedirects(response, self.urls_logged_out['goal_e:login'], 302)
+        self.assertRedirects(response, self.urls_logged_out['login'], 302)
 
-        response = self.client.get(self.urls_logged_in['goal_e:index'])
+        response = self.client.get(self.urls_logged_in['index'])
         self.assertEqual(response.status_code, 302)
 
     def test_username_available(self):
