@@ -356,6 +356,19 @@ class ViewTests(TestCase):
         response = self.client.get(self.urls_logged_in['goal_e:index'])
         self.assertEqual(response.status_code, 302)
 
+    def test_username_available(self):
+        response = self.client.get(reverse('goal_e:username_available', args=['test_user3'])).json()
+        self.assertTrue(response['available'])
+
+        response = self.client.get(reverse('goal_e:username_available', args=['test_user'])).json()
+        self.assertFalse(response['available'])
+
+        self.client.login(username='test_user', password='password')
+        response = self.client.get(reverse('goal_e:username_available', args=['test_user'])).json()
+        self.assertEqual(response['available'], 'current username')
+
+
+
 
         
         
