@@ -82,10 +82,10 @@ def get_week_from_today_str() -> str:
     return get_yyyy_mm_dd(next_week)
 
 def add_years(date_inst: date, years: int) -> date:
-    date_inst = date_inst.replace(year = date_inst.year + years)
-
-    if (date_inst.month == 2) and (date_inst.day == 29):
+    if (date_inst.month == 2) and (date_inst.day == 29) and (years % 4 != 0):
         date_inst = date_inst.replace(month = 3, day = 1) 
+
+    date_inst = date_inst.replace(year = date_inst.year + years)
 
     return date_inst
 
