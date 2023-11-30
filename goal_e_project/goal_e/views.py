@@ -288,6 +288,7 @@ def account_settings(request: HttpRequest):
     profile = user.profile
 
     errors = defaultdict(list)
+    status_code = 200
     
     if request.method == 'POST':
         new_username = request.POST['username']
@@ -320,14 +321,18 @@ def account_settings(request: HttpRequest):
             request.session['prev_action'] = ('Settings Saved', 'blue')
         else:
             request.session['prev_action'] = ('Error Saving Settings', 'red')
+            status_code = 400
 
     context = { 
         'profile': profile,
         'prev_action': get_prev_action(request),
         'errors': errors
     }
- 
-    return render(request, 'goal_e/acnt_settings.html', context)
+    
+    response = render(request, 'goal_e/acnt_settings.html', context)
+    response.status_code = status_code
+
+    return response
 
 def username_available(request: HttpRequest, username: str):
     available = True

@@ -403,6 +403,40 @@ class ViewTests(TestCase):
         response = self.client.get(self.urls_logged_in['index'])
         self.assertEqual(response.status_code, 302)
 
+    def test_account_settings(self):
+        self.client.login(username='test_user', password='password')
+
+        valid_settings = {
+            'username': 'test_user3',
+            'password': 'new_password',
+            'confirmPassword': 'new_password',
+            'theme': 2
+        }
+
+        response = self.client.post(self.urls_logged_in['account_settings'], valid_settings)
+        updated_user = User.objects.get(id=1)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(updated_user.username, 'test_user3')
+        self.assertEqual(updated_user.profile.theme, 2)
+        self.assertTrue(self.client.login(username='test_user3', password='new_password')) 
+
+
+        invalid_settings = {
+            'username': 'test_user2',
+            'password': 'new_password_2',
+            'confirmPassword': 'non_matching_new_password',
+            'theme': 1
+        }
+
+        response = self.client.post(self.urls_logged_in['account_settings'], invalid_settings)
+        updated_user = User.objects.get(id=1)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(updated_user.username, 'test_user3')
+        self.assertEqual(updated_user.profile.theme, 2) 
+        self.assertFalse(self.client.login(username='test_user3', password='new_password_2')) 
+
     def test_username_available(self):
         response = self.client.get(reverse('goal_e:username_available', args=['test_user3'])).json()
         self.assertTrue(response['available'])
