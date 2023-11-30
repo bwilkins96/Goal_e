@@ -124,7 +124,6 @@ def edit_goal(request: HttpRequest, goal_id: int):
     context = {
         'goal': goal,
         'date_val': get_yyyy_mm_dd(goal.deadline),
-        'min_date': get_yyyy_mm_dd(date.today()),
         'max_date': get_yyyy_mm_dd(add_years(date.today(), 100))
     }
 
