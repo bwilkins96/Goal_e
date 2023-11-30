@@ -1,164 +1,12 @@
-from datetime import date, timedelta
+from datetime import date
 
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from .models import Profile, Goal
-from .goal_calendar import GoalCalendar, GoalCalendarNode
-
-from .utils import *
-
-class ProfileModelTests(TestCase):
-    """Tests for Profile model class"""
-    
-    @classmethod
-    def setUpTestData(cls):
-        cls.user = User.objects.create_user(username='test_user')
-        cls.profile = Profile.objects.create(user=cls.user)
-
-    def test_add_points(self):
-        self.profile.add_points(-500)
-        self.assertEqual(self.profile.points, 0)
-
-        self.profile.add_points(1000)
-        self.assertEqual(self.profile.points, 1000)
-
-    def test_get_points_str(self):
-        self.profile.points = 0
-        self.assertEqual(self.profile.get_points_str(), '0')
-
-        self.profile.points = 1000
-        self.assertEqual(self.profile.get_points_str(), '1,000')
-
-        self.profile.points = 1000000
-        self.assertEqual(self.profile.get_points_str(), '1,000,000')
-
-class GoalModelTests(TestCase):
-    """Tests for Goal model class"""
-
-    @classmethod
-    def setUpTestData(cls):
-        cls.user = User.objects.create_user(username='test_user')
-        cls.profile = Profile.objects.create(user=cls.user)
-        
-        cls.goal = Goal.objects.create(title='test goal', 
-                                        description='test description', 
-                                        deadline=get_week_from_today(), 
-                                        priority=2, 
-                                        progress=50.0,
-                                        profile=cls.profile)
-        
-    def test_get_progress_str(self):
-        self.goal.progress = 50.0
-        self.assertEqual(self.goal.get_progress_str(), '50%')
-
-        self.goal.progress = 75.2495
-        self.assertEqual(self.goal.get_progress_str(), '75.25%')
-
-    def test_get_deadline_str(self):
-        self.goal.deadline = date(2023, 11, 5)
-        self.assertEqual(self.goal.get_deadline_str(), 'November 05, 2023')
-
-    def test_get_completed_str(self):
-        self.goal.completed = date(2023, 11, 5)
-        self.assertEqual(self.goal.get_completed_str(), 'November 05, 2023')
-
-    def test_get_title_str(self):
-        self.assertEqual(self.goal.get_title_str(), 'test goal')
-       
-        str_len = 20
-        self.goal.title = 'this is a veeeeeeeeeeeeeeeeeeeeeeeeery long title'
-        self.assertEqual(len(self.goal.get_title_str()), str_len + 3)
-
-    def test_calculate_points(self):
-        self.goal.completed = date.today()
-        points_target = 34000
-        self.assertEqual(points_target, self.goal.calculate_points())
-
-        # min possible
-        self.goal.priority = 1
-        self.goal.completed = date.today() + timedelta(days=100)
-        points_target = 10000
-        self.assertEqual(points_target, self.goal.calculate_points())
-
-        # max possible
-        self.goal.priority = 3
-        self.goal.completed = date.today() - timedelta(days=100)
-        points_target = 60000
-        self.assertEqual(points_target, self.goal.calculate_points())
-
-    def test_add_and_undo_points(self):
-        self.goal.completed = date.today()
-        points_target = 34000
-
-        self.goal.add_points()
-        self.assertEqual(points_target, self.profile.points)
-
-        self.goal.undo_points()
-        self.assertEqual(0, self.profile.points)
-
-    def test_complete_goal(self):
-        self.goal.complete_goal()
-        
-        self.assertEqual(self.goal.completed, date.today())
-        self.assertEqual(self.goal.progress, 100.0)
-        self.assertEqual(self.profile.points, self.goal.calculate_points())
-
-    def test_undo_complete(self):
-        self.goal.complete_goal()
-        self.goal.undo_complete()
-
-        self.assertEqual(self.goal.completed, None)
-        self.assertEqual(self.profile.points, 0)
-
-class GoalCalendarTests(TestCase):
-    """Tests for GoalCalendar class"""
-
-    @classmethod
-    def setUpTestData(cls):
-        cls.user = User.objects.create_user(username='test_user')
-        cls.profile = Profile.objects.create(user=cls.user)
-        
-        cls.goal = Goal.objects.create(title='test goal', 
-                                       description='test description', 
-                                       deadline=date(2023, 11, 1), 
-                                       priority=2, 
-                                       progress=50.0,
-                                       profile=cls.profile)
-        
-        cls.calendar = GoalCalendar(11, 2023, cls.profile, GoalCalendarNode)
-
-    def test_data(self):
-        first = self.calendar.data[0][0]
-        self.assertEqual(first.day, 30)
-        self.assertFalse(first.current_month)
-        self.assertEqual(len(first.goals), 0)
-
-        last = self.calendar.data[-1][-1]
-        self.assertEqual(last.day, 10)
-        self.assertFalse(last.current_month)
-        self.assertEqual(len(last.goals), 0)
-
-        nov1_idx = self.calendar.get_first_day_idx()
-        nov1 = self.calendar.data[0][nov1_idx]
-        self.assertEqual(nov1.day, 1)
-        self.assertTrue(nov1.current_month)
-        self.assertEqual(len(nov1.goals), 1)
-
-    def test_get_first_day_idx(self):
-        expected = 2
-        actual = self.calendar.get_first_day_idx()
-
-        self.assertEqual(expected, actual)
-
-    def test_get_week_day_idx(self):
-        first_day_idx = self.calendar.get_first_day_idx()
-        week_idx, day_idx = self.calendar.get_week_day_idx(15, first_day_idx)
-
-        self.assertEqual(week_idx, 2)
-        self.assertEqual(day_idx, 2)
+from ..models import Profile, Goal
+from ..utils import get_week_from_today
 
 class ViewTests(TestCase):
     """Tests for behavior of views"""
@@ -286,7 +134,7 @@ class ViewTests(TestCase):
     def test_new_goal(self):
         self.client.login(username='test_user', password='password')
 
-        response = self.client.post(self.urls_logged_in['new_goal'], self.valid_goal_req)
+        self.client.post(self.urls_logged_in['new_goal'], self.valid_goal_req)
         new_goal = Goal.objects.filter(id=3).first()   
 
         self.assertTrue(new_goal)
@@ -297,7 +145,7 @@ class ViewTests(TestCase):
     def test_edit_goal(self):
         self.client.login(username='test_user', password='password')
         
-        response = self.client.post(reverse('goal_e:edit_goal', args=[1]), self.valid_goal_req)
+        self.client.post(reverse('goal_e:edit_goal', args=[1]), self.valid_goal_req)
         edited_goal = Goal.objects.get(id=1)
         
         self.assertEqual(edited_goal.title, 'valid goal')
@@ -307,14 +155,14 @@ class ViewTests(TestCase):
 
     def test_delete_goal(self):
         self.client.login(username='test_user', password='password')        
-        response = self.client.post(reverse('goal_e:delete_goal'), {'id': 1})
+        self.client.post(reverse('goal_e:delete_goal'), {'id': 1})
 
         deleted = Goal.objects.filter(id=1).first()
         self.assertFalse(deleted)
 
     def test_complete_goal(self):
         self.client.login(username='test_user', password='password')        
-        response = self.client.post(reverse('goal_e:complete_goal', args=[1]), {'id': 1})
+        self.client.post(reverse('goal_e:complete_goal', args=[1]), {'id': 1})
         
         completed = Goal.objects.filter(id=1).first()
         self.assertEqual(completed.completed, date.today())
@@ -447,82 +295,3 @@ class ViewTests(TestCase):
         self.client.login(username='test_user', password='password')
         response = self.client.get(reverse('goal_e:username_available', args=['test_user'])).json()
         self.assertEqual(response['available'], 'current username')
-
-class UtilityTests(TestCase):
-    """Tests for utility functions in utils.py"""
-
-    @classmethod
-    def setUpTestData(cls):
-        cls.user = User.objects.create_user(username='test_user')
-        cls.profile = Profile.objects.create(user=cls.user)
-        
-        cls.goal = Goal.objects.create(title='test goal', 
-                                        description='test description', 
-                                        deadline=get_week_from_today(), 
-                                        priority=2, 
-                                        progress=50.0,
-                                        profile=cls.profile)
-
-    def test_user_already_exists(self):
-        self.assertTrue(user_already_exists('test_user'))
-        self.assertFalse(user_already_exists('this_user_does_not_exist'))
-
-    def test_url_equals_reversed(self):
-        test_url = 'http://goal-e.com' + reverse('goal_e:past_goals')
-       
-        self.assertTrue(url_equals_reversed(test_url, 'goal_e:past_goals'))
-        self.assertFalse(url_equals_reversed(test_url, 'goal_e:index'))
-
-    def test_num_str_with_commas(self):
-        self.assertEqual(num_str_with_commas(0), '0')
-        self.assertEqual(num_str_with_commas(1000), '1,000')
-        self.assertEqual(num_str_with_commas(1000000.56), '1,000,000.56')
-
-    def test_get_yyyy_mm_dd(self):
-        nov51996 = date(1996, 11, 5)
-        self.assertEqual(get_yyyy_mm_dd(nov51996), '1996-11-05')
-
-    def test_get_full_date(self):
-        nov51996 = date(1996, 11, 5)
-        self.assertEqual(get_full_date(nov51996), 'November 05, 1996')
-
-    def test_get_week_from_today(self):
-        week_from_today = date.today() + timedelta(days=7)
-        self.assertEqual(week_from_today, get_week_from_today())
-
-    def test_add_years(self):
-        leap_year_date = date(2024, 2, 29)
-        
-        expected = date(2025, 3, 1)
-        self.assertEqual(add_years(leap_year_date, 1), expected)
-
-        expected = date(2028, 2, 29)
-        self.assertEqual(add_years(leap_year_date, 4), expected)
-
-    def test_days_before(self):
-        nov1 = date(2023, 11, 1)
-        nov8 = date(2023, 11, 8)
-        oct25 = date(2023, 10, 25)
-
-        self.assertEqual(days_before(nov1, nov8), 7)
-        self.assertEqual(days_before(oct25, nov8), 14)
-
-    def test_get_prev_month_year(self):
-        self.assertEqual(get_prev_month_year(5, 2023), (4, 2023))
-        self.assertEqual(get_prev_month_year(1, 2023), (12, 2022))
-
-    def get_next_month_year(self):
-        self.assertEqual(get_next_month_year(5, 2023), (6, 2023))
-        self.assertEqual(get_next_month_year(12, 2023), (1, 2024))
-
-    def test_get_month_year_str(self):
-        self.assertEqual(get_month_year_str(11, 2023), 'November, 2023')
-
-    def test_get_month_input_val(self):
-        self.assertEqual(get_month_input_val(11, 2023), '2023-11')
-        self.assertEqual(get_month_input_val(5, 2023), '2023-05')
-
-    def test_last_of_month(self):
-        self.assertEqual(last_of_month(12, 2023), 31)
-        self.assertEqual(last_of_month(2, 2023), 28)
-        self.assertEqual(last_of_month(2, 2024), 29)
