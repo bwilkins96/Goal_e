@@ -253,6 +253,10 @@ def calendar_view(request: HttpRequest, month: int = None, year: int = None):
     date_plus_100 = add_years(today, 100)
     max_date = get_month_input_val(date_plus_100.month, date_plus_100.year)
 
+    today_id = None
+    if month == today.month:
+        today_id = f'True{today.day}'
+
     context = {
         'month_input_val': get_month_input_val(month, year),
         'calendar': GoalCalendar(month, year, profile, GoalCalendarNode).data,
@@ -260,7 +264,8 @@ def calendar_view(request: HttpRequest, month: int = None, year: int = None):
         'prev': get_prev_month_year(month, year),
         'month': month,
         'year': year,
-        'max_date': max_date
+        'max_date': max_date,
+        'today_id': today_id
     }
 
     return render(request, 'goal_e/calendar.html', context)

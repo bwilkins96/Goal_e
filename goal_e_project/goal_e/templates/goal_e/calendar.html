@@ -36,7 +36,7 @@
             <tr>
             {% for node in week %}
             
-                <td class="{{ node.current_month }}">
+                <td class="{{ node.current_month }}" id="{{ node.current_month }}{{ node.day }}">
                     {{ node.day }}
                     
                     {% if node.goals %}
@@ -52,5 +52,12 @@
         {% endfor %}
         </tbody>
     </table>
+
+    {% if today_id %}
+        <!-- Apply class for current day -->
+        <script>
+            applyTodayClass("{{ today_id }}")
+        </script>
+    {% endif %}
 
 {% endblock %}

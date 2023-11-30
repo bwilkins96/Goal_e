@@ -88,6 +88,9 @@ p {
 .theme2 .calendar td {
   border-color: white;
 }
+.theme2 .calendar .today {
+  background-color: #505050;
+}
 form {
   width: 90%;
   max-width: 500px;
@@ -597,6 +600,9 @@ header #logo {
 }
 .calendar td .completed:hover {
   color: #00d42e;
+}
+.calendar .today {
+  background-color: #e1e1e1;
 }
 .calendarLink {
   text-decoration: underline;

@@ -1,5 +1,6 @@
-// Redirect calendar on input change 
+/* Calendar related functions */
 
+// Redirect calendar on input change 
 function getMonthYear(inputVal) {
     let [year, month] = inputVal.split('-');
     month = Number(month);
@@ -16,4 +17,10 @@ function handleMonthChange(url) {
     } else {
         window.location = url
     }
+}
+
+// Add today class for current day
+function applyTodayClass(todayId) {
+    todayEle = document.getElementById(todayId);
+    todayEle.classList.add('today');
 }
