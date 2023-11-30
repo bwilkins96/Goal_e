@@ -27,7 +27,8 @@ from .utils import (
     get_next_month_year,
     get_prev_month_year,
     get_month_input_val,
-    user_already_exists
+    user_already_exists,
+    valid_username
 )
 
 @login_required
@@ -301,10 +302,12 @@ def account_settings(request: HttpRequest):
         new_theme = request.POST['theme']
 
         if user.username != new_username:
-            if not user_already_exists(new_username):
-                user.username = new_username
-            else:
+            if user_already_exists(new_username):
                 errors['user'].append('Username already exists')
+            elif not valid_username(new_username):
+                errors['user'].append('Username may have alphanumeric and _ - @ + .')
+            else:
+                user.username = new_username
 
         if new_pword or new_pword_conf:
             if new_pword == new_pword_conf:
@@ -345,6 +348,8 @@ def username_available(request: HttpRequest, username: str):
         available = 'current username'
     elif user_already_exists(username):
         available = False
+    elif not valid_username(username):
+        available = 'invalid username'
 
     return JsonResponse({
         'username': username,

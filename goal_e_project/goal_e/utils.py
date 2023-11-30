@@ -21,11 +21,23 @@ def user_already_exists(username: str) -> bool:
     prev_user = User.objects.filter(username=username)
     return bool(prev_user)
 
+def valid_username(username: str) -> bool:
+    if len(username) > 30: return False
+    allowed = set(['_', '@', '+', '.', '-'])
+
+    for char in username:
+        if not (char.isalnum() or char in allowed):
+            return False
+        
+    return True
+
 def get_signup_errors(username, password, password_conf):
     errors = defaultdict(list)
 
     if user_already_exists(username):
         errors['user'].append('Username already exists')
+    elif not valid_username(username):
+        errors['user'].append('Username may have alphanumeric and _ - @ + .')
 
     if password != password_conf:
         errors['password'].append('Passwords do not match')

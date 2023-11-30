@@ -17,6 +17,13 @@ class UtilityTests(TestCase):
         self.assertTrue(user_already_exists('test_user'))
         self.assertFalse(user_already_exists('this_user_does_not_exist'))
 
+    def test_valid_username(self):
+        self.assertTrue(valid_username('test_user@-.+'))
+        self.assertTrue(valid_username('@_username_with_30_characters_'))
+
+        self.assertFalse(valid_username('username with spaces'))
+        self.assertFalse(valid_username('username_with_more_than_30_characters'))
+
     def test_url_equals_reversed(self):
         test_url = 'http://goal-e.com' + reverse('goal_e:past_goals')
        

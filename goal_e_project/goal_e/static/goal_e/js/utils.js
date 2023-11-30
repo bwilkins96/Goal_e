@@ -143,9 +143,12 @@ async function checkUsernameAvailable() {
 
     const usernameLabel = document.querySelector('label[for="username"]');
     
-    if (available) {
+    if ((available == true) || (available == 'current username')) {
         usernameInput.classList.add('available');
         usernameLabel.innerHTML = 'Username <span>(Available)</span>';
+    } else if (available == 'invalid username') {
+        usernameInput.classList.add('unavailable');
+        usernameLabel.innerHTML = 'Username <span>(Invalid)</span>';
     } else {
         usernameInput.classList.add('unavailable');
         usernameLabel.innerHTML = 'Username <span>(Not Available)</span>';
