@@ -73,6 +73,23 @@ class Goal(models.Model):
             title_str += '...'
 
         return title_str
+    
+    def calculate_points(self):
+        points = 0
+        
+        if self.completed:
+            base = 10000
+            days_before_deadline = days_before(self.completed, self.deadline)
+            mult = 1000
+
+            if days_before_deadline > 0:
+                days_bonus = min(mult * days_before_deadline, 10000)
+            else: 
+                days_bonus = 0
+            
+            points = (base + days_bonus) * self.priority
+
+        return points
         
     def add_points(self):
         points = self.calculate_points()
@@ -94,23 +111,6 @@ class Goal(models.Model):
     def undo_complete(self):
         self.undo_points()
         self.completed = None
-
-    def calculate_points(self):
-        points = 0
-        
-        if self.completed:
-            base = 10000
-            days_before_deadline = days_before(self.completed, self.deadline)
-            mult = 1000
-
-            if days_before_deadline > 0:
-                days_bonus = min(mult * days_before_deadline, 10000)
-            else: 
-                days_bonus = 0
-            
-            points = (base + days_bonus) * self.priority
-
-        return points
 
     def __str__(self):
         return self.title

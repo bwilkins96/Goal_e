@@ -16,19 +16,19 @@
             <label for="username">Username</label>
             
             <div id="usernameContainer">
-                <input type="text" id="username" name="username" oninput="removeAvailableInfo()" maxlength="30" required>
-                <div id="checkAvail" onclick="checkUsernameAvailable()">Available?</div>
+                <input type="text" id="username" name="username" oninput="removeAvailableInfo()" maxlength="30" autocomplete="off" required>
+                <div id="checkAvail" onclick="checkUsernameAvailable('invalidMsg')">Available?</div>
             </div>
         </div>
 
         <div class="formEle">
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password" autocomplete="new-password" required>
         </div>
 
         <div class="formEle">
             <label for="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" required>
+            <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password" required>
         </div>
 
         <button type="submit">Sign up</button>

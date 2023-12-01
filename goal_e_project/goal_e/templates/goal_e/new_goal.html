@@ -25,15 +25,15 @@
 
         <div class="formEle">
             <label for="deadline">Deadline</label>
-            <input type="date" id="deadline" name="deadline" value={{ default_date }} min="{{ min_date }}" max="{{ max_date }}">
+            <input type="date" id="deadline" name="deadline" value={{ default_date }} min="{{ min_date }}" max="{{ max_date }}" required>
         </div>
 
         <div class="formEle">
-            <label for="priority">Priority</label>
+            <label>Priority</label>
             <div id="priorityBtns">
-                <button type="button" onclick="setPriority(1)" id="lowBtn">Low</button>
-                <button type="button" onclick="setPriority(2)" id="medBtn" class="selected">Medium</button>
-                <button type="button" onclick="setPriority(3)" id="highBtn">High</button>
+                <button type="button" onclick="setPriority(1)" id="lowBtn" aria-controls="priority">Low</button>
+                <button type="button" onclick="setPriority(2)" id="medBtn" class="selected" aria-controls="priority">Medium</button>
+                <button type="button" onclick="setPriority(3)" id="highBtn" aria-controls="priority">High</button>
             </div>
 
             <input type="hidden" id="priority" name="priority" value="2">
@@ -44,12 +44,12 @@
                 <label for="progress">Progress</label>
 
                 <span>
-                    <input type="number" id="progress" name="progress" value="0" min="0" max="100" onchange="changeProgBar()">
+                    <input type="number" id="progress" name="progress" value="0" min="0" max="100" step="any" onchange="changeProgBar()" aria-controls="progressBar" required>
                     %
                 </span>
             </div>
             
-            <input type="range" value="0" min="0" max="100" id="progressBar" oninput="changeProgInput()">
+            <input type="range" value="0" min="0" max="100" id="progressBar" oninput="changeProgInput()" aria-controls="progress">
         </div>
 
         <button type="submit">Set Goal!</button>

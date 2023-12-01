@@ -25,6 +25,9 @@ class GoalCalendarNode:
             return 'fa-medal'
         
         return 'fa-star'
+    
+    def __repr__(self):
+        return f'<{self.day}, {self.current_month}, {self.goals}>'
 
 class GoalCalendar:
     def __init__(self, month: int, year: int, profile: Profile, node_class):
@@ -101,3 +104,6 @@ class GoalCalendar:
 
         self._add_goals_to_data(month, year, profile)
         return data
+    
+    def __repr__(self):
+        return f'GoalCalendar: {self.data}'

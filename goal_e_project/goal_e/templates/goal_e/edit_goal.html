@@ -26,11 +26,11 @@
 
         <div class="formEle">
             <label for="deadline">Deadline</label>
-            <input type="date" id="deadline" name="deadline" value="{{ date_val }}" min="{{ min_date }}" max="{{ max_date }}">
+            <input type="date" id="deadline" name="deadline" value="{{ date_val }}" min="{{ date_val }}" max="{{ max_date }}" required>
         </div>
 
         <div class="formEle">
-            <label for="priority">Priority</label>
+            <label>Priority</label>
             <div id="priorityBtns">
                 <button type="button" onclick="setPriority(1)" id="lowBtn" {% if goal.priority == 1 %} class="selected" {% endif %} >Low</button>
                 <button type="button" onclick="setPriority(2)" id="medBtn" {% if goal.priority == 2 %} class="selected" {% endif %}>Medium</button>
@@ -45,12 +45,12 @@
                 <label for="progress">Progress</label>
 
                 <span>
-                    <input type="number" id="progress" name="progress" value="{{ goal.progress }}" min="0" max="100" onchange="changeProgBar()">
+                    <input type="number" id="progress" name="progress" value="{{ goal.progress }}" min="0" max="100" step="any" onchange="changeProgBar()" aria-controls="progressBar" required>
                     %
                 </span>
             </div>
             
-            <input type="range" value="{{ goal.progress }}" min="0" max="100" id="progressBar" oninput="changeProgInput()">
+            <input type="range" value="{{ goal.progress }}" min="0" max="100" id="progressBar" oninput="changeProgInput()" aria-controls="progress">
         </div>
 
         <button type="submit">Update Goal!</button>

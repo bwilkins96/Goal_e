@@ -88,6 +88,9 @@ p {
 .theme2 .calendar td {
   border-color: white;
 }
+.theme2 .calendar .today {
+  background-color: #505050;
+}
 form {
   width: 90%;
   max-width: 500px;
@@ -149,6 +152,15 @@ input[type='radio'] {
   height: 17.5px;
   width: 17.5px;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: auto;
+}
 textarea {
   resize: none;
 }
@@ -206,6 +218,7 @@ textarea {
 }
 #progressBar {
   margin-top: 5px;
+  color: #c4e1ff;
 }
 #usernameContainer {
   display: flex;
@@ -563,6 +576,9 @@ header #logo {
   background-color: #ffdfba;
   color: #212529;
 }
+.calendar thead th {
+  height: 26.8px;
+}
 .calendar td {
   border: 1px solid black;
   vertical-align: top;
@@ -598,6 +614,10 @@ header #logo {
 .calendar td .completed:hover {
   color: #00d42e;
 }
+.calendar .today {
+  background-color: #e1e1e1;
+  z-index: -1;
+}
 .calendarLink {
   text-decoration: underline;
   position: fixed;
@@ -626,6 +646,10 @@ header #logo {
 }
 #calendarTitle #right {
   margin-left: 5px;
+}
+#calendarTitle span {
+  width: -moz-fit-content;
+  width: fit-content;
 }
 #calendarTitle input {
   margin: 0;

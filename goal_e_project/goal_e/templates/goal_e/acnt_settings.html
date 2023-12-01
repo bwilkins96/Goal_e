@@ -18,28 +18,28 @@
             <label for="username">Username</label>
             
             <div id="usernameContainer">
-                <input type="text" id="username" name="username" value="{{ user }}" oninput="removeAvailableInfo()" maxlength="30" required>
-                <div id="checkAvail" onclick="checkUsernameAvailable()">Available?</div>
+                <input type="text" id="username" name="username" value="{{ user }}" oninput="removeAvailableInfo()" maxlength="30" autocomplete="off" required>
+                <div id="checkAvail" onclick="checkUsernameAvailable('invalidMsgAcnt')">Available?</div>
             </div>
         </div>
 
         <div id="passwordsContainer">
             <div class="formEle">
                 <label for="password">New Password</label>
-                <input type="password" id="password" name="password" placeholder="Leave blank for no change">
+                <input type="password" id="password" name="password" placeholder="Leave blank for no change" autocomplete="new-password">
             </div>
 
             <div class="formEle">
                 <label for="confirmPassword">Confirm New Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Leave blank for no change">
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Leave blank for no change" autocomplete="new-password">
             </div>
         </div>
 
         <div class="formEle">
-            <label for="theme">Theme</label>
+            <label>Theme</label>
             <div id="themeBtns">
-                <button type="button" onclick="changeTheme(this, 1)" id="themeBtn1" {% if profile.theme == 1 %} class="selected" {% endif %}>Light</button>
-                <button type="button" onclick="changeTheme(this, 2)" id="themeBtn2" {% if profile.theme == 2 %} class="selected" {% endif %}>Dark</button>
+                <button type="button" onclick="changeTheme(this, 1)" id="themeBtn1" {% if profile.theme == 1 %} class="selected" {% endif %} aria-controls="theme">Light</button>
+                <button type="button" onclick="changeTheme(this, 2)" id="themeBtn2" {% if profile.theme == 2 %} class="selected" {% endif %} aria-controls="theme">Dark</button>
             </div>
 
             <input type="hidden" id="theme" name="theme" value="{{ profile.theme }}">

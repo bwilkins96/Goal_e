@@ -1,6 +1,6 @@
 # Utility functions
 
-from calendar import month_name, monthrange
+from calendar import monthrange
 from collections import defaultdict
 from datetime import date, timedelta
 
@@ -21,11 +21,24 @@ def user_already_exists(username: str) -> bool:
     prev_user = User.objects.filter(username=username)
     return bool(prev_user)
 
-def get_signup_errors(username, password, password_conf):
-    errors = defaultdict(list)
+def valid_username(username: str) -> bool:
+    if len(username) > 30: return False
+    allowed = set(['_', '@', '+', '.', '-'])
 
-    if user_already_exists(username):
+    for char in username:
+        if not (char.isalnum() or char in allowed):
+            return False
+        
+    return True
+
+def get_user_errors(username: str, password: str, password_conf: str, user: User = None):
+    errors = defaultdict(list)
+    check_username_available = (user is None) or (user.username != username)
+
+    if check_username_available and user_already_exists(username):
         errors['user'].append('Username already exists')
+    elif not valid_username(username):
+        errors['user'].append('Username may have letters / numbers / _ - @ + .')
 
     if password != password_conf:
         errors['password'].append('Passwords do not match')
@@ -82,10 +95,10 @@ def get_week_from_today_str() -> str:
     return get_yyyy_mm_dd(next_week)
 
 def add_years(date_inst: date, years: int) -> date:
-    date_inst = date_inst.replace(year = date_inst.year + years)
-
-    if (date_inst.month == 2) and (date_inst.day == 29):
+    if (date_inst.month == 2) and (date_inst.day == 29) and (years % 4 != 0):
         date_inst = date_inst.replace(month = 3, day = 1) 
+
+    date_inst = date_inst.replace(year = date_inst.year + years)
 
     return date_inst
 
@@ -104,9 +117,6 @@ def get_next_month_year(month: int, year: int):
         return (1, year+1)
 
     return (month+1, year)
-
-def get_month_year_str(month: int, year: int):
-    return f'{month_name[month]}, {year}'
 
 def get_month_input_val(month: int, year: int):
     if month < 10:

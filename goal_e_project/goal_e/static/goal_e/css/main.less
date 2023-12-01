@@ -115,6 +115,10 @@ p {
         td {
             border-color: white;
         }
+
+        .today {
+            background-color: rgb(80,80,80);
+        }
     }
 }
 
@@ -193,6 +197,17 @@ input[type='checkbox'], input[type='radio'] {
     width: 17.5px;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type='number'] {
+    -moz-appearance: textfield;
+    appearance: auto;
+}
+
 textarea {
     resize: none;
 }
@@ -265,6 +280,7 @@ textarea {
 
 #progressBar {
     margin-top: 5px;
+    color: @blue;
 }
 
 #usernameContainer {
@@ -709,6 +725,10 @@ header {
     thead {
         background-color: @orange;
         color: @textBlack;
+       
+        th {
+            height: 26.8px;
+        }
     }
 
     td {
@@ -755,6 +775,11 @@ header {
             }
         }
     }
+
+    .today {
+        background-color: rgb(225,225,225);
+        z-index: -1;
+    }
 }
 
 .calendarLink {
@@ -789,6 +814,10 @@ header {
 
     #right {
         margin-left: @arrowMargin;
+    }
+
+    span {
+        .fit-content();
     }
 
     input {

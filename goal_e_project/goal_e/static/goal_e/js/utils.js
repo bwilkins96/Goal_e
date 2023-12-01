@@ -89,17 +89,17 @@ async function markGoalComplete(id) {
 
 // Signup / account settings form validation
 function clearMessage(msgId) {
-    message = document.getElementById(msgId);
+    const message = document.getElementById(msgId);
     
     if (message) {
         message.remove();
     }
 }
 
-function handleNonMatchingPasswords(msgId) {
+function addMessage(msg, msgId) {
     const message = document.createElement('p');
     message.id = msgId;
-    message.innerText = 'Passwords do not match';
+    message.innerText = msg;
 
     document.body.appendChild(message);
 }
@@ -113,7 +113,7 @@ function validatePasswords(e, msgId) {
 
     if (passwordsFilled && (password !== confirmPassword)) {
         e.preventDefault();
-        handleNonMatchingPasswords(msgId);
+        addMessage('Passwords do not match', msgId);
     }
 }
 
@@ -130,24 +130,34 @@ function removeAvailableInfo() {
     }
 }
 
-async function checkUsernameAvailable() {
+async function checkUsernameAvailable(msgId) {
     const usernameInput = document.getElementById('username');
     const username = usernameInput.value;
     if (!username) {
         return removeAvailableInfo();
     }
 
-    const response = await fetch(serverURL + '/usernameAvailable/' + username);
+    const reqOptions = {
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrfVal() },
+        body: JSON.stringify({ 'username': username })
+    };
+
+    const response = await fetch(serverURL + '/usernameAvailable', reqOptions);
     const jsonData = await response.json();
     const available = jsonData.available;
 
     const usernameLabel = document.querySelector('label[for="username"]');
     
-    if (available) {
+    if ((available == true) || (available == 'current username')) {
         usernameInput.classList.add('available');
-        usernameLabel.innerHTML += '<span> (Available)</span>'
+        usernameLabel.innerHTML = 'Username <span>(Available)</span>';
+    } else if (available == 'invalid username') {
+        usernameInput.classList.add('unavailable');
+        usernameLabel.innerHTML = 'Username <span>(Invalid)</span>';               
+        addMessage('Username may have letters / numbers / _ - @ + .', msgId)
     } else {
         usernameInput.classList.add('unavailable');
-        usernameLabel.innerHTML += '<span> (Not Available)</span>'
+        usernameLabel.innerHTML = 'Username <span>(Not Available)</span>';
     }
 }

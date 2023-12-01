@@ -1,9 +1,9 @@
-from collections import defaultdict
 from datetime import date
+from json import loads
 
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-from django.http import HttpRequest, HttpResponseRedirect, JsonResponse
+from django.http import HttpRequest, HttpResponseRedirect, JsonResponse, Http404
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -19,7 +19,7 @@ from .utils import (
     num_str_with_commas,
     get_prev_action,
     redirect_when_logged_in,
-    get_signup_errors,
+    get_user_errors,
     get_full_date,
     previous_url,
     get_prev_url,
@@ -27,7 +27,8 @@ from .utils import (
     get_next_month_year,
     get_prev_month_year,
     get_month_input_val,
-    user_already_exists
+    user_already_exists,
+    valid_username
 )
 
 @login_required
@@ -124,7 +125,6 @@ def edit_goal(request: HttpRequest, goal_id: int):
     context = {
         'goal': goal,
         'date_val': get_yyyy_mm_dd(goal.deadline),
-        'min_date': get_yyyy_mm_dd(date.today()),
         'max_date': get_yyyy_mm_dd(add_years(date.today(), 100))
     }
 
@@ -180,13 +180,14 @@ def resource_not_found(request: HttpRequest, exception=None):
 @redirect_when_logged_in
 def signup_view(request: HttpRequest):
     context = {}
+    status_code = 200
 
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         password_conf = request.POST['confirmPassword']
 
-        errors = get_signup_errors(username, password, password_conf)
+        errors = get_user_errors(username, password, password_conf)
 
         if not errors:
             user = User.objects.create_user(username, password=password)
@@ -200,11 +201,17 @@ def signup_view(request: HttpRequest):
                 'errors': errors
             }
 
-    return render(request, 'auth/signup.html', context)
+            status_code = 400
+
+    response = render(request, 'auth/signup.html', context)
+    response.status_code = status_code
+
+    return response
 
 @redirect_when_logged_in
 def login_view(request: HttpRequest):
     context = {}
+    status_code = 200
 
     if request.method == 'POST':
         username = request.POST['username']
@@ -220,9 +227,14 @@ def login_view(request: HttpRequest):
             context = {
                 'username': username,
                 'message': 'Invalid username and/or password'
-            } 
+            }
 
-    return render(request, 'auth/login.html', context)
+            status_code = 401 
+    
+    response = render(request, 'auth/login.html', context)
+    response.status_code = status_code
+    
+    return response
 
 @login_required
 def sign_out_view(request: HttpRequest):
@@ -231,11 +243,20 @@ def sign_out_view(request: HttpRequest):
     return HttpResponseRedirect(reverse('goal_e:login'))
 
 @login_required
-def calendar_view(request: HttpRequest, month: int = 11, year: int = 2023):
+def calendar_view(request: HttpRequest, month: int = None, year: int = None):
     profile = request.user.profile
+    today = date.today()
 
-    date_plus_100 = add_years(date.today(), 100)
+    if not (month or year):
+        month = today.month
+        year = today.year
+
+    date_plus_100 = add_years(today, 100)
     max_date = get_month_input_val(date_plus_100.month, date_plus_100.year)
+
+    today_id = None
+    if month == today.month and year == today.year:
+        today_id = f'True{today.day}'
 
     context = {
         'month_input_val': get_month_input_val(month, year),
@@ -244,7 +265,8 @@ def calendar_view(request: HttpRequest, month: int = 11, year: int = 2023):
         'prev': get_prev_month_year(month, year),
         'month': month,
         'year': year,
-        'max_date': max_date
+        'max_date': max_date,
+        'today_id': today_id
     }
 
     return render(request, 'goal_e/calendar.html', context)
@@ -269,8 +291,9 @@ def daily_goals(request: HttpRequest, month: int, day: int, year: int):
 def account_settings(request: HttpRequest):
     user = request.user
     profile = user.profile
-
-    errors = defaultdict(list)
+    
+    status_code = 200
+    errors = None
     
     if request.method == 'POST':
         new_username = request.POST['username']
@@ -278,24 +301,19 @@ def account_settings(request: HttpRequest):
         new_pword_conf = request.POST['confirmPassword']
         new_theme = request.POST['theme']
 
-        if user.username != new_username:
-            if not user_already_exists(new_username):
-                user.username = new_username
-            else:
-                errors['user'].append('Username already exists')
-
-        if new_pword or new_pword_conf:
-            if new_pword == new_pword_conf:
-                user.set_password(new_pword)
-            else:
-                errors['password'].append('Passwords do not match')
-
-        if new_theme != profile.theme:
-            profile.theme = new_theme
-
-        profile.full_clean()
+        errors = get_user_errors(new_username, new_pword, new_pword_conf, user)
 
         if not errors:
+            if user.username != new_username:
+                user.username = new_username
+
+            if new_pword:
+                user.set_password(new_pword)
+
+            if new_theme != profile.theme:
+                profile.theme = new_theme
+
+            profile.full_clean()
             user.save()
             profile.save()
             
@@ -303,22 +321,33 @@ def account_settings(request: HttpRequest):
             request.session['prev_action'] = ('Settings Saved', 'blue')
         else:
             request.session['prev_action'] = ('Error Saving Settings', 'red')
+            status_code = 400
 
     context = { 
         'profile': profile,
         'prev_action': get_prev_action(request),
         'errors': errors
     }
- 
-    return render(request, 'goal_e/acnt_settings.html', context)
+    
+    response = render(request, 'goal_e/acnt_settings.html', context)
+    response.status_code = status_code
 
-def username_available(request: HttpRequest, username: str):
+    return response
+
+def username_available(request: HttpRequest):
+    if request.method != 'POST':
+        raise Http404
+
     available = True
+    body = loads(request.body)
+    username = body['username']
 
     if request.user.username == username:
         available = 'current username'
     elif user_already_exists(username):
         available = False
+    elif not valid_username(username):
+        available = 'invalid username'
 
     return JsonResponse({
         'username': username,
