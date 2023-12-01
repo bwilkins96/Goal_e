@@ -137,7 +137,13 @@ async function checkUsernameAvailable() {
         return removeAvailableInfo();
     }
 
-    const response = await fetch(serverURL + '/usernameAvailable/' + username);
+    const reqOptions = {
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrfVal() },
+        body: JSON.stringify({ 'username': username })
+    };
+
+    const response = await fetch(serverURL + '/usernameAvailable', reqOptions);
     const jsonData = await response.json();
     const available = jsonData.available;
 

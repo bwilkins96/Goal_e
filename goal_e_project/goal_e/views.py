@@ -1,9 +1,10 @@
 from collections import defaultdict
 from datetime import date
+from json import loads
 
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-from django.http import HttpRequest, HttpResponseRedirect, JsonResponse
+from django.http import HttpRequest, HttpResponseRedirect, JsonResponse, Http404
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -305,7 +306,7 @@ def account_settings(request: HttpRequest):
             if user_already_exists(new_username):
                 errors['user'].append('Username already exists')
             elif not valid_username(new_username):
-                errors['user'].append('Username may have alphanumeric and _ - @ + .')
+                errors['user'].append('Username may have letters / numbers / _ - @ + .')
             else:
                 user.username = new_username
 
@@ -341,8 +342,13 @@ def account_settings(request: HttpRequest):
 
     return response
 
-def username_available(request: HttpRequest, username: str):
+def username_available(request: HttpRequest):
+    if request.method != 'POST':
+        raise Http404
+
     available = True
+    body = loads(request.body)
+    username = body['username']
 
     if request.user.username == username:
         available = 'current username'

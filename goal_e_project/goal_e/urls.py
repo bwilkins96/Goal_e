@@ -16,5 +16,5 @@ urlpatterns = [
     path('calendar', views.calendar_view, name='calendar_default'),
     path('dailyGoals/<int:month>/<int:day>/<int:year>', views.daily_goals, name='daily_goals'),
     path('accountSettings', views.account_settings, name='account_settings'),
-    path('usernameAvailable/<str:username>', views.username_available, name='username_available')
+    path('usernameAvailable', views.username_available, name='username_available')
 ]

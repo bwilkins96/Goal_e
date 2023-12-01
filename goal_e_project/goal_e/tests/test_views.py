@@ -1,4 +1,5 @@
 from datetime import date
+from json import dumps
 
 from django.test import TestCase
 from django.urls import reverse
@@ -286,12 +287,15 @@ class ViewTests(TestCase):
         self.assertFalse(self.client.login(username='test_user3', password='new_password_2')) 
 
     def test_username_available(self):
-        response = self.client.get(reverse('goal_e:username_available', args=['test_user3'])).json()
+        req_options = {'username': 'test_user3'}
+        response = self.client.post(reverse('goal_e:username_available'), req_options, content_type='application/json').json()
         self.assertTrue(response['available'])
 
-        response = self.client.get(reverse('goal_e:username_available', args=['test_user'])).json()
+        req_options = {'username': 'test_user'}
+        response = self.client.post(reverse('goal_e:username_available'), req_options, content_type='application/json').json()
         self.assertFalse(response['available'])
 
         self.client.login(username='test_user', password='password')
-        response = self.client.get(reverse('goal_e:username_available', args=['test_user'])).json()
+        req_options = {'username': 'test_user'}
+        response = self.client.post(reverse('goal_e:username_available'), req_options, content_type='application/json').json()
         self.assertEqual(response['available'], 'current username')

@@ -37,7 +37,7 @@ def get_signup_errors(username, password, password_conf):
     if user_already_exists(username):
         errors['user'].append('Username already exists')
     elif not valid_username(username):
-        errors['user'].append('Username may have alphanumeric and _ - @ + .')
+        errors['user'].append('Username may have letters / numbers / _ - @ + .')
 
     if password != password_conf:
         errors['password'].append('Passwords do not match')
