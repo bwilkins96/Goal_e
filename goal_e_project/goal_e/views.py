@@ -1,4 +1,3 @@
-from collections import defaultdict
 from datetime import date
 from json import loads
 
@@ -20,7 +19,7 @@ from .utils import (
     num_str_with_commas,
     get_prev_action,
     redirect_when_logged_in,
-    get_signup_errors,
+    get_user_errors,
     get_full_date,
     previous_url,
     get_prev_url,
@@ -188,7 +187,7 @@ def signup_view(request: HttpRequest):
         password = request.POST['password']
         password_conf = request.POST['confirmPassword']
 
-        errors = get_signup_errors(username, password, password_conf)
+        errors = get_user_errors(username, password, password_conf)
 
         if not errors:
             user = User.objects.create_user(username, password=password)
@@ -292,9 +291,9 @@ def daily_goals(request: HttpRequest, month: int, day: int, year: int):
 def account_settings(request: HttpRequest):
     user = request.user
     profile = user.profile
-
-    errors = defaultdict(list)
+    
     status_code = 200
+    errors = None
     
     if request.method == 'POST':
         new_username = request.POST['username']
@@ -302,26 +301,19 @@ def account_settings(request: HttpRequest):
         new_pword_conf = request.POST['confirmPassword']
         new_theme = request.POST['theme']
 
-        if user.username != new_username:
-            if user_already_exists(new_username):
-                errors['user'].append('Username already exists')
-            elif not valid_username(new_username):
-                errors['user'].append('Username may have letters / numbers / _ - @ + .')
-            else:
-                user.username = new_username
-
-        if new_pword or new_pword_conf:
-            if new_pword == new_pword_conf:
-                user.set_password(new_pword)
-            else:
-                errors['password'].append('Passwords do not match')
-
-        if new_theme != profile.theme:
-            profile.theme = new_theme
-
-        profile.full_clean()
+        errors = get_user_errors(new_username, new_pword, new_pword_conf, user)
 
         if not errors:
+            if user.username != new_username:
+                user.username = new_username
+
+            if new_pword:
+                user.set_password(new_pword)
+
+            if new_theme != profile.theme:
+                profile.theme = new_theme
+
+            profile.full_clean()
             user.save()
             profile.save()
             

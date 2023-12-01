@@ -1,6 +1,6 @@
 # Utility functions
 
-from calendar import month_name, monthrange
+from calendar import monthrange
 from collections import defaultdict
 from datetime import date, timedelta
 
@@ -31,10 +31,11 @@ def valid_username(username: str) -> bool:
         
     return True
 
-def get_signup_errors(username, password, password_conf):
+def get_user_errors(username: str, password: str, password_conf: str, user: User = None):
     errors = defaultdict(list)
+    check_username_available = (user is None) or (user.username != username)
 
-    if user_already_exists(username):
+    if check_username_available and user_already_exists(username):
         errors['user'].append('Username already exists')
     elif not valid_username(username):
         errors['user'].append('Username may have letters / numbers / _ - @ + .')
@@ -116,9 +117,6 @@ def get_next_month_year(month: int, year: int):
         return (1, year+1)
 
     return (month+1, year)
-
-def get_month_year_str(month: int, year: int):
-    return f'{month_name[month]}, {year}'
 
 def get_month_input_val(month: int, year: int):
     if month < 10:

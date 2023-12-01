@@ -24,20 +24,22 @@ class UtilityTests(TestCase):
         self.assertFalse(valid_username('username with spaces'))
         self.assertFalse(valid_username('username_with_more_than_30_characters'))
 
-    def test_get_signup_errors(self):
-        errors = get_signup_errors('test_user2', 'password', 'password')
+    def test_get_user_errors(self):
+        errors = get_user_errors('test_user2', 'password', 'password')
         self.assertFalse(errors)
 
-        errors = get_signup_errors('test_user', 'password', 'different_password')
+        errors = get_user_errors('test_user', 'password', 'different_password')
         self.assertTrue(errors)
         self.assertIn('user', errors)
         self.assertIn('password', errors)
 
-        errors = get_signup_errors('invalid//  username', 'password', 'password')
+        errors = get_user_errors('invalid//  username', 'password', 'password')
         self.assertTrue(errors)
         self.assertIn('user', errors)
         self.assertNotIn('password', errors)
 
+        errors = get_user_errors('test_user', '', '', self.user)
+        self.assertFalse(errors)
 
     def test_url_equals_reversed(self):
         test_url = 'http://goal-e.com' + reverse('goal_e:past_goals')
@@ -86,9 +88,6 @@ class UtilityTests(TestCase):
     def get_next_month_year(self):
         self.assertEqual(get_next_month_year(5, 2023), (6, 2023))
         self.assertEqual(get_next_month_year(12, 2023), (1, 2024))
-
-    def test_get_month_year_str(self):
-        self.assertEqual(get_month_year_str(11, 2023), 'November, 2023')
 
     def test_get_month_input_val(self):
         self.assertEqual(get_month_input_val(11, 2023), '2023-11')
