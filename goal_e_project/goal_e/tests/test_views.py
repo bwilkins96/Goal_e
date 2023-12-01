@@ -1,5 +1,4 @@
 from datetime import date
-from json import dumps
 
 from django.test import TestCase
 from django.urls import reverse
@@ -294,6 +293,10 @@ class ViewTests(TestCase):
         req_options = {'username': 'test_user'}
         response = self.client.post(reverse('goal_e:username_available'), req_options, content_type='application/json').json()
         self.assertFalse(response['available'])
+
+        req_options = {'username': 'invalid _user ////'}
+        response = self.client.post(reverse('goal_e:username_available'), req_options, content_type='application/json').json()
+        self.assertEqual(response['available'], 'invalid username')
 
         self.client.login(username='test_user', password='password')
         req_options = {'username': 'test_user'}
