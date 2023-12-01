@@ -816,6 +816,10 @@ header {
         margin-left: @arrowMargin;
     }
 
+    span {
+        .fit-content();
+    }
+
     input {
         margin: 0;
         font-size: calc(1.2rem + 1.5vw);
@@ -877,13 +881,3 @@ header {
         width: @tabletNavWidth;
     }
 } 
-
-// Firefox specific styles
-@-moz-document url-prefix() {
-    #calendarTitle {
-        input {
-            max-width: 150px;
-            font-size: 26px;
-        }
-    }
-}

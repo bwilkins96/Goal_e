@@ -255,7 +255,7 @@ def calendar_view(request: HttpRequest, month: int = None, year: int = None):
     max_date = get_month_input_val(date_plus_100.month, date_plus_100.year)
 
     today_id = None
-    if month == today.month:
+    if month == today.month and year == today.year:
         today_id = f'True{today.day}'
 
     context = {

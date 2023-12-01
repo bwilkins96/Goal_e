@@ -647,6 +647,10 @@ header #logo {
 #calendarTitle #right {
   margin-left: 5px;
 }
+#calendarTitle span {
+  width: -moz-fit-content;
+  width: fit-content;
+}
 #calendarTitle input {
   margin: 0;
   font-size: calc(1.2rem + 1.5vw);
@@ -685,11 +689,5 @@ header #logo {
   }
   #stretchHolder {
     width: 50vw;
-  }
-}
-@-moz-document url-prefix() {
-  #calendarTitle input {
-    max-width: 150px;
-    font-size: 26px;
   }
 }

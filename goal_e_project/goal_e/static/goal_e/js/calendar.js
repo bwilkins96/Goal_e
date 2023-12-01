@@ -10,9 +10,11 @@ function getMonthYear(inputVal) {
 
 function handleMonthChange(url) {
     const monthVal = document.getElementById('monthInput').value;            
-    const [month, year] = getMonthYear(monthVal); 
+    const [month, year] = getMonthYear(monthVal);
+    
+    const valid_month = (month && (month <= 12) && (month >= 1))
 
-    if (month && year) {
+    if (valid_month && year) {
         window.location = `${url}/${month}/${year}`; 
     } else {
         window.location = url
