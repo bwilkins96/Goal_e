@@ -24,6 +24,21 @@ class UtilityTests(TestCase):
         self.assertFalse(valid_username('username with spaces'))
         self.assertFalse(valid_username('username_with_more_than_30_characters'))
 
+    def test_get_signup_errors(self):
+        errors = get_signup_errors('test_user2', 'password', 'password')
+        self.assertFalse(errors)
+
+        errors = get_signup_errors('test_user', 'password', 'different_password')
+        self.assertTrue(errors)
+        self.assertIn('user', errors)
+        self.assertIn('password', errors)
+
+        errors = get_signup_errors('invalid//  username', 'password', 'password')
+        self.assertTrue(errors)
+        self.assertIn('user', errors)
+        self.assertNotIn('password', errors)
+
+
     def test_url_equals_reversed(self):
         test_url = 'http://goal-e.com' + reverse('goal_e:past_goals')
        
