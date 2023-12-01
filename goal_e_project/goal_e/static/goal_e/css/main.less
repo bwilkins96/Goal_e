@@ -778,6 +778,7 @@ header {
 
     .today {
         background-color: rgb(225,225,225);
+        z-index: -1;
     }
 }
 
@@ -876,3 +877,13 @@ header {
         width: @tabletNavWidth;
     }
 } 
+
+// Firefox specific styles
+@-moz-document url-prefix() {
+    #calendarTitle {
+        input {
+            max-width: 150px;
+            font-size: 26px;
+        }
+    }
+}

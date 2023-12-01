@@ -616,6 +616,7 @@ header #logo {
 }
 .calendar .today {
   background-color: #e1e1e1;
+  z-index: -1;
 }
 .calendarLink {
   text-decoration: underline;
@@ -684,5 +685,11 @@ header #logo {
   }
   #stretchHolder {
     width: 50vw;
+  }
+}
+@-moz-document url-prefix() {
+  #calendarTitle input {
+    max-width: 150px;
+    font-size: 26px;
   }
 }
