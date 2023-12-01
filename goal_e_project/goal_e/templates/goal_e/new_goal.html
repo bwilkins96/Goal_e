@@ -25,7 +25,7 @@
 
         <div class="formEle">
             <label for="deadline">Deadline</label>
-            <input type="date" id="deadline" name="deadline" value={{ default_date }} min="{{ min_date }}" max="{{ max_date }}">
+            <input type="date" id="deadline" name="deadline" value={{ default_date }} min="{{ min_date }}" max="{{ max_date }}" required>
         </div>
 
         <div class="formEle">
@@ -44,7 +44,7 @@
                 <label for="progress">Progress</label>
 
                 <span>
-                    <input type="number" id="progress" name="progress" value="0" min="0" max="100" step="any" onchange="changeProgBar()">
+                    <input type="number" id="progress" name="progress" value="0" min="0" max="100" step="any" onchange="changeProgBar()" required>
                     %
                 </span>
             </div>

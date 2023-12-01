@@ -152,6 +152,15 @@ input[type='radio'] {
   height: 17.5px;
   width: 17.5px;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  appearance: auto;
+  -moz-appearance: textfield;
+}
 textarea {
   resize: none;
 }
@@ -209,6 +218,7 @@ textarea {
 }
 #progressBar {
   margin-top: 5px;
+  color: #c4e1ff;
 }
 #usernameContainer {
   display: flex;
@@ -565,6 +575,9 @@ header #logo {
 .calendar thead {
   background-color: #ffdfba;
   color: #212529;
+}
+.calendar thead th {
+  height: 26.8px;
 }
 .calendar td {
   border: 1px solid black;

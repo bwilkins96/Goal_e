@@ -197,6 +197,17 @@ input[type='checkbox'], input[type='radio'] {
     width: 17.5px;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type='number'] {
+    appearance: auto;
+    -moz-appearance: textfield;
+}
+
 textarea {
     resize: none;
 }
@@ -269,6 +280,7 @@ textarea {
 
 #progressBar {
     margin-top: 5px;
+    color: @blue;
 }
 
 #usernameContainer {
@@ -713,6 +725,10 @@ header {
     thead {
         background-color: @orange;
         color: @textBlack;
+       
+        th {
+            height: 26.8px;
+        }
     }
 
     td {
