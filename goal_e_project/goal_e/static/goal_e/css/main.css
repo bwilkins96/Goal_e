@@ -158,8 +158,8 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 input[type='number'] {
-  appearance: auto;
   -moz-appearance: textfield;
+  appearance: auto;
 }
 textarea {
   resize: none;
