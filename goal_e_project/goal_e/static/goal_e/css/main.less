@@ -614,6 +614,10 @@ header {
 
     .completedMsg {
         font-weight: bold;
+
+        &:active {
+            border-color: black;
+        }
     }
 
     .editLink {
@@ -649,10 +653,6 @@ header {
         }
     }
 
-    // .priority {
-        
-    // }
-
     @progBarHeight: 25px;
     .prog {
         position: relative;
@@ -666,9 +666,10 @@ header {
             width: 100%;
             background-color: white;
             height: @progBarHeight;
+            border: 1px solid @textBlack;
 
             .bar {
-                height: @progBarHeight;
+                height: 100%;
                 background-color: @green;
             }
 
@@ -863,6 +864,10 @@ header {
         input {
             font-size: calc(1.0rem + 1.5vw);
         }
+    }
+
+    .icon-larger {
+        font-size: 42px;
     }
 } 
 

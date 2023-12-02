@@ -495,6 +495,9 @@ header #logo {
 .goalCard .completedMsg {
   font-weight: bold;
 }
+.goalCard .completedMsg:active {
+  border-color: black;
+}
 .goalCard .editLink {
   position: absolute;
   top: 0;
@@ -534,9 +537,10 @@ header #logo {
   width: 100%;
   background-color: white;
   height: 25px;
+  border: 1px solid #212529;
 }
 .goalCard .prog .progBar .bar {
-  height: 25px;
+  height: 100%;
   background-color: #baffc9;
 }
 .goalCard .prog .progBar p {
@@ -680,6 +684,9 @@ header #logo {
   }
   #calendarTitle input {
     font-size: calc(1rem + 1.5vw);
+  }
+  .icon-larger {
+    font-size: 42px;
   }
 }
 @media screen and (min-width: 768px) and (max-width: 1024px) {
