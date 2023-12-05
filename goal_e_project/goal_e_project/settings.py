@@ -17,6 +17,7 @@ from dotenv import dotenv_values
 # Environmental variables
 CONFIG = dotenv_values('.env')
 ENV = CONFIG.get('ENV')
+USE_S3 = CONFIG.get('USE_S3') == 'true'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,12 +31,10 @@ SECRET_KEY = 'django-insecure-aah3zcz#e+iq$z3v=(zh^1s--dy2173)_0hmm1fdp)u0*exjt(
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-# if ENV == 'prod':
-#     DEBUG = False
-# else:
-#     DEBUG = True
-
-DEBUG = True
+if ENV == 'prod':
+    DEBUG = False
+else:
+    DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -52,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_bootstrap5',
     'fontawesomefree',
+    'django_s3_storage'
 ]
 
 MIDDLEWARE = [
@@ -142,7 +142,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+if USE_S3:
+    STATICFILES_STORAGE = 'django_s3_storage.storage.StaticS3Storage'
+    DEFAULT_FILE_STORAGE = 'django_s3_storage.storage.S3Storage'
+    STATIC_URL = CONFIG.get('S3_URL')
+
+    AWS_REGION = CONFIG.get('AWS_REGION')
+    AWS_ACCESS_KEY_ID = CONFIG.get('S3_ACCESS')
+    AWS_SECRET_ACCESS_KEY = CONFIG.get('S3_ACCESS_SECRET')
+
+    AWS_S3_BUCKET_NAME = CONFIG.get('S3_NAME')
+    AWS_S3_BUCKET_NAME_STATIC = CONFIG.get('S3_NAME')
+else:
+    STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
