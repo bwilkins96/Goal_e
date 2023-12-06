@@ -1,7 +1,5 @@
 /* Utility functions for user interface */
 
-const serverURL = 'http://localhost:8000';
-
 function showElement(id) {
     const ele = document.getElementById(id);
     ele.classList.remove('hide');
@@ -37,7 +35,7 @@ async function completeGoalReq(id) {
         }
     };
     
-    const response = await fetch(serverURL + '/goals/' + id + '/complete', reqOptions);
+    const response = await fetch('/goals/' + id + '/complete', reqOptions);
     const jsonData = await response.json();
     
     return jsonData;
@@ -143,7 +141,7 @@ async function checkUsernameAvailable(msgId) {
         body: JSON.stringify({ 'username': username })
     };
 
-    const response = await fetch(serverURL + '/usernameAvailable', reqOptions);
+    const response = await fetch('/usernameAvailable', reqOptions);
     const jsonData = await response.json();
     const available = jsonData.available;
 
