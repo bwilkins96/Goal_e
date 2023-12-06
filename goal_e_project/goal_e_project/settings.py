@@ -38,6 +38,7 @@ else:
 if ENV == 'prod':
     DEBUG = False
     ALLOWED_HOSTS = ['127.0.0.1', 'localhost', CONFIG.get('SERVER_IP')]
+    CSRF_COOKIE_SECURE = True
 else:
     DEBUG = True
     ALLOWED_HOSTS = []
