@@ -2,3 +2,7 @@ Django==4.2.7
 
 django-bootstrap5==23.3
 fontawesomefree==6.4.2
+
+python-dotenv==1.0.0
+psycopg2-binary==2.9.9
+django-s3-storage==0.15.0
