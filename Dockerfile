@@ -8,5 +8,5 @@ WORKDIR /goal_e_project
 
 EXPOSE 8000
 
-ENTRYPOINT [ "python", "manage.py" ]
-CMD ["runserver", "0.0.0.0:8000"]
+ENTRYPOINT [ "gunicorn" ]
+CMD ["--bind", "0.0.0.0:8000", "goal_e_project.wsgi"]
