@@ -40,7 +40,7 @@ if ENV == 'prod':
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', CONFIG.get('SERVER_IP')]
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', CONFIG.get('SERVER_IP'), CONFIG.get('URL')]
 
 # Application definition
 
