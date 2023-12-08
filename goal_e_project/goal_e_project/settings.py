@@ -19,6 +19,9 @@ CONFIG = dotenv_values('.env')
 ENV = CONFIG.get('ENV')
 USE_S3 = CONFIG.get('USE_S3') == 'true'
 
+URL = CONFIG.get('URL')
+URL_HTTPS = f'https://{URL}' if URL else None
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -37,10 +40,13 @@ else:
 
 if ENV == 'prod':
     DEBUG = False
+
+    CSRF_TRUSTED_ORIGINS = [URL_HTTPS]
+    CORS_ORIGIN_WHITELIST = [URL_HTTPS]
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', CONFIG.get('SERVER_IP'), CONFIG.get('URL')]
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', CONFIG.get('SERVER_IP'), URL]
 
 # Application definition
 
