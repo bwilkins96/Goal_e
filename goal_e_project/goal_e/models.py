@@ -106,11 +106,15 @@ class Goal(models.Model):
     def complete_goal(self):
         self.completed = date.today()
         self.progress = 100.0
-        self.add_points()
+        
+        points = self.add_points()
+        return points
 
     def undo_complete(self):
-        self.undo_points()
+        points = self.undo_points()
         self.completed = None
+        
+        return points
 
     def __str__(self):
         return self.title

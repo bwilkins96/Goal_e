@@ -152,10 +152,9 @@ def complete_goal(request: HttpRequest, goal_id: int):
         profile = request.user.profile
         goal = get_object_or_404(Goal, id=goal_id, profile=profile)
 
-        goal.complete_goal()
+        points = goal.complete_goal()
         goal.save()
 
-        points = goal.calculate_points()
         response = {
             'pointsAdded': num_str_with_commas(points),
             'newPointsTotal': goal.profile.get_points_str(),
