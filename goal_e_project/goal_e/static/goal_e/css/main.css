@@ -236,7 +236,7 @@ textarea {
 }
 #progressBar {
   margin-top: 5px;
-  color: #c4e1ff;
+  accent-color: #54ff79;
 }
 #usernameContainer {
   display: flex;
