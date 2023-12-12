@@ -1,3 +1,5 @@
+# Model classes that map to the app's database via Django's ORM
+
 from datetime import date
 
 from django.db import models

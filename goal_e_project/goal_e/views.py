@@ -1,3 +1,5 @@
+# View functions for handling server requests / responses
+
 from datetime import date
 from json import loads
 

@@ -7,6 +7,8 @@ from .models import Goal, Profile
 from .utils import last_of_month, get_prev_month_year
 
 class GoalCalendarNode:
+    """Calendar node class that stores daily information"""
+
     def __init__(self, day: int, current_month: bool):
         self.day = day
         self.current_month = current_month
@@ -30,6 +32,8 @@ class GoalCalendarNode:
         return f'<{self.day}, {self.current_month}, {self.goals}>'
 
 class GoalCalendar:
+    """Calendar class that stores information about a month and its goals"""
+
     def __init__(self, month: int, year: int, profile: Profile, node_class):
         self.node_class = node_class
         self._set_up_calendar_data(month, year, profile)
