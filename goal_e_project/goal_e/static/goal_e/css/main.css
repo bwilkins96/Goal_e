@@ -113,6 +113,11 @@ form {
   width: 45%;
   margin-bottom: 10px;
 }
+#acntSettingsForm input,
+#loginForm input,
+#signupForm input {
+  padding: 2px;
+}
 #acntSettingsForm {
   min-height: 55vh;
   margin-top: 20px;
@@ -132,10 +137,6 @@ form {
 #loginForm button[type='submit'],
 #signupForm button[type='submit'] {
   width: 45%;
-}
-#loginForm input,
-#signupForm input {
-  padding: 2px;
 }
 #loginForm {
   padding: 15px 0;
