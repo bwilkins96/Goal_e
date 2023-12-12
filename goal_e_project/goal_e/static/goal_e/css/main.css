@@ -339,10 +339,11 @@ textarea {
 #completedPopUp #lowerPopUp {
   font-size: 13px;
   margin-top: 40px;
-  margin: 40px auto 0;
+  margin: 40px auto 10px;
 }
 #completedPopUp .popUpTitle {
   font-weight: bold;
+  overflow-wrap: break-word;
 }
 #completedPopUp .popUpPoints {
   font-style: italic;
@@ -514,6 +515,11 @@ header #logo {
   text-align: center;
   font-weight: bold;
   margin-top: 5px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: calc(100% - 64px);
+  margin: 5px 32px 8px;
+  white-space: nowrap;
 }
 .goalCard .completeBtn {
   background-color: #ffffba;

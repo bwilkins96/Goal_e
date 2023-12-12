@@ -64,7 +64,7 @@ class GoalModelTests(TestCase):
     def test_get_title_str(self):
         self.assertEqual(self.goal.get_title_str(), 'test goal')
        
-        str_len = 20
+        str_len = 30
         self.goal.title = 'this is a veeeeeeeeeeeeeeeeeeeeeeeeery long title'
         self.assertEqual(len(self.goal.get_title_str()), str_len + 3)
 

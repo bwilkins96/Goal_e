@@ -33,7 +33,7 @@
         {% for goal in goal_list %}
             
             <div class="goalCard {{goal.get_priority_display}}" id="{{ goal.id }}">
-                <h2>{{ goal.get_title_str }}</h2>
+                <h2>{{ goal.title }}</h2>
                 
                 <a class="editLink" href="{% url 'goal_e:edit_goal' goal.id %}">
                     <i class="fa-solid fa-pen-to-square"></i>

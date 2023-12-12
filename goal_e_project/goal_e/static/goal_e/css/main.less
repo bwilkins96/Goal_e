@@ -421,11 +421,12 @@ textarea {
     #lowerPopUp {
         font-size: @extraSmallFont;
         margin-top: 40px;
-        margin: 40px auto 0;
+        margin: 40px auto 10px;
     }
 
     .popUpTitle {
         font-weight: bold;
+        overflow-wrap: break-word;
     }
 
     .popUpPoints {
@@ -628,7 +629,7 @@ header {
     margin-top: 3vh;
     margin-bottom: 1.5vh;
 
-    min-height: 230px; // 220 was prev
+    min-height: 230px;
     font-size: @smallerFont;
     color: @textBlack;
 
@@ -641,6 +642,12 @@ header {
         text-align: center;
         font-weight: bold;
         margin-top: 5px;
+        
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: calc(100% - 64px);
+        margin: 5px 32px 8px;
+        white-space: nowrap;
     }
 
     .completeBtn {

@@ -68,7 +68,7 @@ class Goal(models.Model):
             return get_full_date(self.completed)
         
     def get_title_str(self):
-        str_len = 20
+        str_len = 30
         title_str = self.title[:str_len]
 
         if len(self.title) > str_len:
