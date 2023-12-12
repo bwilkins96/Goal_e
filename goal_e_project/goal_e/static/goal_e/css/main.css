@@ -740,4 +740,7 @@ header #logo {
   #navMenu #lowerLinks {
     position: relative;
   }
+  .icon-larger {
+    font-size: calc(1.5rem + 1.85vh);
+  }
 }
