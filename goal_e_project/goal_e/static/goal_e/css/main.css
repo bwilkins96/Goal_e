@@ -99,7 +99,7 @@ form {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  font-size: 14px;
+  font-size: 15px;
   color: #212529;
 }
 #goalForm {
@@ -133,6 +133,10 @@ form {
 #signupForm button[type='submit'] {
   width: 45%;
 }
+#loginForm input,
+#signupForm input {
+  padding: 2px;
+}
 #loginForm {
   padding: 15px 0;
 }
@@ -158,8 +162,8 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 input[type='number'] {
-  -moz-appearance: textfield;
   appearance: auto;
+  -moz-appearance: textfield;
 }
 textarea {
   resize: none;
@@ -180,6 +184,9 @@ textarea {
 #priorityBtns button {
   width: 31.5%;
 }
+#priorityBtns button:active {
+  border: 2px solid black;
+}
 #priorityBtns .selected {
   border: 2px solid black;
 }
@@ -190,6 +197,9 @@ textarea {
 #themeBtns button {
   width: 40%;
 }
+#themeBtns button:active {
+  border: 2px solid black;
+}
 #themeBtns .selected {
   border: 2px solid black;
 }
@@ -199,6 +209,9 @@ textarea {
 #themeBtns #themeBtn2 {
   background-color: #282828;
   color: white;
+}
+#themeBtns #themeBtn2:active {
+  border: 2px solid white;
 }
 #themeBtns #themeBtn2.selected {
   border-color: white;
@@ -248,7 +261,7 @@ textarea {
 }
 #cancelBtn {
   margin: 0 0 0 5%;
-  font-size: 12px;
+  font-size: 13px;
   background-color: #ffb3ba;
   color: #212529;
   padding: 5px;
@@ -289,7 +302,7 @@ textarea {
   background-color: #ff808c;
 }
 #belowLogin {
-  font-size: 14px;
+  font-size: 15px;
   margin: 30px auto 0;
   width: -moz-fit-content;
   width: fit-content;
@@ -297,7 +310,7 @@ textarea {
 #invalidMsg,
 #invalidMsgAcnt {
   position: absolute;
-  font-size: 14px;
+  font-size: 14.5px;
   color: #212529;
   text-align: center;
   width: 100%;
@@ -319,7 +332,7 @@ textarea {
   margin: 50px auto 0;
 }
 #completedPopUp #lowerPopUp {
-  font-size: 12px;
+  font-size: 13px;
   margin-top: 40px;
   margin: 40px auto 0;
 }
@@ -393,6 +406,7 @@ header #logo {
   flex-direction: column;
   align-items: center;
   width: 100vw;
+  font-size: 17px;
 }
 #navMenu #topLinks a,
 #navMenu #lowerLinks a {
@@ -474,15 +488,15 @@ header #logo {
   margin: auto;
   margin-top: 3vh;
   margin-bottom: 1.5vh;
-  min-height: 220px;
-  font-size: 14px;
+  min-height: 230px;
+  font-size: 15px;
   color: #212529;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 .goalCard h2 {
-  font-size: medium;
+  font-size: 17px;
   text-align: center;
   font-weight: bold;
   margin-top: 5px;
@@ -515,6 +529,7 @@ header #logo {
   width: 92.5%;
   background-color: white;
   margin: 0 auto 15px;
+  font-size: 14px;
   max-height: 150px;
   overflow-y: scroll;
   padding: 0 5px;
@@ -528,7 +543,7 @@ header #logo {
 }
 .goalCard .prog {
   position: relative;
-  margin: 0 auto 15px;
+  margin: 5px auto 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -663,6 +678,9 @@ header #logo {
   border: none;
   text-align: center;
 }
+.icon-larger {
+  font-size: calc(1.55rem + 2vw);
+}
 #dailyTitle {
   font-size: calc(1.15rem + 1.5vw);
 }
@@ -678,6 +696,7 @@ header #logo {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    align-items: center;
   }
   #goalList .goalCard {
     margin-left: 10px;
@@ -685,9 +704,6 @@ header #logo {
   }
   #calendarTitle input {
     font-size: calc(1rem + 1.5vw);
-  }
-  .icon-larger {
-    font-size: 42px;
   }
 }
 @media screen and (min-width: 768px) and (max-width: 1024px) {

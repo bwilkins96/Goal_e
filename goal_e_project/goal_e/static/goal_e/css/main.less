@@ -10,7 +10,8 @@
 @textBlack: #212529;
 @goldenWidth: 61.8vw;
 @cardWidth: 90%;
-@smallerFont: 14px;
+@smallerFont: 15px;
+@extraSmallFont: 13px;
 
 // Mixins
 .fit-content() {
@@ -169,6 +170,10 @@ form {
     button[type='submit'] {
         width: 45%;
     }
+
+    input {
+        padding: 2px;
+    }
 }
 
 #loginForm {
@@ -204,8 +209,8 @@ input::-webkit-inner-spin-button {
 }
 
 input[type='number'] {
-    -moz-appearance: textfield;
     appearance: auto;
+    -moz-appearance: textfield;
 }
 
 textarea {
@@ -229,6 +234,10 @@ textarea {
 
     button {
         width: 31.5%;
+
+        &:active {
+            border: 2px solid black;
+        }
     }
 
     .selected {
@@ -242,6 +251,10 @@ textarea {
 
     button {
         width: 40%;
+
+        &:active {
+            border: 2px solid black;
+        }
     }
 
     .selected {
@@ -255,6 +268,10 @@ textarea {
     #themeBtn2 {
         background-color: @darkThemeBlack;
         color: white;
+
+        &:active {
+            border: 2px solid white;
+        }
     }
 
     #themeBtn2.selected {
@@ -292,7 +309,7 @@ textarea {
         justify-content: center;
         align-items: center;
         width: 30%;
-        font-size: 13px;
+        font-size: @extraSmallFont;
         background-color: @orange;
         border: 1px solid black;
         cursor: pointer;
@@ -317,7 +334,7 @@ textarea {
 
 #cancelBtn {
     margin: 0 0 0 5%;
-    font-size: 12px;
+    font-size: @extraSmallFont;
     background-color: @red;
     color: @textBlack;
     padding: 5px;
@@ -369,7 +386,7 @@ textarea {
 
 #invalidMsg, #invalidMsgAcnt {
     position: absolute;
-    font-size: @smallerFont;
+    font-size: 14.5px;
     color: @textBlack;
     text-align: center;
     width: 100%;
@@ -396,7 +413,7 @@ textarea {
     }
 
     #lowerPopUp {
-        font-size: 12px;
+        font-size: @extraSmallFont;
         margin-top: 40px;
         margin: 40px auto 0;
     }
@@ -492,6 +509,7 @@ header {
         flex-direction: column;
         align-items: center;
         width: 100vw;
+        font-size: @smallerFont + 2px;
 
         a {
             padding: 10px;
@@ -591,8 +609,8 @@ header {
     margin-top: 3vh;
     margin-bottom: 1.5vh;
 
-    min-height: 220px;
-    font-size: 14px;
+    min-height: 230px; // 220 was prev
+    font-size: @smallerFont;
     color: @textBlack;
 
     display: flex;
@@ -600,7 +618,7 @@ header {
     justify-content: space-between;
 
     h2 {
-        font-size: medium;
+        font-size: @smallerFont + 2px;
         text-align: center;
         font-weight: bold;
         margin-top: 5px;
@@ -638,7 +656,8 @@ header {
         width: 92.5%;
         background-color: white;
         margin: 0 auto @marginBetween;
-        
+        font-size: 14px;
+
         max-height: 150px;
         overflow-y: scroll;
         padding: 0 5px;
@@ -657,7 +676,7 @@ header {
     @progBarHeight: 25px;
     .prog {
         position: relative;
-        margin: 0 auto @marginBetween;
+        margin: 5px auto @marginBetween;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -831,6 +850,10 @@ header {
     }
 }
 
+.icon-larger {
+    font-size: calc(1.55rem + 2.0vw);
+}
+
 #dailyTitle {
     font-size: calc(1.15rem + 1.5vw);
 }
@@ -854,6 +877,7 @@ header {
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
+        align-items: center;
 
         .goalCard {
             margin-left: 10px;
@@ -865,10 +889,6 @@ header {
         input {
             font-size: calc(1.0rem + 1.5vw);
         }
-    }
-
-    .icon-larger {
-        font-size: 42px;
     }
 } 
 
