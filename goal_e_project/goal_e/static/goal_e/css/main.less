@@ -134,6 +134,10 @@ form {
     justify-content: space-between;
     font-size: @smallerFont;
     color: @textBlack;
+
+    input:focus, textarea:focus {
+        outline-color: darken(@orange, 25%);  
+    }
 }
 
 #goalForm {
@@ -590,16 +594,29 @@ header {
 }
 
 @ligthenPerc: 5%;
+@darkenPerc: 10%;
 .Low {
     background-color: lighten(@blue, @ligthenPerc);
+
+    .descript {
+        border: 1px solid darken(@blue, 10%);
+    }
 }
 
 .Medium {
     background-color: lighten(@orange, @ligthenPerc);
+
+    .descript {
+        border: 1px solid darken(@orange, 10%);
+    }
 }
 
 .High {
     background-color: lighten(@red, @ligthenPerc);
+
+    .descript {
+        border: 1px solid darken(@red, 10%);
+    }
 }
 
 @marginBetween: 15px;
@@ -652,6 +669,10 @@ header {
         color: @textBlack;
 
         .centerItem();
+
+        &:hover {
+            background-color: darken(@orange, 10%);
+        }
     }
 
     .descript {
@@ -675,7 +696,7 @@ header {
         }
     }
 
-    @progBarHeight: 25px;
+    @progBarHeight: 26px;
     .prog {
         position: relative;
         margin: 5px auto @marginBetween;
@@ -688,7 +709,7 @@ header {
             width: 100%;
             background-color: white;
             height: @progBarHeight;
-            border: 1px solid @textBlack;
+            border: 1.5px solid darken(@green, 35%);
 
             .bar {
                 height: 100%;

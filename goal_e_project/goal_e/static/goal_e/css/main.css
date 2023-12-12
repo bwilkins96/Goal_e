@@ -102,6 +102,10 @@ form {
   font-size: 15px;
   color: #212529;
 }
+form input:focus,
+form textarea:focus {
+  outline-color: #ffa43b;
+}
 #goalForm {
   min-height: 70vh;
   margin-bottom: 20px;
@@ -476,11 +480,20 @@ header #logo {
 .Low {
   background-color: #deeeff;
 }
+.Low .descript {
+  border: 1px solid #91c7ff;
+}
 .Medium {
   background-color: #ffebd4;
 }
+.Medium .descript {
+  border: 1px solid #ffc787;
+}
 .High {
   background-color: #ffcdd1;
+}
+.High .descript {
+  border: 1px solid #ff808c;
 }
 .goalCard {
   position: relative;
@@ -526,6 +539,9 @@ header #logo {
   justify-content: center;
   align-items: center;
 }
+.goalCard .editLink:hover {
+  background-color: #ffc787;
+}
 .goalCard .descript {
   width: 92.5%;
   background-color: white;
@@ -553,8 +569,8 @@ header #logo {
 .goalCard .prog .progBar {
   width: 100%;
   background-color: white;
-  height: 25px;
-  border: 1px solid #212529;
+  height: 26px;
+  border: 1.5px solid #08ff3d;
 }
 .goalCard .prog .progBar .bar {
   height: 100%;

@@ -122,10 +122,14 @@ def edit_goal(request: HttpRequest, goal_id: int):
 
         return response
 
+    today = date.today()
+    min_date = min(goal.deadline, today)
+    
     context = {
         'goal': goal,
         'date_val': get_yyyy_mm_dd(goal.deadline),
-        'max_date': get_yyyy_mm_dd(add_years(date.today(), 100))
+        'min_date': get_yyyy_mm_dd(min_date),
+        'max_date': get_yyyy_mm_dd(add_years(today, 100))
     }
 
     request.session['prev_url'] = previous_url(request)
