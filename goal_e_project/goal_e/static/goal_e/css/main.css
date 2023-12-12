@@ -732,3 +732,12 @@ header #logo {
     width: 50vw;
   }
 }
+@media screen and (max-height: 375px) {
+  #navMenu {
+    overflow-y: scroll;
+    max-width: 95vw;
+  }
+  #navMenu #lowerLinks {
+    position: relative;
+  }
+}

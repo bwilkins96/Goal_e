@@ -915,7 +915,7 @@ header {
     }
 } 
 
-// Tablet screens
+// Tablet & phone screens
 @media screen and (min-width: 768px) and (max-width: 1024px) {
     @tabletNavWidth: 50vw;
     
@@ -930,3 +930,15 @@ header {
         width: @tabletNavWidth;
     }
 } 
+
+// Landscape mode 
+@media screen and (max-height: 375px)  {
+    #navMenu {
+        overflow-y: scroll;
+        max-width: 95vw;
+
+        #lowerLinks {
+            position: relative;
+        }
+    }
+}
