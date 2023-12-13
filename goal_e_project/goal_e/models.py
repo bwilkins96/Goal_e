@@ -20,13 +20,14 @@ class Profile(models.Model):
     points = models.IntegerField(default=0)
     theme = models.IntegerField(choices=THEME_CHOICES, default=1)
 
-    def add_points(self, points):
+    def add_points(self, points, save=True):
         self.points += points
 
         if self.points < 0:
             self.points = 0
 
-        self.save()
+        if save:
+            self.save()
 
     def get_points_str(self):
         return num_str_with_commas(self.points)
@@ -99,8 +100,8 @@ class Goal(models.Model):
 
         return points
     
-    def undo_points(self):
-        points = self.calculate_points()
+    def undo_points(self, points=None):
+        points = points or self.calculate_points()
         self.profile.add_points(-points)
 
         return points
@@ -112,8 +113,8 @@ class Goal(models.Model):
         points = self.add_points()
         return points
 
-    def undo_complete(self):
-        points = self.undo_points()
+    def undo_complete(self, points=None):
+        points = self.undo_points(points)
         self.completed = None
         
         return points

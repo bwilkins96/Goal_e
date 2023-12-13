@@ -96,6 +96,7 @@ def edit_goal(request: HttpRequest, goal_id: int):
 
     if request.method == 'POST':
         [title, description, deadline, priority, progress] = prepare_goal_params(request)
+        prev_points = goal.calculate_points()
 
         goal.title = title
         goal.description = description
@@ -109,7 +110,7 @@ def edit_goal(request: HttpRequest, goal_id: int):
         if (goal.progress == 100.0) and (not goal.completed):
             goal.complete_goal()
         elif goal.completed and (goal.progress < 100.0):
-            goal.undo_complete()
+            goal.undo_complete(prev_points)
             completion_undone = True
         
         goal.save()
