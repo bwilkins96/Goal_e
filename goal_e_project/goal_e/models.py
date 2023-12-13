@@ -1,3 +1,5 @@
+# Model classes that map to the app's database via Django's ORM
+
 from datetime import date
 
 from django.db import models
@@ -18,13 +20,14 @@ class Profile(models.Model):
     points = models.IntegerField(default=0)
     theme = models.IntegerField(choices=THEME_CHOICES, default=1)
 
-    def add_points(self, points):
+    def add_points(self, points, save=True):
         self.points += points
 
         if self.points < 0:
             self.points = 0
 
-        self.save()
+        if save:
+            self.save()
 
     def get_points_str(self):
         return num_str_with_commas(self.points)
@@ -66,7 +69,7 @@ class Goal(models.Model):
             return get_full_date(self.completed)
         
     def get_title_str(self):
-        str_len = 20
+        str_len = 30
         title_str = self.title[:str_len]
 
         if len(self.title) > str_len:
@@ -97,8 +100,8 @@ class Goal(models.Model):
 
         return points
     
-    def undo_points(self):
-        points = self.calculate_points()
+    def undo_points(self, points=None):
+        points = points or self.calculate_points()
         self.profile.add_points(-points)
 
         return points
@@ -106,11 +109,15 @@ class Goal(models.Model):
     def complete_goal(self):
         self.completed = date.today()
         self.progress = 100.0
-        self.add_points()
+        
+        points = self.add_points()
+        return points
 
-    def undo_complete(self):
-        self.undo_points()
+    def undo_complete(self, points=None):
+        points = self.undo_points(points)
         self.completed = None
+        
+        return points
 
     def __str__(self):
         return self.title

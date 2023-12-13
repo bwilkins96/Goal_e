@@ -1,3 +1,5 @@
+# View functions for handling server requests / responses
+
 from datetime import date
 from json import loads
 
@@ -94,6 +96,7 @@ def edit_goal(request: HttpRequest, goal_id: int):
 
     if request.method == 'POST':
         [title, description, deadline, priority, progress] = prepare_goal_params(request)
+        prev_points = goal.calculate_points()
 
         goal.title = title
         goal.description = description
@@ -107,7 +110,7 @@ def edit_goal(request: HttpRequest, goal_id: int):
         if (goal.progress == 100.0) and (not goal.completed):
             goal.complete_goal()
         elif goal.completed and (goal.progress < 100.0):
-            goal.undo_complete()
+            goal.undo_complete(prev_points)
             completion_undone = True
         
         goal.save()
@@ -122,10 +125,14 @@ def edit_goal(request: HttpRequest, goal_id: int):
 
         return response
 
+    today = date.today()
+    min_date = min(goal.deadline, today)
+    
     context = {
         'goal': goal,
         'date_val': get_yyyy_mm_dd(goal.deadline),
-        'max_date': get_yyyy_mm_dd(add_years(date.today(), 100))
+        'min_date': get_yyyy_mm_dd(min_date),
+        'max_date': get_yyyy_mm_dd(add_years(today, 100))
     }
 
     request.session['prev_url'] = previous_url(request)
@@ -152,10 +159,9 @@ def complete_goal(request: HttpRequest, goal_id: int):
         profile = request.user.profile
         goal = get_object_or_404(Goal, id=goal_id, profile=profile)
 
-        goal.complete_goal()
+        points = goal.complete_goal()
         goal.save()
 
-        points = goal.calculate_points()
         response = {
             'pointsAdded': num_str_with_commas(points),
             'newPointsTotal': goal.profile.get_points_str(),
