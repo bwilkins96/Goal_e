@@ -2,6 +2,8 @@
 
 # Goal_e 
 
+https://goal-e.ben-wilkins.com
+
 This repository is for my capstone project in the [MS Software Development program](https://online.maryville.edu/online-masters-degrees/software-development/) at [Maryville University](https://online.maryville.edu/why-maryville/).
 
 ## Overview
@@ -19,3 +21,7 @@ Documents related to the design of Goal_e, including Goal_e's user interface, da
 ## Testing
 
 Tests can be found in [this folder](goal_e_project/goal_e/tests).
+
+## Deployment
+
+The [Dockerfile](Dockerfile) defines a container that runs Goal_e's web server. I used Docker to deploy Goal_e to AWS. I also set up a PostgreSQL database and configured an S3 bucket for handling static files (CSS / JavaScript / images). 
