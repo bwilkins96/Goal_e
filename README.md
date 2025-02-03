@@ -2,7 +2,7 @@
 
 # Goal_e 
 
-https://goal-e.ben-wilkins.com
+https://goal-e.ben-wilkins.com (not currently active) 
 
 This repository is for my capstone project in the [MS Software Development program](https://online.maryville.edu/online-masters-degrees/software-development/) at [Maryville University](https://online.maryville.edu/why-maryville/).
 
